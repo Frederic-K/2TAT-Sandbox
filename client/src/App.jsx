@@ -1,14 +1,15 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
+// import { useState } from 'react'
+// import reactLogo from './assets/react.svg'
+// import viteLogo from '/vite.svg'
 import './App.css'
+import BudgetForm from './components/BudgetMarket/BudgetForm'
 
 function App() {
-  const [count, setCount] = useState(0)
+  // const [count, setCount] = useState(0)
 
   return (
     <>
-      <div>
+      {/* <div>
         <a href="https://vitejs.dev" target="_blank">
           <img src={viteLogo} className="logo" alt="Vite logo" />
         </a>
@@ -30,7 +31,8 @@ function App() {
       </p>
       <div className="p-4 bg-blue-500 text-white">
       <h1 className="text-2xl font-bold">Hello, Tailwind CSS!</h1>
-    </div>
+    </div> */}
+    <BudgetForm />
     </>
   )
 }
