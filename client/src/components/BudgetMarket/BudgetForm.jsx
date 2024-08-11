@@ -166,10 +166,14 @@ const BudgetForm = () => {
                                       Budget {year}
                                     </div>
                                     <Field
+                                      name={`markets.${index}.budgetPerYear.${yearIndex}`}
                                       type="number"
                                       placeholder={`Budget for ${year}`}
                                       className="w-full rounded-md border px-3 py-2"
                                     />
+                                    <div className="flex w-full items-center justify-center rounded-md border px-3 py-2">
+                                      Result
+                                    </div>
                                   </div>
                                 ))}
                               </div>
