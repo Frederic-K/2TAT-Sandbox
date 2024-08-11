@@ -114,21 +114,21 @@ const BudgetForm = () => {
                       >
                         <div className="flex w-full justify-between gap-2">
                           <div className="w-46 whitespace-nowrap rounded-md border px-3 py-2">
-                            Market n° {index + 1} - Budget :
+                            Market n°{index + 1} - Budget:
                           </div>
                           <Field
                             name={`markets.${index}.budget`}
                             type="number"
                             placeholder="Market Budget"
-                            className="rounded-md border px-3 py-2"
+                            className="w-36 rounded-md border px-3 py-2"
                           />
-                          <div className="flex items-center justify-center rounded-md border px-3">
+                          <div className="flex w-36 items-center justify-center rounded-md border px-3">
                             Result
                           </div>
                         </div>
                         <div className="flex gap-2">
                           <div className="w-full whitespace-nowrap rounded-md border px-3 py-2">
-                            Market duration :
+                            Market duration:
                           </div>
                           <div className="flex gap-2">
                             <Field
