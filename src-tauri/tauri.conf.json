@@ -7,8 +7,8 @@
     "distDir": "../client/dist"
   },
   "package": {
-    "productName": "server",
-    "version": "0.1.0"
+    "productName": "marketoverruncalculator",
+    "version": "0.1.1"
   },
   "tauri": {
     "allowlist": {
@@ -35,7 +35,7 @@
         "icons/icon.icns",
         "icons/icon.ico"
       ],
-      "identifier": "com.yourdomain.testtauri",
+      "identifier": "com.mydomain.marketoverruncalculator",
       "longDescription": "",
       "macOS": {
         "entitlements": null,
