@@ -1,8 +1,8 @@
 // import { useState } from 'react'
 // import reactLogo from './assets/react.svg'
 // import viteLogo from '/vite.svg'
-import './App.css'
-import BudgetForm from './components/BudgetMarket/BudgetForm'
+
+import BudgetForm from "./components/BudgetMarket/BudgetForm"
 
 function App() {
   // const [count, setCount] = useState(0)
@@ -32,7 +32,7 @@ function App() {
       <div className="p-4 bg-blue-500 text-white">
       <h1 className="text-2xl font-bold">Hello, Tailwind CSS!</h1>
     </div> */}
-    <BudgetForm />
+      <BudgetForm />
     </>
   )
 }
