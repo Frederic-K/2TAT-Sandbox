@@ -1,15 +1,16 @@
 import { Formik, Form, Field, FieldArray, ErrorMessage } from "formik"
+import { useState } from "react"
 import * as Yup from "yup"
 
 const validationSchema = Yup.object().shape({
-  initialBudget: Yup.number().required("Initial budget is required"),
+  // initialBudget: Yup.number().required("Initial budget is required"),
   goalBudget: Yup.number().required("Goal budget is required"),
   remainder: Yup.number().required("Remainder is required"),
 
-  markets: Yup.array().of(
+  EHs: Yup.array().of(
     Yup.object().shape({
-      name: Yup.string().required("Market name is required"),
-      budget: Yup.number().required("Market budget is required"),
+      // name: Yup.string().required("EH name is required"),
+      budget: Yup.number().required("EH budget is required"),
       startYear: Yup.number().required("Start year is required"),
       endYear: Yup.number()
         .required("End year is required")
@@ -29,32 +30,73 @@ const BudgetForm = () => {
       </h1>
       <Formik
         initialValues={{
-          initialBudget: 0,
           goalBudget: 0,
           remainder: 0,
 
-          markets: [
+          EHs: [
             {
-              name: "",
               budget: 0,
               startYear: new Date().getFullYear(),
               endYear: new Date().getFullYear(),
-              budgetPerYear: [],
+              budgetPerYear: [0],
             },
           ],
         }}
         validationSchema={validationSchema}
-        onSubmit={(values, { setSubmitting }) => {
-          setTimeout(() => {
-            alert(JSON.stringify(values, null, 2))
+        // onSubmit={(values, { setSubmitting, setValues }) => {
+        //   const remainderPerEH = values.remainder / values.EHs.length
+
+        //   const updatedEHs = values.EHs.map((eh) => {
+        //     const newMarketBudget = eh.budget + remainderPerEH
+        //     const yearCount = eh.endYear - eh.startYear + 1
+        //     const remainderPerEHPerYear = remainderPerEH / yearCount
+
+        //     const updatedBudgetPerYear = eh.budgetPerYear.map(
+        //       (yearBudget) => yearBudget + remainderPerEHPerYear,
+        //     )
+
+        //     return {
+        //       ...eh,
+        //       budget: newMarketBudget,
+        //       budgetPerYear: updatedBudgetPerYear,
+        //     }
+        //   })
+        //   setValues({ ...values, EHs: updatedEHs })
+        //   setSubmitting(false)
+        // }}
+        onSubmit={(values, { setSubmitting, setValues }) => {
+          setSubmitting(true)
+          try {
+            const remainderPerEH = values.remainder / values.EHs.length
+
+            const updatedEHs = values.EHs.map((eh) => {
+              const newMarketBudget = eh.budget + remainderPerEH
+              const yearCount = eh.endYear - eh.startYear + 1
+              const remainderPerEHPerYear = remainderPerEH / yearCount
+
+              const updatedBudgetPerYear = eh.budgetPerYear.map(
+                (yearBudget) => yearBudget + remainderPerEHPerYear,
+              )
+
+              return {
+                ...eh,
+                budget: newMarketBudget,
+                budgetPerYear: updatedBudgetPerYear,
+              }
+            })
+            setValues({ ...values, EHs: updatedEHs })
+          } catch (error) {
+            console.error("Error in form submission:", error)
+            // Handle the error appropriately
+          } finally {
             setSubmitting(false)
-          }, 400)
+          }
         }}
       >
-        {({ values, setFieldValue }) => (
+        {({ values, isSubmitting }) => (
           <Form className="mx-auto mt-8 max-w-lg space-y-6">
             <div className="flex flex-col space-y-2 rounded-md border p-4">
-              <div className="flex gap-2">
+              {/* <div className="flex gap-2">
                 <div className="flex w-48 items-center rounded-md border px-3 py-2">
                   Initial Budget :
                 </div>
@@ -69,7 +111,7 @@ const BudgetForm = () => {
                   component="div"
                   className="text-sm text-red-500"
                 />
-              </div>
+              </div> */}
               <div className="flex gap-2">
                 <div className="flex w-48 items-center rounded-md border px-3 py-2">
                   Gaol Budget :
@@ -103,27 +145,27 @@ const BudgetForm = () => {
                 />
               </div>
             </div>
-            <FieldArray name="markets">
+            <FieldArray name="EHs">
               {({ remove, push }) => (
                 <div className="space-y-4">
-                  {values.markets.length > 0 &&
-                    values.markets.map((market, index) => (
+                  {values.EHs.length > 0 &&
+                    values.EHs.map((EH, index) => (
                       <div
                         key={index}
                         className="flex flex-col space-y-2 rounded-md border p-4"
                       >
                         <div className="flex w-full justify-between gap-2">
-                          <div className="w-46 whitespace-nowrap rounded-md border px-3 py-2">
-                            Market n°{index + 1} - Budget:
+                          <div className="w-[175px] whitespace-nowrap rounded-md border px-3 py-2">
+                            EH n°{index + 1} - Budget:
                           </div>
                           <Field
-                            name={`markets.${index}.budget`}
+                            name={`EHs.${index}.budget`}
                             type="number"
-                            placeholder="Market Budget"
+                            placeholder="EH Budget"
                             className="w-36 rounded-md border px-3 py-2"
                           />
                           <div className="flex w-36 items-center justify-center rounded-md border px-3">
-                            Result
+                            {EH.budget.toFixed(2)}
                           </div>
                         </div>
                         <div className="flex gap-2">
@@ -132,13 +174,13 @@ const BudgetForm = () => {
                           </div>
                           <div className="flex gap-2">
                             <Field
-                              name={`markets.${index}.startYear`}
+                              name={`EHs.${index}.startYear`}
                               type="number"
                               placeholder="Start Year"
                               className="w-36 rounded-md border px-4 py-2"
                             />
                             <Field
-                              name={`markets.${index}.endYear`}
+                              name={`EHs.${index}.endYear`}
                               type="number"
                               placeholder="End Year"
                               className="w-36 rounded-md border px-4 py-2"
@@ -146,33 +188,34 @@ const BudgetForm = () => {
                           </div>
                         </div>
 
-                        {market.startYear && market.endYear && (
-                          <FieldArray name={`markets.${index}.budgetPerYear`}>
+                        {EH.startYear && EH.endYear && (
+                          <FieldArray name={`EHs.${index}.budgetPerYear`}>
                             {() => (
                               <div className="space-y-2">
                                 {Array.from(
                                   {
-                                    length:
-                                      market.endYear - market.startYear + 1,
+                                    length: EH.endYear - EH.startYear + 1,
                                   },
-                                  (_, i) => market.startYear + i,
+                                  (_, i) => EH.startYear + i,
                                 ).map((year, yearIndex) => (
                                   <div
                                     key={yearIndex}
-                                    name={`markets.${index}.budgetPerYear.${yearIndex}`}
+                                    name={`EHs.${index}.budgetPerYear.${yearIndex}`}
                                     className="flex items-center gap-4"
                                   >
                                     <div className="whitespace-nowrap pl-1">
                                       Budget {year}
                                     </div>
                                     <Field
-                                      name={`markets.${index}.budgetPerYear.${yearIndex}`}
+                                      name={`EHs.${index}.budgetPerYear.${yearIndex}`}
                                       type="number"
                                       placeholder={`Budget for ${year}`}
                                       className="w-full rounded-md border px-3 py-2"
                                     />
                                     <div className="flex w-full items-center justify-center rounded-md border px-3 py-2">
-                                      Result
+                                      {(
+                                        EH.budgetPerYear[yearIndex] || 0
+                                      ).toFixed(2)}
                                     </div>
                                   </div>
                                 ))}
@@ -180,7 +223,22 @@ const BudgetForm = () => {
                             )}
                           </FieldArray>
                         )}
-                        <div className="flex justify-end">
+                        <div className="flex justify-between">
+                          <button
+                            type="button"
+                            onClick={() =>
+                              push({
+                                name: "",
+                                budget: 0,
+                                startYear: new Date().getFullYear(),
+                                endYear: new Date().getFullYear(),
+                                budgetPerYear: [],
+                              })
+                            }
+                            className="rounded-md bg-blue-500 px-2 py-1 text-white"
+                          >
+                            Add EH
+                          </button>
                           <button
                             type="button"
                             onClick={() => remove(index)}
@@ -191,7 +249,7 @@ const BudgetForm = () => {
                         </div>
                       </div>
                     ))}
-                  <button
+                  {/* <button
                     type="button"
                     onClick={() =>
                       push({
@@ -204,17 +262,87 @@ const BudgetForm = () => {
                     }
                     className="w-full rounded-md bg-blue-500 px-4 py-2 text-white"
                   >
-                    Add Market
-                  </button>
+                    Add EH
+                  </button> */}
                 </div>
               )}
             </FieldArray>
-            <button
+            <div className="flex justify-between gap-14">
+              <button
+                type="reset"
+                className="w-full rounded-md bg-gray-500 px-4 py-2 text-white"
+              >
+                Reset
+              </button>
+              <button
+                type="submit"
+                disabled={isSubmitting}
+                className="w-full rounded-md bg-green-500 px-4 py-2 text-white"
+              >
+                {isSubmitting ? (
+                  <span className="flex items-center justify-center">
+                    <svg
+                      className="mr-3 h-5 w-5 animate-spin"
+                      viewBox="0 0 24 24"
+                    >
+                      <circle
+                        className="opacity-25"
+                        cx="12"
+                        cy="12"
+                        r="10"
+                        stroke="currentColor"
+                        strokeWidth="4"
+                      />
+                      <path
+                        className="opacity-75"
+                        fill="currentColor"
+                        d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
+                      />
+                    </svg>
+                    Calculating...
+                  </span>
+                ) : (
+                  "Calculate"
+                )}
+              </button>
+            </div>
+            {/* <button
               type="submit"
+              disabled={isSubmitting}
               className="w-full rounded-md bg-green-500 px-4 py-2 text-white"
             >
-              Submit
+              {isSubmitting ? (
+                <span className="flex items-center justify-center">
+                  <svg
+                    className="mr-3 h-5 w-5 animate-spin"
+                    viewBox="0 0 24 24"
+                  >
+                    <circle
+                      className="opacity-25"
+                      cx="12"
+                      cy="12"
+                      r="10"
+                      stroke="currentColor"
+                      strokeWidth="4"
+                    />
+                    <path
+                      className="opacity-75"
+                      fill="currentColor"
+                      d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
+                    />
+                  </svg>
+                  Calculating...
+                </span>
+              ) : (
+                "Calculate"
+              )}
             </button>
+            <button
+              type="reset"
+              className="w-full rounded-md bg-gray-500 px-4 py-2 text-white"
+            >
+              Reset
+            </button> */}
           </Form>
         )}
       </Formik>
