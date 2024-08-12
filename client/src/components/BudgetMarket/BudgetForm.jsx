@@ -230,6 +230,12 @@ const BudgetForm = () => {
             >
               Calculate
             </button>
+            <button
+              type="reset"
+              className="w-full rounded-md bg-gray-500 px-4 py-2 text-white"
+            >
+              Reset
+            </button>
           </Form>
         )}
       </Formik>
