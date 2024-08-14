@@ -73,7 +73,7 @@ const BudgetForm = () => {
       >
         {({ values, isSubmitting }) => (
           <Form className="mx-auto mt-8 max-w-lg space-y-6">
-            <div className="flex flex-col space-y-2 rounded-md border p-4">
+            <article className="flex flex-col space-y-2 rounded-md border p-4">
               <div className="flex gap-2">
                 <div className="flex w-48 items-center rounded-md border px-3 py-2">
                   Gaol Budget :
@@ -106,10 +106,10 @@ const BudgetForm = () => {
                   className="text-sm text-red-500"
                 />
               </div>
-            </div>
+            </article>
             <FieldArray name="EHs">
               {({ remove, push }) => (
-                <div className="space-y-4">
+                <article className="space-y-4">
                   {values.EHs.length > 0 &&
                     values.EHs.map((EH, index) => (
                       <div
@@ -211,10 +211,10 @@ const BudgetForm = () => {
                         </div>
                       </div>
                     ))}
-                </div>
+                </article>
               )}
             </FieldArray>
-            <div className="flex justify-between gap-14">
+            <article className="flex justify-between gap-14">
               <button
                 type="reset"
                 className="w-full rounded-md bg-gray-500 px-4 py-2 text-zinc-200"
@@ -252,44 +252,7 @@ const BudgetForm = () => {
                   "Calculate"
                 )}
               </button>
-            </div>
-            {/* <button
-              type="submit"
-              disabled={isSubmitting}
-              className="w-full rounded-md bg-green-500 px-4 py-2 text-white"
-            >
-              {isSubmitting ? (
-                <span className="flex items-center justify-center">
-                  <svg
-                    className="mr-3 h-5 w-5 animate-spin"
-                    viewBox="0 0 24 24"
-                  >
-                    <circle
-                      className="opacity-25"
-                      cx="12"
-                      cy="12"
-                      r="10"
-                      stroke="currentColor"
-                      strokeWidth="4"
-                    />
-                    <path
-                      className="opacity-75"
-                      fill="currentColor"
-                      d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
-                    />
-                  </svg>
-                  Calculating...
-                </span>
-              ) : (
-                "Calculate"
-              )}
-            </button>
-            <button
-              type="reset"
-              className="w-full rounded-md bg-gray-500 px-4 py-2 text-white"
-            >
-              Reset
-            </button> */}
+            </article>
           </Form>
         )}
       </Formik>
