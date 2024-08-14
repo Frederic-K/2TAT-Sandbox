@@ -3,7 +3,6 @@ import { useState } from "react"
 import * as Yup from "yup"
 
 const validationSchema = Yup.object().shape({
-  // initialBudget: Yup.number().required("Initial budget is required"),
   goalBudget: Yup.number().required("Goal budget is required"),
   remainder: Yup.number().required("Remainder is required"),
 
@@ -43,27 +42,6 @@ const BudgetForm = () => {
           ],
         }}
         validationSchema={validationSchema}
-        // onSubmit={(values, { setSubmitting, setValues }) => {
-        //   const remainderPerEH = values.remainder / values.EHs.length
-
-        //   const updatedEHs = values.EHs.map((eh) => {
-        //     const newMarketBudget = eh.budget + remainderPerEH
-        //     const yearCount = eh.endYear - eh.startYear + 1
-        //     const remainderPerEHPerYear = remainderPerEH / yearCount
-
-        //     const updatedBudgetPerYear = eh.budgetPerYear.map(
-        //       (yearBudget) => yearBudget + remainderPerEHPerYear,
-        //     )
-
-        //     return {
-        //       ...eh,
-        //       budget: newMarketBudget,
-        //       budgetPerYear: updatedBudgetPerYear,
-        //     }
-        //   })
-        //   setValues({ ...values, EHs: updatedEHs })
-        //   setSubmitting(false)
-        // }}
         onSubmit={(values, { setSubmitting, setValues }) => {
           setSubmitting(true)
           try {
@@ -96,22 +74,6 @@ const BudgetForm = () => {
         {({ values, isSubmitting }) => (
           <Form className="mx-auto mt-8 max-w-lg space-y-6">
             <div className="flex flex-col space-y-2 rounded-md border p-4">
-              {/* <div className="flex gap-2">
-                <div className="flex w-48 items-center rounded-md border px-3 py-2">
-                  Initial Budget :
-                </div>
-                <Field
-                  name="initialBudget"
-                  type="number"
-                  placeholder="Initial Budget"
-                  className="w-full rounded-md border px-3 py-2"
-                />
-                <ErrorMessage
-                  name="initialBudget"
-                  component="div"
-                  className="text-sm text-red-500"
-                />
-              </div> */}
               <div className="flex gap-2">
                 <div className="flex w-48 items-center rounded-md border px-3 py-2">
                   Gaol Budget :
@@ -235,49 +197,34 @@ const BudgetForm = () => {
                                 budgetPerYear: [],
                               })
                             }
-                            className="rounded-md bg-blue-500 px-2 py-1 text-white"
+                            className="rounded-md bg-blue-500 px-2 py-1 text-zinc-200"
                           >
                             Add EH
                           </button>
                           <button
                             type="button"
                             onClick={() => remove(index)}
-                            className="rounded-md bg-red-500 px-2 py-1 text-white"
+                            className="rounded-md bg-red-500 px-2 py-1 text-zinc-200"
                           >
                             Remove
                           </button>
                         </div>
                       </div>
                     ))}
-                  {/* <button
-                    type="button"
-                    onClick={() =>
-                      push({
-                        name: "",
-                        budget: 0,
-                        startYear: new Date().getFullYear(),
-                        endYear: new Date().getFullYear(),
-                        budgetPerYear: [],
-                      })
-                    }
-                    className="w-full rounded-md bg-blue-500 px-4 py-2 text-white"
-                  >
-                    Add EH
-                  </button> */}
                 </div>
               )}
             </FieldArray>
             <div className="flex justify-between gap-14">
               <button
                 type="reset"
-                className="w-full rounded-md bg-gray-500 px-4 py-2 text-white"
+                className="w-full rounded-md bg-gray-500 px-4 py-2 text-zinc-200"
               >
                 Reset
               </button>
               <button
                 type="submit"
                 disabled={isSubmitting}
-                className="w-full rounded-md bg-green-500 px-4 py-2 text-white"
+                className="w-full rounded-md bg-green-500 px-4 py-2 text-zinc-200"
               >
                 {isSubmitting ? (
                   <span className="flex items-center justify-center">
