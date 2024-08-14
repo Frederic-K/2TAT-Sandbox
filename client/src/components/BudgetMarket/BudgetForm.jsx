@@ -24,7 +24,7 @@ const validationSchema = Yup.object().shape({
 const BudgetForm = () => {
   return (
     <>
-      <h1 className="mx-auto flex max-w-lg justify-center rounded-md border p-4">
+      <h1 className="mx-auto flex max-w-lg justify-center rounded-md border bg-zinc-400/20 p-4 font-bold dark:bg-zinc-200/10">
         Market Overrun Calculator
       </h1>
       <Formik
@@ -76,10 +76,10 @@ const BudgetForm = () => {
       >
         {({ values, isSubmitting }) => (
           <Form className="mx-auto mt-8 max-w-lg space-y-6">
-            <article className="flex flex-col space-y-2 rounded-md border p-4">
+            <article className="flex flex-col space-y-2 rounded-md border bg-zinc-400/20 p-4">
               <div className="flex-col gap-2">
                 <div className="flex gap-2">
-                  <div className="flex w-48 items-center rounded-md border px-3 py-2">
+                  <div className="flex w-48 items-center rounded-md border border-zinc-600 bg-zinc-400/20 px-3 py-2 dark:border-zinc-300 dark:bg-zinc-200/10">
                     Gaol Budget :
                   </div>
                   <Field
@@ -97,7 +97,7 @@ const BudgetForm = () => {
               </div>
               <div className="flex-col gap-2">
                 <div className="flex gap-2">
-                  <div className="flex w-48 items-center rounded-md border px-3 py-2">
+                  <div className="flex w-48 items-center rounded-md border bg-zinc-400/20 px-3 py-2 dark:bg-zinc-200/10">
                     Remainder :
                   </div>
                   <Field
@@ -124,21 +124,21 @@ const BudgetForm = () => {
                         className="flex flex-col space-y-2 rounded-md border p-4"
                       >
                         <div className="flex w-full justify-between gap-2">
-                          <div className="w-[175px] whitespace-nowrap rounded-md border px-3 py-2">
+                          <div className="w-[175px] whitespace-nowrap rounded-md border bg-zinc-400/20 px-3 py-2 dark:bg-zinc-200/10">
                             EH n°{index + 1} - Budget:
                           </div>
                           <Field
                             name={`EHs.${index}.budget`}
                             type="number"
                             placeholder="EH Budget"
-                            className="w-36 rounded-md border px-3 py-2"
+                            className="w-36 rounded-md border px-3 py-2 dark:bg-zinc-500 dark:text-zinc-200"
                           />
-                          <div className="flex w-36 items-center justify-center rounded-md border px-3">
+                          <div className="flex w-36 items-center justify-center rounded-md border bg-white px-3 dark:bg-zinc-500 dark:text-zinc-200">
                             {EH.budget.toFixed(2)}
                           </div>
                         </div>
                         <div className="flex gap-2">
-                          <div className="w-full whitespace-nowrap rounded-md border px-3 py-2">
+                          <div className="w-full whitespace-nowrap rounded-md border bg-zinc-400/20 px-3 py-2 dark:bg-zinc-200/10">
                             Market duration:
                           </div>
                           <div className="flex gap-2">
@@ -146,13 +146,13 @@ const BudgetForm = () => {
                               name={`EHs.${index}.startYear`}
                               type="number"
                               placeholder="Start Year"
-                              className="w-36 rounded-md border px-4 py-2"
+                              className="w-36 rounded-md border px-4 py-2 dark:bg-zinc-500 dark:text-zinc-200"
                             />
                             <Field
                               name={`EHs.${index}.endYear`}
                               type="number"
                               placeholder="End Year"
-                              className="w-36 rounded-md border px-4 py-2"
+                              className="w-36 rounded-md border px-4 py-2 dark:bg-zinc-500 dark:text-zinc-200"
                             />
                           </div>
                         </div>
@@ -179,9 +179,9 @@ const BudgetForm = () => {
                                       name={`EHs.${index}.budgetPerYear.${yearIndex}`}
                                       type="number"
                                       placeholder={`Budget for ${year}`}
-                                      className="w-full rounded-md border px-3 py-2"
+                                      className="w-full rounded-md border px-3 py-2 dark:bg-zinc-500 dark:text-zinc-200"
                                     />
-                                    <div className="flex w-full items-center justify-center rounded-md border px-3 py-2">
+                                    <div className="flex w-full items-center justify-center rounded-md border bg-white px-3 py-2 dark:bg-zinc-500 dark:text-zinc-200">
                                       {(
                                         EH.budgetPerYear[yearIndex] || 0
                                       ).toFixed(2)}
