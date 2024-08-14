@@ -45,9 +45,12 @@ const BudgetForm = () => {
         onSubmit={(values, { setSubmitting, setValues }) => {
           setSubmitting(true)
           try {
-            const remainderPerEH = values.remainder / values.EHs.length
+            let remainingRemainder = values.remainder
+            const updatedEHs = values.EHs.map((eh, index) => {
+              const remainderPerEH =
+                remainingRemainder / (values.EHs.length - index)
+              remainingRemainder -= remainderPerEH
 
-            const updatedEHs = values.EHs.map((eh) => {
               const newMarketBudget = eh.budget + remainderPerEH
               const yearCount = eh.endYear - eh.startYear + 1
               const remainderPerEHPerYear = remainderPerEH / yearCount
@@ -65,7 +68,7 @@ const BudgetForm = () => {
             setValues({ ...values, EHs: updatedEHs })
           } catch (error) {
             console.error("Error in form submission:", error)
-            // Handle the error appropriately
+            alert("An error occurred while calculating the EH budget.")
           } finally {
             setSubmitting(false)
           }
@@ -74,36 +77,40 @@ const BudgetForm = () => {
         {({ values, isSubmitting }) => (
           <Form className="mx-auto mt-8 max-w-lg space-y-6">
             <article className="flex flex-col space-y-2 rounded-md border p-4">
-              <div className="flex gap-2">
-                <div className="flex w-48 items-center rounded-md border px-3 py-2">
-                  Gaol Budget :
+              <div className="flex-col gap-2">
+                <div className="flex gap-2">
+                  <div className="flex w-48 items-center rounded-md border px-3 py-2">
+                    Gaol Budget :
+                  </div>
+                  <Field
+                    name="goalBudget"
+                    type="number"
+                    placeholder="Goal Budget"
+                    className="w-full rounded-md border px-3 py-2 dark:bg-zinc-500 dark:text-zinc-200"
+                  />
                 </div>
-                <Field
-                  name="goalBudget"
-                  type="number"
-                  placeholder="Goal Budget"
-                  className="w-full rounded-md border px-3 py-2"
-                />
                 <ErrorMessage
                   name="goalBudget"
                   component="div"
-                  className="text-sm text-red-500"
+                  className="flex justify-end text-sm text-red-500"
                 />
               </div>
-              <div className="flex gap-2">
-                <div className="flex w-48 items-center rounded-md border px-3 py-2">
-                  Remainder :
+              <div className="flex-col gap-2">
+                <div className="flex gap-2">
+                  <div className="flex w-48 items-center rounded-md border px-3 py-2">
+                    Remainder :
+                  </div>
+                  <Field
+                    name="remainder"
+                    type="number"
+                    placeholder="Remainder"
+                    className="w-full rounded-md border px-3 py-2 dark:bg-zinc-500 dark:text-zinc-200"
+                  />
                 </div>
-                <Field
-                  name="remainder"
-                  type="number"
-                  placeholder="Remainder"
-                  className="w-full rounded-md border px-3 py-2"
-                />
                 <ErrorMessage
                   name="remainder"
                   component="div"
-                  className="text-sm text-red-500"
+                  className="flex justify-end text-sm text-red-500"
                 />
               </div>
             </article>
