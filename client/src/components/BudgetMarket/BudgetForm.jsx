@@ -3,9 +3,7 @@ import { useState } from "react"
 import * as Yup from "yup"
 
 const validationSchema = Yup.object().shape({
-  goalBudget: Yup.number().required("Goal budget is required"),
   remainder: Yup.number().required("Remainder is required"),
-
   EHs: Yup.array().of(
     Yup.object().shape({
       // name: Yup.string().required("EH name is required"),
@@ -29,8 +27,8 @@ const BudgetForm = () => {
       </h1>
       <Formik
         initialValues={{
-          goalBudget: 0,
           remainder: 0,
+          numberOfEHs: 0,
 
           EHs: [
             {
@@ -75,39 +73,39 @@ const BudgetForm = () => {
       >
         {({ values, isSubmitting }) => (
           <Form className="mx-auto mt-8 max-w-lg space-y-6">
-            <article className="flex flex-col space-y-2 rounded-md border border-zinc-400 bg-zinc-400/20 p-4">
+            <article className="flex gap-2 rounded-md border border-zinc-400 bg-zinc-400/20 p-4">
               <div className="flex-col gap-2">
                 <div className="flex gap-2">
-                  <div className="flex w-48 items-center rounded-md border border-zinc-600 bg-zinc-400/20 px-3 py-2 font-semibold text-orange-600 dark:border-zinc-300 dark:bg-zinc-200/10">
-                    Gaol Budget :
+                  <div className="flex w-28 items-center rounded-md border border-zinc-600 bg-zinc-400/20 px-3 py-2 font-semibold text-orange-600 dark:border-zinc-300 dark:bg-zinc-200/10">
+                    Remainder:
                   </div>
                   <Field
-                    name="goalBudget"
+                    name="remainder"
                     type="number"
-                    placeholder="Goal Budget"
-                    className="w-full rounded-md border px-3 py-2 dark:bg-zinc-500 dark:text-zinc-200"
+                    placeholder="Remainder"
+                    className="w-44 rounded-md border px-3 py-2 dark:bg-zinc-500 dark:text-zinc-200"
                   />
                 </div>
                 <ErrorMessage
-                  name="goalBudget"
+                  name="remainder"
                   component="div"
                   className="flex justify-end text-sm text-red-500"
                 />
               </div>
               <div className="flex-col gap-2">
                 <div className="flex gap-2">
-                  <div className="flex w-48 items-center rounded-md border border-zinc-600 bg-zinc-400/20 px-3 py-2 font-semibold text-orange-600 dark:border-zinc-300 dark:bg-zinc-200/10">
-                    Remainder :
+                  <div className="flex items-center rounded-md border border-zinc-600 bg-zinc-400/20 px-3 py-2 font-semibold text-orange-600 dark:border-zinc-300 dark:bg-zinc-200/10">
+                    Nb EHs:
                   </div>
                   <Field
-                    name="remainder"
+                    name="numberOfEHs"
                     type="number"
-                    placeholder="Remainder"
-                    className="w-full rounded-md border px-3 py-2 dark:bg-zinc-500 dark:text-zinc-200"
+                    // placeholder="numberOfEHs"
+                    className="w-20 rounded-md border px-3 py-2 dark:bg-zinc-500 dark:text-zinc-200"
                   />
                 </div>
                 <ErrorMessage
-                  name="remainder"
+                  name="numberOfEHs"
                   component="div"
                   className="flex justify-end text-sm text-red-500"
                 />
