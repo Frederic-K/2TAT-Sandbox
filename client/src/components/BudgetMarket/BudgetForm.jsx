@@ -43,28 +43,30 @@ const BudgetForm = () => {
         onSubmit={(values, { setSubmitting, setValues }) => {
           setSubmitting(true)
           try {
-            const updatedEHs = values.EHs.slice(0, values.numberOfEHs).map(
-              (eh, index) => {
-                const remainderPerEH =
-                  values.remainder / (values.numberOfEHs - index)
-                values.remainder -= remainderPerEH
+            if (values.remainder > 0 && values.numberOfEHs > 0) {
+              const remainderPerEH = values.remainder / values.numberOfEHs
+              const newMarketBudget = values.EHs[0].budget + remainderPerEH
+              const yearCount =
+                values.EHs[0].endYear - values.EHs[0].startYear + 1
+              const remainderPerEHPerYear = remainderPerEH / yearCount
 
-                const newMarketBudget = eh.budget + remainderPerEH
-                const yearCount = eh.endYear - eh.startYear + 1
-                const remainderPerEHPerYear = remainderPerEH / yearCount
+              const updatedBudgetPerYear = values.EHs[0].budgetPerYear.map(
+                (yearBudget) => yearBudget + remainderPerEHPerYear,
+              )
 
-                const updatedBudgetPerYear = eh.budgetPerYear.map(
-                  (yearBudget) => yearBudget + remainderPerEHPerYear,
-                )
-
-                return {
-                  ...eh,
-                  budget: newMarketBudget,
-                  budgetPerYear: updatedBudgetPerYear,
-                }
-              },
-            )
-            setValues({ ...values, EHs: updatedEHs, remainder: 0 })
+              setValues({
+                ...values,
+                EHs: [
+                  {
+                    ...values.EHs[0],
+                    budget: newMarketBudget,
+                    budgetPerYear: updatedBudgetPerYear,
+                  },
+                ],
+                remainder: values.remainder - remainderPerEH,
+                numberOfEHs: values.numberOfEHs - 1,
+              })
+            }
           } catch (error) {
             console.error("Error in form submission:", error)
             alert("An error occurred while calculating the EH budget.")
