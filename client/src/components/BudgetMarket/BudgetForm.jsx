@@ -65,7 +65,7 @@ const BudgetForm = () => {
                 budgetPerYear: updatedBudgetPerYear,
               }
             })
-            setValues({ ...values, EHs: updatedEHs })
+            setValues({ ...values, EHs: updatedEHs, remainder: 0 })
           } catch (error) {
             console.error("Error in form submission:", error)
             alert("An error occurred while calculating the EH budget.")
