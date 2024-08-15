@@ -28,7 +28,7 @@ const BudgetForm = () => {
       <Formik
         initialValues={{
           remainder: 0,
-          numberOfEHs: 0,
+          numberOfEHs: 1,
 
           EHs: [
             {
@@ -43,25 +43,27 @@ const BudgetForm = () => {
         onSubmit={(values, { setSubmitting, setValues }) => {
           setSubmitting(true)
           try {
-            const updatedEHs = values.EHs.map((eh, index) => {
-              const remainderPerEH =
-                values.remainder / (values.EHs.length - index)
-              values.remainder -= remainderPerEH
+            const updatedEHs = values.EHs.slice(0, values.numberOfEHs).map(
+              (eh, index) => {
+                const remainderPerEH =
+                  values.remainder / (values.numberOfEHs - index)
+                values.remainder -= remainderPerEH
 
-              const newMarketBudget = eh.budget + remainderPerEH
-              const yearCount = eh.endYear - eh.startYear + 1
-              const remainderPerEHPerYear = remainderPerEH / yearCount
+                const newMarketBudget = eh.budget + remainderPerEH
+                const yearCount = eh.endYear - eh.startYear + 1
+                const remainderPerEHPerYear = remainderPerEH / yearCount
 
-              const updatedBudgetPerYear = eh.budgetPerYear.map(
-                (yearBudget) => yearBudget + remainderPerEHPerYear,
-              )
+                const updatedBudgetPerYear = eh.budgetPerYear.map(
+                  (yearBudget) => yearBudget + remainderPerEHPerYear,
+                )
 
-              return {
-                ...eh,
-                budget: newMarketBudget,
-                budgetPerYear: updatedBudgetPerYear,
-              }
-            })
+                return {
+                  ...eh,
+                  budget: newMarketBudget,
+                  budgetPerYear: updatedBudgetPerYear,
+                }
+              },
+            )
             setValues({ ...values, EHs: updatedEHs, remainder: 0 })
           } catch (error) {
             console.error("Error in form submission:", error)
