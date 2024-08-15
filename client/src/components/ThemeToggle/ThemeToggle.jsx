@@ -1,5 +1,5 @@
 import { useSelector, useDispatch } from "react-redux"
-import { toggleTheme } from "../../../services/slices/themeSlice"
+import { toggleTheme } from "../../service/slices/themeSlice"
 
 import { FaMoon, FaSun } from "react-icons/fa"
 
@@ -9,7 +9,7 @@ const ThemeToggle = () => {
 
   return (
     <button
-      className="flex h-10 w-12 items-center justify-center hover:ring-2 hover:ring-orange-300/50 focus:outline-none focus:ring-2 focus:ring-orange-300/50 dark:hover:ring-2"
+      className="flex size-10 items-center justify-center hover:ring-orange-300/50"
       aria-label="Toggle theme"
       onClick={() => dispatch(toggleTheme())}
     >

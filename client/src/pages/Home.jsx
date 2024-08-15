@@ -2,9 +2,9 @@ import BudgetForm from "../components/BudgetMarket/BudgetForm"
 
 const Home = () => {
   return (
-    <section>
+    <main className="min-h-screen">
       <BudgetForm />
-    </section>
+    </main>
   )
 }
 
