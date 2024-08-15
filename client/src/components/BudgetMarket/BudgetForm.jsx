@@ -45,11 +45,10 @@ const BudgetForm = () => {
         onSubmit={(values, { setSubmitting, setValues }) => {
           setSubmitting(true)
           try {
-            let remainingRemainder = values.remainder
             const updatedEHs = values.EHs.map((eh, index) => {
               const remainderPerEH =
-                remainingRemainder / (values.EHs.length - index)
-              remainingRemainder -= remainderPerEH
+                values.remainder / (values.EHs.length - index)
+              values.remainder -= remainderPerEH
 
               const newMarketBudget = eh.budget + remainderPerEH
               const yearCount = eh.endYear - eh.startYear + 1
