@@ -47,20 +47,36 @@ const BudgetForm = () => {
             if (values.remainder > 0 && values.numberOfEHs > 0) {
               const remainderPerEH = values.remainder / values.numberOfEHs
               const newMarketBudget = values.EH.budget + remainderPerEH
-              // Calculate the number of months between start and end date
-              const monthDiff =
-                (values.EH.endDate.getFullYear() -
-                  values.EH.startDate.getFullYear()) *
-                  12 +
-                (values.EH.endDate.getMonth() -
-                  values.EH.startDate.getMonth() +
-                  1)
 
-              const remainderPerEHPerMonth = remainderPerEH / monthDiff
+              const startDate = new Date(values.EH.startDate)
+              const endDate = new Date(values.EH.endDate)
+              const totalMonths =
+                (endDate.getFullYear() - startDate.getFullYear()) * 12 +
+                endDate.getMonth() -
+                startDate.getMonth() +
+                1
 
-              const updatedBudgetPerYear = values.EH.budgetPerYear.map(
-                (yearBudget) => yearBudget + remainderPerEHPerYear,
-              )
+              const remainderPerMonth = remainderPerEH / totalMonths
+
+              const updatedBudgetPerYear = []
+              let currentYear = startDate.getFullYear()
+              let monthsInCurrentYear = 12 - startDate.getMonth() // Changed this line
+
+              while (currentYear <= endDate.getFullYear()) {
+                if (currentYear === endDate.getFullYear()) {
+                  monthsInCurrentYear =
+                    endDate.getMonth() - startDate.getMonth() + 1
+                } else if (currentYear > startDate.getFullYear()) {
+                  monthsInCurrentYear = 12
+                }
+
+                const yearIndex = currentYear - startDate.getFullYear()
+                const initialBudget = values.EH.budgetPerYear[yearIndex] || 0
+                updatedBudgetPerYear[yearIndex] =
+                  initialBudget + remainderPerMonth * monthsInCurrentYear
+
+                currentYear++
+              }
 
               setValues({
                 ...values,
