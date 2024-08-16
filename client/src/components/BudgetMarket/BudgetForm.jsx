@@ -1,17 +1,19 @@
 import { Formik, Form, Field, ErrorMessage } from "formik"
 import * as Yup from "yup"
+import DatePicker from "react-datepicker"
+import "react-datepicker/dist/react-datepicker.css"
 
 const validationSchema = Yup.object().shape({
   remainder: Yup.number().required("Remainder is required"),
   numberOfEHs: Yup.number().required("Number of EHs is required").min(0),
   EH: Yup.object().shape({
     budget: Yup.number().required("EH budget is required"),
-    startYear: Yup.number().required("Start year is required"),
-    endYear: Yup.number()
-      .required("End year is required")
+    startDate: Yup.date().required("Start date is required"),
+    endDate: Yup.date()
+      .required("End date is required")
       .min(
-        Yup.ref("startYear"),
-        "End year must be greater than or equal to start year",
+        Yup.ref("startDate"),
+        "End date must be greater than or equal to start date",
       ),
     budgetPerYear: Yup.array().of(
       Yup.number().required("Budget per year is required"),
@@ -33,8 +35,8 @@ const BudgetForm = () => {
           numberOfEHs: 1,
           EH: {
             budget: 0,
-            startYear: currentYear,
-            endYear: currentYear,
+            startDate: new Date(),
+            endDate: new Date(),
             budgetPerYear: [0],
           },
         }}
@@ -45,8 +47,16 @@ const BudgetForm = () => {
             if (values.remainder > 0 && values.numberOfEHs > 0) {
               const remainderPerEH = values.remainder / values.numberOfEHs
               const newMarketBudget = values.EH.budget + remainderPerEH
-              const yearCount = values.EH.endYear - values.EH.startYear + 1
-              const remainderPerEHPerYear = remainderPerEH / yearCount
+              // Calculate the number of months between start and end date
+              const monthDiff =
+                (values.EH.endDate.getFullYear() -
+                  values.EH.startDate.getFullYear()) *
+                  12 +
+                (values.EH.endDate.getMonth() -
+                  values.EH.startDate.getMonth() +
+                  1)
+
+              const remainderPerEHPerMonth = remainderPerEH / monthDiff
 
               const updatedBudgetPerYear = values.EH.budgetPerYear.map(
                 (yearBudget) => yearBudget + remainderPerEHPerYear,
@@ -71,7 +81,7 @@ const BudgetForm = () => {
           }
         }}
       >
-        {({ values, isSubmitting }) => (
+        {({ values, isSubmitting, setValues }) => (
           <Form className="mx-auto mt-8 max-w-lg space-y-6">
             <article className="flex gap-2 rounded-md border border-zinc-400 bg-zinc-400/20 p-4">
               <div className="flex-col gap-2">
@@ -132,26 +142,52 @@ const BudgetForm = () => {
                     Market duration:
                   </div>
                   <div className="flex gap-2">
-                    <Field
-                      name="EH.startYear"
-                      type="number"
-                      placeholder="Start Year"
+                    <DatePicker
+                      todayButton="Today"
+                      selected={values.EH.startDate}
+                      onChange={(date) =>
+                        setValues((prevValues) => ({
+                          ...prevValues,
+                          EH: {
+                            ...prevValues.EH,
+                            startDate: date,
+                          },
+                        }))
+                      }
+                      dateFormat="MM/yyyy"
+                      showMonthYearPicker
                       className="w-36 rounded-md border px-4 py-2 dark:bg-zinc-500 dark:text-zinc-200"
                     />
-                    <Field
-                      name="EH.endYear"
-                      type="number"
-                      placeholder="End Year"
+
+                    <DatePicker
+                      todayButton="Today"
+                      selected={values.EH.endDate}
+                      onChange={(date) =>
+                        setValues((prevValues) => ({
+                          ...prevValues,
+                          EH: {
+                            ...prevValues.EH,
+                            endDate: date,
+                          },
+                        }))
+                      }
+                      dateFormat="MM/yyyy"
+                      showMonthYearPicker
                       className="w-36 rounded-md border px-4 py-2 dark:bg-zinc-500 dark:text-zinc-200"
                     />
                   </div>
                 </div>
 
-                {values.EH.startYear && values.EH.endYear && (
+                {values.EH.startDate && values.EH.endDate && (
                   <div className="space-y-2">
                     {Array.from(
-                      { length: values.EH.endYear - values.EH.startYear + 1 },
-                      (_, i) => values.EH.startYear + i,
+                      {
+                        length:
+                          values.EH.endDate.getFullYear() -
+                          values.EH.startDate.getFullYear() +
+                          1,
+                      },
+                      (_, i) => values.EH.startDate.getFullYear() + i,
                     ).map((year, yearIndex) => (
                       <div key={yearIndex} className="flex items-center gap-4">
                         <div className="whitespace-nowrap pl-1 font-semibold text-orange-600">
