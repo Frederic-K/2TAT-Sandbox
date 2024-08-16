@@ -11,10 +11,7 @@ const validationSchema = Yup.object().shape({
     startDate: Yup.date().required("Start date is required"),
     endDate: Yup.date()
       .required("End date is required")
-      .min(
-        Yup.ref("startDate"),
-        "End date must be greater than or equal to start date",
-      ),
+      .min(Yup.ref("startDate"), "End date must be after the start date"),
     budgetPerYear: Yup.array().of(
       Yup.number().required("Budget per year is required"),
     ),
@@ -22,8 +19,6 @@ const validationSchema = Yup.object().shape({
 })
 
 const BudgetForm = () => {
-  const currentYear = new Date().getFullYear()
-
   return (
     <>
       <h1 className="mx-auto flex max-w-lg justify-center rounded-md border border-zinc-400 bg-zinc-400/20 bg-gradient-to-r from-orange-700 via-orange-400 to-orange-700 bg-clip-text p-2 text-2xl font-bold text-transparent dark:bg-zinc-200/10">
@@ -102,7 +97,7 @@ const BudgetForm = () => {
             <article className="flex gap-2 rounded-md border border-zinc-400 bg-zinc-400/20 p-4">
               <div className="flex-col gap-2">
                 <div className="flex gap-2">
-                  <div className="flex w-28 items-center rounded-md border border-zinc-600 bg-zinc-400/20 px-3 py-2 font-semibold text-orange-600 dark:border-zinc-300 dark:bg-zinc-200/10">
+                  <div className="flex h-11 w-28 items-center rounded-md border border-zinc-600 bg-zinc-400/20 px-3 py-2 font-semibold text-orange-600 dark:border-zinc-300 dark:bg-zinc-200/10">
                     Remainder:
                   </div>
                   <Field
@@ -120,7 +115,7 @@ const BudgetForm = () => {
               </div>
               <div className="flex-col gap-2">
                 <div className="flex gap-2">
-                  <div className="flex items-center rounded-md border border-zinc-600 bg-zinc-400/20 px-3 py-2 font-semibold text-orange-600 dark:border-zinc-300 dark:bg-zinc-200/10">
+                  <div className="flex h-11 items-center rounded-md border border-zinc-600 bg-zinc-400/20 px-3 py-2 font-semibold text-orange-600 dark:border-zinc-300 dark:bg-zinc-200/10">
                     Nb EHs:
                   </div>
                   <Field
@@ -140,7 +135,7 @@ const BudgetForm = () => {
             <article className="space-y-4 rounded-md">
               <div className="flex flex-col space-y-2 rounded-md border border-zinc-400 bg-zinc-400/20 p-4">
                 <div className="flex w-full justify-between gap-2">
-                  <div className="w-[175px] whitespace-nowrap rounded-md border border-zinc-600 bg-zinc-400/20 px-3 py-2 font-semibold text-orange-600 dark:border-zinc-300 dark:bg-zinc-200/10">
+                  <div className="h-11 w-[175px] whitespace-nowrap rounded-md border border-zinc-600 bg-zinc-400/20 px-3 py-2 font-semibold text-orange-600 dark:border-zinc-300 dark:bg-zinc-200/10">
                     EH Budget:
                   </div>
                   <Field
@@ -154,43 +149,58 @@ const BudgetForm = () => {
                   </div>
                 </div>
                 <div className="flex gap-2">
-                  <div className="w-full whitespace-nowrap rounded-md border border-zinc-600 bg-zinc-400/20 px-3 py-2 font-semibold text-orange-600 dark:border-zinc-300 dark:bg-zinc-200/10">
+                  <div className="h-11 w-full whitespace-nowrap rounded-md border border-zinc-600 bg-zinc-400/20 px-3 py-2 font-semibold text-orange-600 dark:border-zinc-300 dark:bg-zinc-200/10">
                     Market duration:
                   </div>
                   <div className="flex gap-2">
-                    <DatePicker
-                      todayButton="Today"
-                      selected={values.EH.startDate}
-                      onChange={(date) =>
-                        setValues((prevValues) => ({
-                          ...prevValues,
-                          EH: {
-                            ...prevValues.EH,
-                            startDate: date,
-                          },
-                        }))
-                      }
-                      dateFormat="MM/yyyy"
-                      showMonthYearPicker
-                      className="w-36 rounded-md border px-4 py-2 dark:bg-zinc-500 dark:text-zinc-200"
-                    />
-
-                    <DatePicker
-                      todayButton="Today"
-                      selected={values.EH.endDate}
-                      onChange={(date) =>
-                        setValues((prevValues) => ({
-                          ...prevValues,
-                          EH: {
-                            ...prevValues.EH,
-                            endDate: date,
-                          },
-                        }))
-                      }
-                      dateFormat="MM/yyyy"
-                      showMonthYearPicker
-                      className="w-36 rounded-md border px-4 py-2 dark:bg-zinc-500 dark:text-zinc-200"
-                    />
+                    <div>
+                      <DatePicker
+                        todayButton="Today"
+                        shouldCloseOnSelect={true}
+                        selected={values.EH.startDate}
+                        onChange={(date) =>
+                          setValues((prevValues) => ({
+                            ...prevValues,
+                            EH: {
+                              ...prevValues.EH,
+                              startDate: date,
+                            },
+                          }))
+                        }
+                        dateFormat="MM/yyyy"
+                        showMonthYearPicker
+                        className="w-36 rounded-md border px-4 py-2 dark:bg-zinc-500 dark:text-zinc-200"
+                      />
+                      <ErrorMessage
+                        name="EH.startDate"
+                        component="div"
+                        className="text-sm text-red-500"
+                      />
+                    </div>
+                    <div>
+                      <DatePicker
+                        todayButton="Today"
+                        shouldCloseOnSelect={true}
+                        selected={values.EH.endDate}
+                        onChange={(date) =>
+                          setValues((prevValues) => ({
+                            ...prevValues,
+                            EH: {
+                              ...prevValues.EH,
+                              endDate: date,
+                            },
+                          }))
+                        }
+                        dateFormat="MM/yyyy"
+                        showMonthYearPicker
+                        className="w-36 rounded-md border px-4 py-2 dark:bg-zinc-500 dark:text-zinc-200"
+                      />
+                      <ErrorMessage
+                        name="EH.endDate"
+                        component="div"
+                        className="text-sm text-red-500"
+                      />
+                    </div>
                   </div>
                 </div>
 
@@ -228,14 +238,14 @@ const BudgetForm = () => {
             <article className="flex justify-between gap-14">
               <button
                 type="reset"
-                className="w-full rounded-md border border-zinc-900 bg-gradient-to-r from-zinc-700 via-zinc-500 to-zinc-700 px-4 py-2 font-semibold text-zinc-200 hover:from-zinc-400 hover:via-zinc-700 hover:to-zinc-400"
+                className="h-11 w-full rounded-md border border-zinc-900 bg-gradient-to-r from-zinc-700 via-zinc-500 to-zinc-700 px-4 py-2 font-semibold text-zinc-200 hover:from-zinc-400 hover:via-zinc-700 hover:to-zinc-400"
               >
                 Reset
               </button>
               <button
                 type="submit"
                 disabled={isSubmitting}
-                className="w-full rounded-md border border-teal-900 bg-gradient-to-r from-teal-700 via-teal-500 to-teal-700 px-4 py-2 font-semibold text-zinc-200 hover:from-teal-400 hover:via-teal-700 hover:to-teal-400"
+                className="h-11 w-full rounded-md border border-teal-900 bg-gradient-to-r from-teal-700 via-teal-500 to-teal-700 px-4 py-2 font-semibold text-zinc-200 hover:from-teal-400 hover:via-teal-700 hover:to-teal-400"
               >
                 {isSubmitting ? (
                   <span className="flex items-center justify-center">
