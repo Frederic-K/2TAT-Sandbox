@@ -28,6 +28,7 @@ const BudgetForm = () => {
         initialValues={{
           remainder: 0,
           numberOfEHs: 1,
+          currentEHNumber: 0,
           EH: {
             budget: 0,
             calculatedBudget: 0,
@@ -57,7 +58,7 @@ const BudgetForm = () => {
 
               const updatedBudgetPerYear = []
               let currentYear = startDate.getFullYear()
-              let monthsInCurrentYear = 12 - startDate.getMonth() // Changed this line
+              let monthsInCurrentYear = 12 - startDate.getMonth()
 
               while (currentYear <= endDate.getFullYear()) {
                 if (currentYear === endDate.getFullYear()) {
@@ -84,6 +85,7 @@ const BudgetForm = () => {
                 },
                 remainder: values.remainder - remainderPerEH,
                 numberOfEHs: values.numberOfEHs - 1,
+                currentEHNumber: values.currentEHNumber + 1,
               })
             }
           } catch (error) {
@@ -138,7 +140,7 @@ const BudgetForm = () => {
               <div className="flex flex-col space-y-2 rounded-md border border-zinc-400 bg-zinc-400/20 p-4">
                 <div className="flex w-full justify-between gap-2">
                   <div className="h-11 w-[175px] whitespace-nowrap rounded-md border border-zinc-600 bg-zinc-400/20 px-3 py-2 font-semibold text-orange-600 dark:border-zinc-300 dark:bg-zinc-200/10">
-                    EH Budget:
+                    EH Budget {values.currentEHNumber}:
                   </div>
                   <Field
                     name="EH.budget"
@@ -174,6 +176,7 @@ const BudgetForm = () => {
                         dateFormat="MM/yyyy"
                         showMonthYearPicker
                         className="w-36 rounded-md border px-4 py-2 dark:bg-zinc-500 dark:text-zinc-200"
+                        calendarClassName="dark:bg-zinc-500 dark:text-zinc-200"
                       />
                       <ErrorMessage
                         name="EH.startDate"
@@ -227,6 +230,7 @@ const BudgetForm = () => {
                           name={`EH.budgetPerYear.${yearIndex}`}
                           type="number"
                           placeholder={`Budget for ${year}`}
+                          value={values.EH.budgetPerYear[yearIndex] || 0}
                           className="w-full rounded-md border px-3 py-2 dark:bg-zinc-500 dark:text-zinc-200"
                         />
                         <div className="flex w-full items-center justify-center rounded-md border bg-white px-3 py-2 dark:bg-zinc-500 dark:text-zinc-200">
