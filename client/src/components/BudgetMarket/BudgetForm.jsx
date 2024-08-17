@@ -1,24 +1,21 @@
-import { Formik, Form, Field, FieldArray, ErrorMessage } from "formik"
-import { useState } from "react"
+import { Formik, Form, Field, ErrorMessage } from "formik"
 import * as Yup from "yup"
+import DatePicker from "react-datepicker"
+import "react-datepicker/dist/react-datepicker.css"
 
 const validationSchema = Yup.object().shape({
-  goalBudget: Yup.number().required("Goal budget is required"),
   remainder: Yup.number().required("Remainder is required"),
-
-  EHs: Yup.array().of(
-    Yup.object().shape({
-      // name: Yup.string().required("EH name is required"),
-      budget: Yup.number().required("EH budget is required"),
-      startYear: Yup.number().required("Start year is required"),
-      endYear: Yup.number()
-        .required("End year is required")
-        .min(Yup.ref("startYear")),
-      budgetPerYear: Yup.array().of(
-        Yup.number().required("Budget per year is required"),
-      ),
-    }),
-  ),
+  numberOfEHs: Yup.number().required("Number of EHs is required").min(0),
+  EH: Yup.object().shape({
+    budget: Yup.number().required("EH budget is required"),
+    startDate: Yup.date().required("Start date is required"),
+    endDate: Yup.date()
+      .required("End date is required")
+      .min(Yup.ref("startDate"), "End date must be after the start date"),
+    budgetPerYear: Yup.array().of(
+      Yup.number().required("Budget per year is required"),
+    ),
+  }),
 })
 
 const BudgetForm = () => {
@@ -29,43 +26,68 @@ const BudgetForm = () => {
       </h1>
       <Formik
         initialValues={{
-          goalBudget: 0,
           remainder: 0,
-
-          EHs: [
-            {
-              budget: 0,
-              startYear: new Date().getFullYear(),
-              endYear: new Date().getFullYear(),
-              budgetPerYear: [0],
-            },
-          ],
+          numberOfEHs: 1,
+          currentEHNumber: 0,
+          EH: {
+            budget: 0,
+            calculatedBudget: 0,
+            startDate: new Date(),
+            endDate: new Date(),
+            budgetPerYear: [0],
+            calculatedBudgetPerYear: [0],
+          },
         }}
         validationSchema={validationSchema}
         onSubmit={(values, { setSubmitting, setValues }) => {
           setSubmitting(true)
           try {
-            let remainingRemainder = values.remainder
-            const updatedEHs = values.EHs.map((eh, index) => {
-              const remainderPerEH =
-                remainingRemainder / (values.EHs.length - index)
-              remainingRemainder -= remainderPerEH
+            if (values.remainder > 0 && values.numberOfEHs > 0) {
+              const remainderPerEH = values.remainder / values.numberOfEHs
+              const newMarketBudget = values.EH.budget + remainderPerEH
 
-              const newMarketBudget = eh.budget + remainderPerEH
-              const yearCount = eh.endYear - eh.startYear + 1
-              const remainderPerEHPerYear = remainderPerEH / yearCount
+              const startDate = new Date(values.EH.startDate)
+              const endDate = new Date(values.EH.endDate)
+              const totalMonths =
+                (endDate.getFullYear() - startDate.getFullYear()) * 12 +
+                endDate.getMonth() -
+                startDate.getMonth() +
+                1
 
-              const updatedBudgetPerYear = eh.budgetPerYear.map(
-                (yearBudget) => yearBudget + remainderPerEHPerYear,
-              )
+              const remainderPerMonth = remainderPerEH / totalMonths
 
-              return {
-                ...eh,
-                budget: newMarketBudget,
-                budgetPerYear: updatedBudgetPerYear,
+              const updatedBudgetPerYear = []
+              let currentYear = startDate.getFullYear()
+              let monthsInCurrentYear = 12 - startDate.getMonth()
+
+              while (currentYear <= endDate.getFullYear()) {
+                if (currentYear === endDate.getFullYear()) {
+                  monthsInCurrentYear =
+                    endDate.getMonth() - startDate.getMonth() + 1
+                } else if (currentYear > startDate.getFullYear()) {
+                  monthsInCurrentYear = 12
+                }
+
+                const yearIndex = currentYear - startDate.getFullYear()
+                const initialBudget = values.EH.budgetPerYear[yearIndex] || 0
+                updatedBudgetPerYear[yearIndex] =
+                  initialBudget + remainderPerMonth * monthsInCurrentYear
+
+                currentYear++
               }
-            })
-            setValues({ ...values, EHs: updatedEHs, remainder: 0 })
+
+              setValues({
+                ...values,
+                EH: {
+                  ...values.EH,
+                  calculatedBudget: newMarketBudget,
+                  calculatedBudgetPerYear: updatedBudgetPerYear,
+                },
+                remainder: values.remainder - remainderPerEH,
+                numberOfEHs: values.numberOfEHs - 1,
+                currentEHNumber: values.currentEHNumber + 1,
+              })
+            }
           } catch (error) {
             console.error("Error in form submission:", error)
             alert("An error occurred while calculating the EH budget.")
@@ -74,37 +96,19 @@ const BudgetForm = () => {
           }
         }}
       >
-        {({ values, isSubmitting }) => (
+        {({ values, isSubmitting, setValues }) => (
           <Form className="mx-auto mt-8 max-w-lg space-y-6">
-            <article className="flex flex-col space-y-2 rounded-md border border-zinc-400 bg-zinc-400/20 p-4">
+            <article className="flex gap-2 rounded-md border border-zinc-400 bg-zinc-400/20 p-4">
               <div className="flex-col gap-2">
                 <div className="flex gap-2">
-                  <div className="flex w-48 items-center rounded-md border border-zinc-600 bg-zinc-400/20 px-3 py-2 font-semibold text-orange-600 dark:border-zinc-300 dark:bg-zinc-200/10">
-                    Gaol Budget :
-                  </div>
-                  <Field
-                    name="goalBudget"
-                    type="number"
-                    placeholder="Goal Budget"
-                    className="w-full rounded-md border px-3 py-2 dark:bg-zinc-500 dark:text-zinc-200"
-                  />
-                </div>
-                <ErrorMessage
-                  name="goalBudget"
-                  component="div"
-                  className="flex justify-end text-sm text-red-500"
-                />
-              </div>
-              <div className="flex-col gap-2">
-                <div className="flex gap-2">
-                  <div className="flex w-48 items-center rounded-md border border-zinc-600 bg-zinc-400/20 px-3 py-2 font-semibold text-orange-600 dark:border-zinc-300 dark:bg-zinc-200/10">
-                    Remainder :
+                  <div className="flex h-11 w-28 items-center rounded-md border border-zinc-600 bg-zinc-400/20 px-3 py-2 font-semibold text-orange-600 dark:border-zinc-300 dark:bg-zinc-200/10">
+                    Remainder:
                   </div>
                   <Field
                     name="remainder"
                     type="number"
                     placeholder="Remainder"
-                    className="w-full rounded-md border px-3 py-2 dark:bg-zinc-500 dark:text-zinc-200"
+                    className="w-44 rounded-md border px-3 py-2 dark:bg-zinc-500 dark:text-zinc-200"
                   />
                 </div>
                 <ErrorMessage
@@ -113,125 +117,157 @@ const BudgetForm = () => {
                   className="flex justify-end text-sm text-red-500"
                 />
               </div>
+              <div className="flex-col gap-2">
+                <div className="flex gap-2">
+                  <div className="flex h-11 items-center rounded-md border border-zinc-600 bg-zinc-400/20 px-3 py-2 font-semibold text-orange-600 dark:border-zinc-300 dark:bg-zinc-200/10">
+                    Nb EHs:
+                  </div>
+                  <Field
+                    name="numberOfEHs"
+                    type="number"
+                    className="w-20 rounded-md border px-3 py-2 dark:bg-zinc-500 dark:text-zinc-200"
+                  />
+                </div>
+                <ErrorMessage
+                  name="numberOfEHs"
+                  component="div"
+                  className="flex justify-end text-sm text-red-500"
+                />
+              </div>
             </article>
-            <FieldArray name="EHs">
-              {({ remove, push }) => (
-                <article className="space-y-4 rounded-md">
-                  {values.EHs.length > 0 &&
-                    values.EHs.map((EH, index) => (
-                      <div
-                        key={index}
-                        className="flex flex-col space-y-2 rounded-md border border-zinc-400 bg-zinc-400/20 p-4"
-                      >
-                        <div className="flex w-full justify-between gap-2">
-                          <div className="w-[175px] whitespace-nowrap rounded-md border border-zinc-600 bg-zinc-400/20 px-3 py-2 font-semibold text-orange-600 dark:border-zinc-300 dark:bg-zinc-200/10">
-                            EH n°{index + 1} - Budget:
-                          </div>
-                          <Field
-                            name={`EHs.${index}.budget`}
-                            type="number"
-                            placeholder="EH Budget"
-                            className="w-36 rounded-md border px-3 py-2 dark:bg-zinc-500 dark:text-zinc-200"
-                          />
-                          <div className="flex w-36 items-center justify-center rounded-md border bg-white px-3 dark:bg-zinc-500 dark:text-zinc-200">
-                            {EH.budget.toFixed(2)}
-                          </div>
-                        </div>
-                        <div className="flex gap-2">
-                          <div className="w-full whitespace-nowrap rounded-md border border-zinc-600 bg-zinc-400/20 px-3 py-2 font-semibold text-orange-600 dark:border-zinc-300 dark:bg-zinc-200/10">
-                            Market duration:
-                          </div>
-                          <div className="flex gap-2">
-                            <Field
-                              name={`EHs.${index}.startYear`}
-                              type="number"
-                              placeholder="Start Year"
-                              className="w-36 rounded-md border px-4 py-2 dark:bg-zinc-500 dark:text-zinc-200"
-                            />
-                            <Field
-                              name={`EHs.${index}.endYear`}
-                              type="number"
-                              placeholder="End Year"
-                              className="w-36 rounded-md border px-4 py-2 dark:bg-zinc-500 dark:text-zinc-200"
-                            />
-                          </div>
-                        </div>
 
-                        {EH.startYear && EH.endYear && (
-                          <FieldArray name={`EHs.${index}.budgetPerYear`}>
-                            {() => (
-                              <div className="space-y-2">
-                                {Array.from(
-                                  {
-                                    length: EH.endYear - EH.startYear + 1,
-                                  },
-                                  (_, i) => EH.startYear + i,
-                                ).map((year, yearIndex) => (
-                                  <div
-                                    key={yearIndex}
-                                    name={`EHs.${index}.budgetPerYear.${yearIndex}`}
-                                    className="flex items-center gap-4"
-                                  >
-                                    <div className="whitespace-nowrap pl-1 font-semibold text-orange-600">
-                                      Budget {year}
-                                    </div>
-                                    <Field
-                                      name={`EHs.${index}.budgetPerYear.${yearIndex}`}
-                                      type="number"
-                                      placeholder={`Budget for ${year}`}
-                                      className="w-full rounded-md border px-3 py-2 dark:bg-zinc-500 dark:text-zinc-200"
-                                    />
-                                    <div className="flex w-full items-center justify-center rounded-md border bg-white px-3 py-2 dark:bg-zinc-500 dark:text-zinc-200">
-                                      {(
-                                        EH.budgetPerYear[yearIndex] || 0
-                                      ).toFixed(2)}
-                                    </div>
-                                  </div>
-                                ))}
-                              </div>
-                            )}
-                          </FieldArray>
-                        )}
-                        <div className="flex justify-between">
-                          <button
-                            type="button"
-                            onClick={() =>
-                              push({
-                                name: "",
-                                budget: 0,
-                                startYear: new Date().getFullYear(),
-                                endYear: new Date().getFullYear(),
-                                budgetPerYear: [],
-                              })
-                            }
-                            className="rounded-md border border-zinc-600 bg-gradient-to-r px-2 py-1 font-semibold hover:border-orange-700 hover:from-orange-700 hover:via-orange-500 hover:to-orange-700 hover:text-zinc-200"
-                          >
-                            Add EH
-                          </button>
-                          <button
-                            type="button"
-                            onClick={() => remove(index)}
-                            className="rounded-md border border-red-700 bg-gradient-to-r px-2 py-1 font-semibold text-red-700 hover:border-red-700 hover:from-red-700 hover:via-red-500 hover:to-red-700 hover:text-zinc-200"
-                          >
-                            Remove
-                          </button>
+            <article className="space-y-4 rounded-md">
+              <div className="flex flex-col space-y-2 rounded-md border border-zinc-400 bg-zinc-400/20 p-4">
+                <div className="flex w-full justify-between gap-2">
+                  <div className="h-11 w-[175px] whitespace-nowrap rounded-md border border-zinc-600 bg-zinc-400/20 px-3 py-2 font-semibold text-orange-600 dark:border-zinc-300 dark:bg-zinc-200/10">
+                    EH Budget{" "}
+                    {values.currentEHNumber > 0 ? values.currentEHNumber : ""} :
+                  </div>
+                  <Field
+                    name="EH.budget"
+                    type="number"
+                    placeholder="EH Budget"
+                    className="w-36 rounded-md border px-3 py-2 dark:bg-zinc-500 dark:text-zinc-200"
+                  />
+                  <div className="flex w-36 items-center justify-center rounded-md border bg-white px-3 font-semibold text-teal-600 dark:bg-zinc-500 dark:text-teal-200">
+                    {(typeof values.EH.calculatedBudget === "number"
+                      ? values.EH.calculatedBudget
+                      : typeof values.EH.budget === "number"
+                        ? values.EH.budget
+                        : 0
+                    ).toFixed(2)}
+                  </div>
+                </div>
+                <ErrorMessage
+                  name="EH.budget"
+                  component="div"
+                  className="text-sm text-red-500"
+                />
+                <div className="flex gap-2">
+                  <div className="h-11 w-full whitespace-nowrap rounded-md border border-zinc-600 bg-zinc-400/20 px-3 py-2 font-semibold text-orange-600 dark:border-zinc-300 dark:bg-zinc-200/10">
+                    Market duration:
+                  </div>
+                  <div className="flex gap-2">
+                    <div>
+                      <DatePicker
+                        todayButton="Today"
+                        shouldCloseOnSelect={true}
+                        selected={values.EH.startDate}
+                        onChange={(date) =>
+                          setValues((prevValues) => ({
+                            ...prevValues,
+                            EH: {
+                              ...prevValues.EH,
+                              startDate: date,
+                            },
+                          }))
+                        }
+                        dateFormat="MM/yyyy"
+                        showMonthYearPicker
+                        className="w-36 rounded-md border px-4 py-2 dark:bg-zinc-500 dark:text-zinc-200"
+                        calendarClassName=""
+                      />
+                      <ErrorMessage
+                        name="EH.startDate"
+                        component="div"
+                        className="text-sm text-red-500"
+                      />
+                    </div>
+                    <div>
+                      <DatePicker
+                        todayButton="Today"
+                        shouldCloseOnSelect={true}
+                        selected={values.EH.endDate}
+                        onChange={(date) =>
+                          setValues((prevValues) => ({
+                            ...prevValues,
+                            EH: {
+                              ...prevValues.EH,
+                              endDate: date,
+                            },
+                          }))
+                        }
+                        dateFormat="MM/yyyy"
+                        showMonthYearPicker
+                        className="w-36 rounded-md border px-4 py-2 dark:bg-zinc-500 dark:text-zinc-200"
+                      />
+                      <ErrorMessage
+                        name="EH.endDate"
+                        component="div"
+                        className="text-sm text-red-500"
+                      />
+                    </div>
+                  </div>
+                </div>
+                <div className="py-1">
+                  <hr className="border-t border-zinc-400 dark:border-zinc-500" />
+                </div>
+                {values.EH.startDate && values.EH.endDate && (
+                  <div className="space-y-2">
+                    {Array.from(
+                      {
+                        length:
+                          values.EH.endDate.getFullYear() -
+                          values.EH.startDate.getFullYear() +
+                          1,
+                      },
+                      (_, i) => values.EH.startDate.getFullYear() + i,
+                    ).map((year, yearIndex) => (
+                      <div key={yearIndex} className="flex items-center gap-4">
+                        <div className="whitespace-nowrap pl-1 font-semibold text-orange-600">
+                          Budget {year}
+                        </div>
+                        <Field
+                          name={`EH.budgetPerYear.${yearIndex}`}
+                          type="number"
+                          placeholder={`Budget for ${year}`}
+                          value={values.EH.budgetPerYear[yearIndex] || 0}
+                          className="w-full rounded-md border px-3 py-2 dark:bg-zinc-500 dark:text-zinc-200"
+                        />
+                        <div className="flex w-full items-center justify-center rounded-md border bg-white px-3 py-2 font-semibold text-teal-600 dark:bg-zinc-500 dark:text-teal-200">
+                          {(
+                            values.EH.calculatedBudgetPerYear?.[yearIndex] ||
+                            values.EH.budgetPerYear[yearIndex] ||
+                            0
+                          ).toFixed(2)}
                         </div>
                       </div>
                     ))}
-                </article>
-              )}
-            </FieldArray>
+                  </div>
+                )}
+              </div>
+            </article>
             <article className="flex justify-between gap-14">
               <button
                 type="reset"
-                className="w-full rounded-md border border-zinc-900 bg-gradient-to-r from-zinc-700 via-zinc-500 to-zinc-700 px-4 py-2 font-semibold text-zinc-200 hover:from-zinc-400 hover:via-zinc-700 hover:to-zinc-400"
+                className="h-11 w-full rounded-md border border-zinc-900 bg-gradient-to-r from-zinc-700 via-zinc-500 to-zinc-700 px-4 py-2 font-semibold text-zinc-200 hover:from-zinc-400 hover:via-zinc-700 hover:to-zinc-400"
               >
                 Reset
               </button>
               <button
                 type="submit"
                 disabled={isSubmitting}
-                className="w-full rounded-md border border-teal-900 bg-gradient-to-r from-teal-700 via-teal-500 to-teal-700 px-4 py-2 font-semibold text-zinc-200 hover:from-teal-400 hover:via-teal-700 hover:to-teal-400"
+                className="h-11 w-full rounded-md border border-teal-900 bg-gradient-to-r from-teal-700 via-teal-500 to-teal-700 px-4 py-2 font-semibold text-zinc-200 hover:from-teal-400 hover:via-teal-700 hover:to-teal-400"
               >
                 {isSubmitting ? (
                   <span className="flex items-center justify-center">
