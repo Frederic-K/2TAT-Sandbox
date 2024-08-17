@@ -30,9 +30,11 @@ const BudgetForm = () => {
           numberOfEHs: 1,
           EH: {
             budget: 0,
+            calculatedBudget: 0,
             startDate: new Date(),
             endDate: new Date(),
             budgetPerYear: [0],
+            calculatedBudgetPerYear: [0],
           },
         }}
         validationSchema={validationSchema}
@@ -77,8 +79,8 @@ const BudgetForm = () => {
                 ...values,
                 EH: {
                   ...values.EH,
-                  budget: newMarketBudget,
-                  budgetPerYear: updatedBudgetPerYear,
+                  calculatedBudget: newMarketBudget,
+                  calculatedBudgetPerYear: updatedBudgetPerYear,
                 },
                 remainder: values.remainder - remainderPerEH,
                 numberOfEHs: values.numberOfEHs - 1,
@@ -145,7 +147,9 @@ const BudgetForm = () => {
                     className="w-36 rounded-md border px-3 py-2 dark:bg-zinc-500 dark:text-zinc-200"
                   />
                   <div className="flex w-36 items-center justify-center rounded-md border bg-white px-3 dark:bg-zinc-500 dark:text-zinc-200">
-                    {values.EH.budget.toFixed(2)}
+                    {(values.EH.calculatedBudget || values.EH.budget).toFixed(
+                      2,
+                    )}
                   </div>
                 </div>
                 <div className="flex gap-2">
@@ -226,7 +230,11 @@ const BudgetForm = () => {
                           className="w-full rounded-md border px-3 py-2 dark:bg-zinc-500 dark:text-zinc-200"
                         />
                         <div className="flex w-full items-center justify-center rounded-md border bg-white px-3 py-2 dark:bg-zinc-500 dark:text-zinc-200">
-                          {(values.EH.budgetPerYear[yearIndex] || 0).toFixed(2)}
+                          {(
+                            values.EH.calculatedBudgetPerYear?.[yearIndex] ||
+                            values.EH.budgetPerYear[yearIndex] ||
+                            0
+                          ).toFixed(2)}
                         </div>
                       </div>
                     ))}
