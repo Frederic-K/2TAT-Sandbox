@@ -140,7 +140,8 @@ const BudgetForm = () => {
               <div className="flex flex-col space-y-2 rounded-md border border-zinc-400 bg-zinc-400/20 p-4">
                 <div className="flex w-full justify-between gap-2">
                   <div className="h-11 w-[175px] whitespace-nowrap rounded-md border border-zinc-600 bg-zinc-400/20 px-3 py-2 font-semibold text-orange-600 dark:border-zinc-300 dark:bg-zinc-200/10">
-                    EH Budget {values.currentEHNumber}:
+                    EH Budget{" "}
+                    {values.currentEHNumber > 0 ? values.currentEHNumber : ""} :
                   </div>
                   <Field
                     name="EH.budget"
@@ -148,12 +149,20 @@ const BudgetForm = () => {
                     placeholder="EH Budget"
                     className="w-36 rounded-md border px-3 py-2 dark:bg-zinc-500 dark:text-zinc-200"
                   />
-                  <div className="flex w-36 items-center justify-center rounded-md border bg-white px-3 dark:bg-zinc-500 dark:text-zinc-200">
-                    {(values.EH.calculatedBudget || values.EH.budget).toFixed(
-                      2,
-                    )}
+                  <div className="flex w-36 items-center justify-center rounded-md border bg-white px-3 font-semibold text-teal-600 dark:bg-zinc-500 dark:text-teal-200">
+                    {(typeof values.EH.calculatedBudget === "number"
+                      ? values.EH.calculatedBudget
+                      : typeof values.EH.budget === "number"
+                        ? values.EH.budget
+                        : 0
+                    ).toFixed(2)}
                   </div>
                 </div>
+                <ErrorMessage
+                  name="EH.budget"
+                  component="div"
+                  className="text-sm text-red-500"
+                />
                 <div className="flex gap-2">
                   <div className="h-11 w-full whitespace-nowrap rounded-md border border-zinc-600 bg-zinc-400/20 px-3 py-2 font-semibold text-orange-600 dark:border-zinc-300 dark:bg-zinc-200/10">
                     Market duration:
@@ -176,7 +185,7 @@ const BudgetForm = () => {
                         dateFormat="MM/yyyy"
                         showMonthYearPicker
                         className="w-36 rounded-md border px-4 py-2 dark:bg-zinc-500 dark:text-zinc-200"
-                        calendarClassName="dark:bg-zinc-500 dark:text-zinc-200"
+                        calendarClassName=""
                       />
                       <ErrorMessage
                         name="EH.startDate"
@@ -210,7 +219,9 @@ const BudgetForm = () => {
                     </div>
                   </div>
                 </div>
-
+                <div className="py-1">
+                  <hr className="border-t border-zinc-400 dark:border-zinc-500" />
+                </div>
                 {values.EH.startDate && values.EH.endDate && (
                   <div className="space-y-2">
                     {Array.from(
@@ -233,7 +244,7 @@ const BudgetForm = () => {
                           value={values.EH.budgetPerYear[yearIndex] || 0}
                           className="w-full rounded-md border px-3 py-2 dark:bg-zinc-500 dark:text-zinc-200"
                         />
-                        <div className="flex w-full items-center justify-center rounded-md border bg-white px-3 py-2 dark:bg-zinc-500 dark:text-zinc-200">
+                        <div className="flex w-full items-center justify-center rounded-md border bg-white px-3 py-2 font-semibold text-teal-600 dark:bg-zinc-500 dark:text-teal-200">
                           {(
                             values.EH.calculatedBudgetPerYear?.[yearIndex] ||
                             values.EH.budgetPerYear[yearIndex] ||
@@ -246,7 +257,6 @@ const BudgetForm = () => {
                 )}
               </div>
             </article>
-
             <article className="flex justify-between gap-14">
               <button
                 type="reset"
