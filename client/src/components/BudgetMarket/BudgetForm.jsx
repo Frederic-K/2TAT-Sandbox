@@ -7,7 +7,7 @@ const validationSchema = Yup.object().shape({
   remainder: Yup.number().required("Remainder is required"),
   numberOfEHs: Yup.number().required("Number of EHs is required").min(0),
   EH: Yup.object().shape({
-    budget: Yup.number().required("EH budget is required"),
+    budget: Yup.number().required("EH budget is required").min(0),
     startDate: Yup.date().required("Start date is required"),
     endDate: Yup.date()
       .required("End date is required")
