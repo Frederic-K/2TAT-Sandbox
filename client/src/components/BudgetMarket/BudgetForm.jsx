@@ -124,7 +124,7 @@ const BudgetForm = () => {
       >
         {({ values, isSubmitting, setValues }) => (
           <Form className="mx-auto mt-8 max-w-lg space-y-6">
-            <article className="flex gap-2 rounded-md border border-zinc-400 bg-zinc-400/20 p-4">
+            <article className="flex justify-between gap-3 rounded-md border border-zinc-400 bg-zinc-400/20 p-4">
               <div className="flex-col gap-2">
                 <div className="flex gap-2">
                   <div className="flex h-11 w-28 items-center rounded-md border border-zinc-600 bg-zinc-400/20 px-3 py-2 font-semibold text-orange-600 dark:border-zinc-300 dark:bg-zinc-200/10">
@@ -145,7 +145,7 @@ const BudgetForm = () => {
               </div>
               <div className="flex-col gap-2">
                 <div className="flex gap-2">
-                  <div className="flex h-11 items-center rounded-md border border-zinc-600 bg-zinc-400/20 px-3 py-2 font-semibold text-orange-600 dark:border-zinc-300 dark:bg-zinc-200/10">
+                  <div className="flex h-11 items-center whitespace-nowrap rounded-md border border-zinc-600 bg-zinc-400/20 px-3 py-2 font-semibold text-orange-600 dark:border-zinc-300 dark:bg-zinc-200/10">
                     Nb EHs:
                   </div>
                   <Field
