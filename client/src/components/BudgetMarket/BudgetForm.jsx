@@ -1,24 +1,23 @@
 import Decimal from "decimal.js"
 import { Formik, Form, Field, ErrorMessage } from "formik"
-import * as Yup from "yup"
+import { validationSchema } from "../../service/validation/MarketOverrunValidation"
 import DatePicker from "react-datepicker"
 import "react-datepicker/dist/react-datepicker.css"
 import Tooltip from "../Tooltip/Tooltip"
 
-const validationSchema = Yup.object().shape({
-  remainder: Yup.string().required("Remainder is required"),
-  numberOfEHs: Yup.number().required("Number of EHs is required").min(0),
-  EH: Yup.object().shape({
-    budget: Yup.string().required("EH budget is required"),
-    startDate: Yup.date().required("Start date is required"),
-    endDate: Yup.date()
-      .required("End date is required")
-      .min(Yup.ref("startDate"), "End date must be after the start date"),
-    budgetPerYear: Yup.array().of(
-      Yup.string().required("Budget per year is required"),
-    ),
-  }),
-})
+const INITIAL_VALUES = {
+  remainder: "0",
+  numberOfEHs: 1,
+  currentEHNumber: 0,
+  EH: {
+    budget: "0",
+    calculatedBudget: "0",
+    startDate: new Date(),
+    endDate: new Date(),
+    budgetPerYear: ["0"],
+    calculatedBudgetPerYear: ["0"],
+  },
+}
 
 const BudgetForm = () => {
   return (
@@ -27,19 +26,7 @@ const BudgetForm = () => {
         Market Overrun Calculator
       </h1>
       <Formik
-        initialValues={{
-          remainder: "0",
-          numberOfEHs: 1,
-          currentEHNumber: 0,
-          EH: {
-            budget: "0",
-            calculatedBudget: "0",
-            startDate: new Date(),
-            endDate: new Date(),
-            budgetPerYear: ["0"],
-            calculatedBudgetPerYear: ["0"],
-          },
-        }}
+        initialValues={INITIAL_VALUES}
         validationSchema={validationSchema}
         // "penny pinching" algorithm
         onSubmit={(values, { setSubmitting, setValues }) => {
