@@ -8,6 +8,8 @@ import Tooltip from "../Tooltip/Tooltip"
 import { LuListRestart } from "react-icons/lu"
 import { MdCalculate } from "react-icons/md"
 import Title from "../PageTitle/PageTtile"
+import CustomDatePicker from "../CustomDatePicker/CustomDatePicker"
+import YearlyBudgetInputs from "../YearlyBudgetInputs/YearlyBudgetInputs"
 
 const INITIAL_VALUES = {
   remainder: "0",
@@ -100,7 +102,7 @@ const BudgetForm = () => {
               <div className="flex flex-col space-y-2 rounded-md border border-zinc-400 bg-zinc-400/20 p-4">
                 <div className="flex w-full justify-between gap-2">
                   <div className="h-11 w-[175px] whitespace-nowrap rounded-md border border-zinc-600 bg-zinc-400/20 px-3 py-2 font-semibold text-orange-600 dark:border-zinc-300 dark:bg-zinc-200/10">
-                    EH Budget{" "}
+                    EH Budget
                     {values.currentEHNumber > 0 ? values.currentEHNumber : ""} :
                   </div>
                   <Field
@@ -131,98 +133,43 @@ const BudgetForm = () => {
                     Market duration:
                   </div>
                   <div className="flex gap-2">
-                    <div>
-                      <DatePicker
-                        todayButton="Today"
-                        shouldCloseOnSelect={true}
-                        selected={values.EH.startDate}
-                        onChange={(date) =>
-                          setValues((prevValues) => ({
-                            ...prevValues,
-                            EH: {
-                              ...prevValues.EH,
-                              startDate: date,
-                            },
-                          }))
-                        }
-                        dateFormat="MM/yyyy"
-                        showMonthYearPicker
-                        className="h-11 w-36 rounded-md border px-4 py-2 dark:bg-zinc-500 dark:text-zinc-200"
-                        calendarClassName=""
-                      />
-                      <ErrorMessage
-                        name="EH.startDate"
-                        component="div"
-                        className="text-sm text-red-500"
-                      />
-                    </div>
-                    <div>
-                      <DatePicker
-                        todayButton="Today"
-                        shouldCloseOnSelect={true}
-                        selected={values.EH.endDate}
-                        onChange={(date) =>
-                          setValues((prevValues) => ({
-                            ...prevValues,
-                            EH: {
-                              ...prevValues.EH,
-                              endDate: date,
-                            },
-                          }))
-                        }
-                        dateFormat="MM/yyyy"
-                        showMonthYearPicker
-                        className="h-11 w-36 rounded-md border px-4 py-2 dark:bg-zinc-500 dark:text-zinc-200"
-                      />
-                      <ErrorMessage
-                        name="EH.endDate"
-                        component="div"
-                        className="text-sm text-red-500"
-                      />
-                    </div>
+                    <CustomDatePicker
+                      selected={values.EH.startDate}
+                      onChange={(date) => {
+                        setValues((prevValues) => ({
+                          ...prevValues,
+                          EH: {
+                            ...prevValues.EH,
+                            startDate: date,
+                          },
+                        }))
+                      }}
+                      name="EH.startDate"
+                    />
+                    <CustomDatePicker
+                      selected={values.EH.endDate}
+                      onChange={(date) => {
+                        setValues((prevValues) => ({
+                          ...prevValues,
+                          EH: {
+                            ...prevValues.EH,
+                            endDate: date,
+                          },
+                        }))
+                      }}
+                      name="EH.endDate"
+                    />
                   </div>
                 </div>
                 <div className="py-1">
                   <hr className="border-t border-zinc-400 dark:border-zinc-500" />
                 </div>
-                {values.EH.startDate && values.EH.endDate && (
-                  <div className="space-y-2">
-                    {Array.from(
-                      {
-                        length:
-                          values.EH.endDate.getFullYear() -
-                          values.EH.startDate.getFullYear() +
-                          1,
-                      },
-                      (_, i) => values.EH.startDate.getFullYear() + i,
-                    ).map((year, yearIndex) => (
-                      <div key={yearIndex} className="flex items-center gap-2">
-                        <div className="w-44 whitespace-nowrap pl-1 font-semibold text-orange-600">
-                          Budget {year}
-                        </div>
-                        <Field
-                          name={`EH.budgetPerYear.${yearIndex}`}
-                          type="number"
-                          placeholder={`Budget for ${year}`}
-                          value={values.EH.budgetPerYear[yearIndex] || 0}
-                          className="h-11 w-36 rounded-md border px-3 py-2 dark:bg-zinc-500 dark:text-zinc-200"
-                        />
-                        <Tooltip
-                          content={new Decimal(
-                            values.EH.calculatedBudgetPerYear?.[yearIndex] || 0,
-                          ).toString()}
-                        >
-                          <div className="flex h-11 w-36 items-center justify-center rounded-md border bg-white px-3 py-2 font-semibold text-teal-600 dark:bg-zinc-500 dark:text-teal-200">
-                            {new Decimal(
-                              values.EH.calculatedBudgetPerYear?.[yearIndex] ||
-                                0,
-                            ).toFixed(2)}
-                          </div>
-                        </Tooltip>
-                      </div>
-                    ))}
-                  </div>
-                )}
+                <YearlyBudgetInputs
+                  startDate={values.EH.startDate}
+                  endDate={values.EH.endDate}
+                  budgetPerYear={values.EH.budgetPerYear}
+                  calculatedBudgetPerYear={values.EH.calculatedBudgetPerYear}
+                />
               </div>
             </article>
             <article className="flex justify-between gap-14">
