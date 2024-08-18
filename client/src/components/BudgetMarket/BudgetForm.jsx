@@ -4,6 +4,8 @@ import { validationSchema } from "../../service/validation/MarketOverrunValidati
 import DatePicker from "react-datepicker"
 import "react-datepicker/dist/react-datepicker.css"
 import Tooltip from "../Tooltip/Tooltip"
+import { LuListRestart } from "react-icons/lu"
+import { MdCalculate } from "react-icons/md"
 
 const INITIAL_VALUES = {
   remainder: "0",
@@ -281,14 +283,14 @@ const BudgetForm = () => {
             <article className="flex justify-between gap-14">
               <button
                 type="reset"
-                className="h-11 w-full rounded-md border border-zinc-900 bg-gradient-to-r from-zinc-700 via-zinc-500 to-zinc-700 px-4 py-2 font-semibold text-zinc-200 hover:from-zinc-400 hover:via-zinc-700 hover:to-zinc-400"
+                className="flex h-11 w-full items-center justify-center gap-4 rounded-md border border-zinc-900 bg-gradient-to-r from-zinc-700 via-zinc-500 to-zinc-700 px-4 py-2 text-lg font-semibold text-zinc-200 hover:from-zinc-400 hover:via-zinc-700 hover:to-zinc-400"
               >
-                Reset
+                <LuListRestart className="size-6" /> Reset
               </button>
               <button
                 type="submit"
                 disabled={isSubmitting}
-                className="h-11 w-full rounded-md border border-teal-900 bg-gradient-to-r from-teal-700 via-teal-500 to-teal-700 px-4 py-2 font-semibold text-zinc-200 hover:from-teal-400 hover:via-teal-700 hover:to-teal-400"
+                className="flex h-11 w-full items-center justify-center gap-4 rounded-md border border-teal-900 bg-gradient-to-r from-teal-700 via-teal-500 to-teal-700 px-4 py-2 text-lg font-semibold text-zinc-200 hover:from-teal-400 hover:via-teal-700 hover:to-teal-400"
               >
                 {isSubmitting ? (
                   <span className="flex items-center justify-center">
@@ -313,7 +315,10 @@ const BudgetForm = () => {
                     Calculating...
                   </span>
                 ) : (
-                  "Calculate"
+                  <>
+                    <MdCalculate className="size-6" />
+                    Calculate
+                  </>
                 )}
               </button>
             </article>
