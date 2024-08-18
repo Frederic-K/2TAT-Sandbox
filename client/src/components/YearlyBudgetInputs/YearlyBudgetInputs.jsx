@@ -1,4 +1,3 @@
-import React from "react"
 import { Field } from "formik"
 import Decimal from "decimal.js"
 import Tooltip from "../Tooltip/Tooltip"
