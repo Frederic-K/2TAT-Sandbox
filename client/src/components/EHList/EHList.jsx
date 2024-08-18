@@ -63,13 +63,13 @@ const EHList = () => {
               />
               <button
                 onClick={() => resetEH(index)}
-                className="flex size-8 items-center justify-center rounded-full bg-yellow-500 text-zinc-200"
+                className="flex size-8 items-center justify-center rounded-full bg-yellow-500 text-zinc-200 hover:bg-yellow-700"
               >
                 <VscDebugRestart className="size-4" />
               </button>
               <button
                 onClick={() => removeEH(index)}
-                className="flex size-8 items-center justify-center rounded-full bg-red-500 text-zinc-200"
+                className="flex size-8 items-center justify-center rounded-full bg-red-500 text-zinc-200 hover:bg-red-700"
               >
                 <IoIosRemoveCircle className="size-4" />
               </button>
@@ -78,13 +78,13 @@ const EHList = () => {
           <div className="flex space-x-2">
             <button
               onClick={addEH}
-              className="flex size-8 items-center justify-center rounded-md bg-green-500 text-zinc-200"
+              className="flex size-8 items-center justify-center rounded-md bg-teal-500 hover:bg-teal-700"
             >
               <IoMdAddCircle className="size-4" />
             </button>
             <button
               onClick={resetAll}
-              className="flex size-8 items-center justify-center rounded-md bg-gray-500 text-zinc-200"
+              className="flex size-8 items-center justify-center rounded-md bg-gray-500 text-zinc-200 hover:bg-orange-700"
             >
               <LuListRestart className="size-4" />
             </button>

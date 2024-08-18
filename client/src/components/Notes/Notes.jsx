@@ -1,9 +1,14 @@
 import { useState } from "react"
 import { MdKeyboardArrowDown } from "react-icons/md"
+import { LuListRestart } from "react-icons/lu"
 
 const Notes = () => {
   const [isOpen, setIsOpen] = useState(false)
   const [notes, setNotes] = useState("")
+
+  const handleReset = () => {
+    setNotes("")
+  }
 
   return (
     <div className="mx-auto mt-8 max-w-lg rounded-md border border-zinc-400 bg-zinc-400/20">
@@ -31,6 +36,14 @@ const Notes = () => {
             className="w-full rounded-md border p-2 dark:bg-zinc-500 dark:text-zinc-200"
             rows="4"
           />
+          <div className="mt-2 flex justify-end">
+            <button
+              onClick={handleReset}
+              className="rounded-md bg-gray-500 px-2 py-2 text-zinc-200 hover:bg-orange-700"
+            >
+              <LuListRestart className="size-4" />
+            </button>
+          </div>
         </div>
       </div>
     </div>
