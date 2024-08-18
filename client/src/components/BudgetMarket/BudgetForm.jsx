@@ -1,11 +1,13 @@
 import Decimal from "decimal.js"
 import { Formik, Form, Field, ErrorMessage } from "formik"
 import { validationSchema } from "../../service/validation/MarketOverrunValidation"
+import { calculateBudget } from "../../service/budgetCalculationService"
 import DatePicker from "react-datepicker"
 import "react-datepicker/dist/react-datepicker.css"
 import Tooltip from "../Tooltip/Tooltip"
 import { LuListRestart } from "react-icons/lu"
 import { MdCalculate } from "react-icons/md"
+import Title from "../PageTitle/PageTtile"
 
 const INITIAL_VALUES = {
   remainder: "0",
@@ -24,9 +26,7 @@ const INITIAL_VALUES = {
 const BudgetForm = () => {
   return (
     <>
-      <h1 className="mx-auto flex max-w-lg justify-center rounded-md border border-zinc-400 bg-zinc-400/20 bg-gradient-to-r from-orange-700 via-orange-400 to-orange-700 bg-clip-text p-2 text-2xl font-bold text-transparent dark:bg-zinc-200/10">
-        Market Overrun Calculator
-      </h1>
+      <Title content={"Market Overrun Calculator"} />
       <Formik
         initialValues={INITIAL_VALUES}
         validationSchema={validationSchema}
@@ -34,73 +34,18 @@ const BudgetForm = () => {
         onSubmit={(values, { setSubmitting, setValues }) => {
           setSubmitting(true)
           try {
-            if (new Decimal(values.remainder).gt(0) && values.numberOfEHs > 0) {
-              const remainderPerEH = new Decimal(values.remainder).div(
-                values.numberOfEHs,
-              )
-              const newEHsBudget = new Decimal(values.EH.budget).plus(
-                remainderPerEH,
-              )
-
-              const startDate = new Date(values.EH.startDate)
-              const endDate = new Date(values.EH.endDate)
-              const totalMonths = new Decimal(
-                (endDate.getFullYear() - startDate.getFullYear()) * 12 +
-                  endDate.getMonth() -
-                  startDate.getMonth() +
-                  1,
-              )
-
-              const remainderPerMonth = remainderPerEH.div(totalMonths)
-
-              const updatedBudgetPerYear = []
-              let currentYear = startDate.getFullYear()
-              let monthsInCurrentYear = 12 - startDate.getMonth()
-              let accumulatedFraction = new Decimal(0)
-
-              while (currentYear <= endDate.getFullYear()) {
-                if (currentYear === endDate.getFullYear()) {
-                  monthsInCurrentYear =
-                    endDate.getMonth() - startDate.getMonth() + 1
-                } else if (currentYear > startDate.getFullYear()) {
-                  monthsInCurrentYear = 12
-                }
-
-                const yearIndex = currentYear - startDate.getFullYear()
-                const initialBudget = new Decimal(
-                  values.EH.budgetPerYear[yearIndex] || 0,
-                )
-                const yearBudget = initialBudget.plus(
-                  remainderPerMonth.times(monthsInCurrentYear),
-                )
-
-                updatedBudgetPerYear[yearIndex] = yearBudget.floor()
-                accumulatedFraction = accumulatedFraction.plus(
-                  yearBudget.minus(updatedBudgetPerYear[yearIndex]),
-                )
-
-                currentYear++
-              }
-
-              // Add accumulated fraction to the last year's budget
-              const lastIndex = updatedBudgetPerYear.length - 1
-              updatedBudgetPerYear[lastIndex] =
-                updatedBudgetPerYear[lastIndex].plus(accumulatedFraction)
-
+            const result = calculateBudget(values)
+            if (result) {
               setValues({
                 ...values,
                 EH: {
                   ...values.EH,
-                  calculatedBudget: newEHsBudget.toString(),
-                  calculatedBudgetPerYear: updatedBudgetPerYear.map((d) =>
-                    d.toString(),
-                  ),
+                  calculatedBudget: result.calculatedBudget,
+                  calculatedBudgetPerYear: result.calculatedBudgetPerYear,
                 },
-                remainder: new Decimal(values.remainder)
-                  .minus(remainderPerEH)
-                  .toString(),
-                numberOfEHs: values.numberOfEHs - 1,
-                currentEHNumber: values.currentEHNumber + 1,
+                remainder: result.remainder,
+                numberOfEHs: result.numberOfEHs,
+                currentEHNumber: result.currentEHNumber,
               })
             }
           } catch (error) {
