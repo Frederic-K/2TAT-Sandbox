@@ -1,19 +1,21 @@
+import Decimal from "decimal.js"
 import { Formik, Form, Field, ErrorMessage } from "formik"
 import * as Yup from "yup"
 import DatePicker from "react-datepicker"
 import "react-datepicker/dist/react-datepicker.css"
+import Tooltip from "../Tooltip/Tooltip"
 
 const validationSchema = Yup.object().shape({
-  remainder: Yup.number().required("Remainder is required"),
+  remainder: Yup.string().required("Remainder is required"),
   numberOfEHs: Yup.number().required("Number of EHs is required").min(0),
   EH: Yup.object().shape({
-    budget: Yup.number().required("EH budget is required").min(0),
+    budget: Yup.string().required("EH budget is required"),
     startDate: Yup.date().required("Start date is required"),
     endDate: Yup.date()
       .required("End date is required")
       .min(Yup.ref("startDate"), "End date must be after the start date"),
     budgetPerYear: Yup.array().of(
-      Yup.number().required("Budget per year is required"),
+      Yup.string().required("Budget per year is required"),
     ),
   }),
 })
@@ -26,39 +28,46 @@ const BudgetForm = () => {
       </h1>
       <Formik
         initialValues={{
-          remainder: 0,
+          remainder: "0",
           numberOfEHs: 1,
           currentEHNumber: 0,
           EH: {
-            budget: 0,
-            calculatedBudget: 0,
+            budget: "0",
+            calculatedBudget: "0",
             startDate: new Date(),
             endDate: new Date(),
-            budgetPerYear: [0],
-            calculatedBudgetPerYear: [0],
+            budgetPerYear: ["0"],
+            calculatedBudgetPerYear: ["0"],
           },
         }}
         validationSchema={validationSchema}
+        // "penny pinching" algorithm
         onSubmit={(values, { setSubmitting, setValues }) => {
           setSubmitting(true)
           try {
-            if (values.remainder > 0 && values.numberOfEHs > 0) {
-              const remainderPerEH = values.remainder / values.numberOfEHs
-              const newMarketBudget = values.EH.budget + remainderPerEH
+            if (new Decimal(values.remainder).gt(0) && values.numberOfEHs > 0) {
+              const remainderPerEH = new Decimal(values.remainder).div(
+                values.numberOfEHs,
+              )
+              const newEHsBudget = new Decimal(values.EH.budget).plus(
+                remainderPerEH,
+              )
 
               const startDate = new Date(values.EH.startDate)
               const endDate = new Date(values.EH.endDate)
-              const totalMonths =
+              const totalMonths = new Decimal(
                 (endDate.getFullYear() - startDate.getFullYear()) * 12 +
-                endDate.getMonth() -
-                startDate.getMonth() +
-                1
+                  endDate.getMonth() -
+                  startDate.getMonth() +
+                  1,
+              )
 
-              const remainderPerMonth = remainderPerEH / totalMonths
+              const remainderPerMonth = remainderPerEH.div(totalMonths)
 
               const updatedBudgetPerYear = []
               let currentYear = startDate.getFullYear()
               let monthsInCurrentYear = 12 - startDate.getMonth()
+              let accumulatedFraction = new Decimal(0)
 
               while (currentYear <= endDate.getFullYear()) {
                 if (currentYear === endDate.getFullYear()) {
@@ -69,21 +78,38 @@ const BudgetForm = () => {
                 }
 
                 const yearIndex = currentYear - startDate.getFullYear()
-                const initialBudget = values.EH.budgetPerYear[yearIndex] || 0
-                updatedBudgetPerYear[yearIndex] =
-                  initialBudget + remainderPerMonth * monthsInCurrentYear
+                const initialBudget = new Decimal(
+                  values.EH.budgetPerYear[yearIndex] || 0,
+                )
+                const yearBudget = initialBudget.plus(
+                  remainderPerMonth.times(monthsInCurrentYear),
+                )
+
+                updatedBudgetPerYear[yearIndex] = yearBudget.floor()
+                accumulatedFraction = accumulatedFraction.plus(
+                  yearBudget.minus(updatedBudgetPerYear[yearIndex]),
+                )
 
                 currentYear++
               }
+
+              // Add accumulated fraction to the last year's budget
+              const lastIndex = updatedBudgetPerYear.length - 1
+              updatedBudgetPerYear[lastIndex] =
+                updatedBudgetPerYear[lastIndex].plus(accumulatedFraction)
 
               setValues({
                 ...values,
                 EH: {
                   ...values.EH,
-                  calculatedBudget: newMarketBudget,
-                  calculatedBudgetPerYear: updatedBudgetPerYear,
+                  calculatedBudget: newEHsBudget.toString(),
+                  calculatedBudgetPerYear: updatedBudgetPerYear.map((d) =>
+                    d.toString(),
+                  ),
                 },
-                remainder: values.remainder - remainderPerEH,
+                remainder: new Decimal(values.remainder)
+                  .minus(remainderPerEH)
+                  .toString(),
                 numberOfEHs: values.numberOfEHs - 1,
                 currentEHNumber: values.currentEHNumber + 1,
               })
@@ -149,14 +175,17 @@ const BudgetForm = () => {
                     placeholder="EH Budget"
                     className="w-36 rounded-md border px-3 py-2 dark:bg-zinc-500 dark:text-zinc-200"
                   />
-                  <div className="flex w-36 items-center justify-center rounded-md border bg-white px-3 font-semibold text-teal-600 dark:bg-zinc-500 dark:text-teal-200">
-                    {(typeof values.EH.calculatedBudget === "number"
-                      ? values.EH.calculatedBudget
-                      : typeof values.EH.budget === "number"
-                        ? values.EH.budget
-                        : 0
-                    ).toFixed(2)}
-                  </div>
+                  <Tooltip
+                    content={new Decimal(
+                      values.EH.calculatedBudget || values.EH.budget || 0,
+                    ).toString()}
+                  >
+                    <div className="flex h-11 w-36 items-center justify-center rounded-md border bg-white px-3 font-semibold text-teal-600 dark:bg-zinc-500 dark:text-teal-200">
+                      {new Decimal(
+                        values.EH.calculatedBudget || values.EH.budget || 0,
+                      ).toFixed(2)}
+                    </div>
+                  </Tooltip>
                 </div>
                 <ErrorMessage
                   name="EH.budget"
@@ -184,7 +213,7 @@ const BudgetForm = () => {
                         }
                         dateFormat="MM/yyyy"
                         showMonthYearPicker
-                        className="w-36 rounded-md border px-4 py-2 dark:bg-zinc-500 dark:text-zinc-200"
+                        className="h-11 w-36 rounded-md border px-4 py-2 dark:bg-zinc-500 dark:text-zinc-200"
                         calendarClassName=""
                       />
                       <ErrorMessage
@@ -209,7 +238,7 @@ const BudgetForm = () => {
                         }
                         dateFormat="MM/yyyy"
                         showMonthYearPicker
-                        className="w-36 rounded-md border px-4 py-2 dark:bg-zinc-500 dark:text-zinc-200"
+                        className="h-11 w-36 rounded-md border px-4 py-2 dark:bg-zinc-500 dark:text-zinc-200"
                       />
                       <ErrorMessage
                         name="EH.endDate"
@@ -233,8 +262,8 @@ const BudgetForm = () => {
                       },
                       (_, i) => values.EH.startDate.getFullYear() + i,
                     ).map((year, yearIndex) => (
-                      <div key={yearIndex} className="flex items-center gap-4">
-                        <div className="whitespace-nowrap pl-1 font-semibold text-orange-600">
+                      <div key={yearIndex} className="flex items-center gap-2">
+                        <div className="w-44 whitespace-nowrap pl-1 font-semibold text-orange-600">
                           Budget {year}
                         </div>
                         <Field
@@ -242,15 +271,23 @@ const BudgetForm = () => {
                           type="number"
                           placeholder={`Budget for ${year}`}
                           value={values.EH.budgetPerYear[yearIndex] || 0}
-                          className="w-full rounded-md border px-3 py-2 dark:bg-zinc-500 dark:text-zinc-200"
+                          className="h-11 w-36 rounded-md border px-3 py-2 dark:bg-zinc-500 dark:text-zinc-200"
                         />
-                        <div className="flex w-full items-center justify-center rounded-md border bg-white px-3 py-2 font-semibold text-teal-600 dark:bg-zinc-500 dark:text-teal-200">
-                          {(
+                        <Tooltip
+                          content={new Decimal(
                             values.EH.calculatedBudgetPerYear?.[yearIndex] ||
-                            values.EH.budgetPerYear[yearIndex] ||
-                            0
-                          ).toFixed(2)}
-                        </div>
+                              values.EH.budgetPerYear[yearIndex] ||
+                              0,
+                          ).toString()}
+                        >
+                          <div className="flex h-11 w-36 items-center justify-center rounded-md border bg-white px-3 py-2 font-semibold text-teal-600 dark:bg-zinc-500 dark:text-teal-200">
+                            {new Decimal(
+                              values.EH.calculatedBudgetPerYear?.[yearIndex] ||
+                                values.EH.budgetPerYear[yearIndex] ||
+                                0,
+                            ).toFixed(2)}
+                          </div>
+                        </Tooltip>
                       </div>
                     ))}
                   </div>
