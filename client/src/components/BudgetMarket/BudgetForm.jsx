@@ -275,15 +275,12 @@ const BudgetForm = () => {
                         />
                         <Tooltip
                           content={new Decimal(
-                            values.EH.calculatedBudgetPerYear?.[yearIndex] ||
-                              values.EH.budgetPerYear[yearIndex] ||
-                              0,
+                            values.EH.calculatedBudgetPerYear?.[yearIndex] || 0,
                           ).toString()}
                         >
                           <div className="flex h-11 w-36 items-center justify-center rounded-md border bg-white px-3 py-2 font-semibold text-teal-600 dark:bg-zinc-500 dark:text-teal-200">
                             {new Decimal(
                               values.EH.calculatedBudgetPerYear?.[yearIndex] ||
-                                values.EH.budgetPerYear[yearIndex] ||
                                 0,
                             ).toFixed(2)}
                           </div>
