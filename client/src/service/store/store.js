@@ -10,6 +10,8 @@ import {
 } from "redux-persist"
 import storage from "redux-persist/lib/storage"
 import themeReducer from "../slices/themeSlice"
+import ehListReducer from "../slices/ehListSlice"
+import notesReducer from "../slices/notesSlice"
 
 const persistConfig = {
   key: "root",
@@ -17,10 +19,14 @@ const persistConfig = {
 }
 
 const persistedThemeReducer = persistReducer(persistConfig, themeReducer)
+const persistedEhListReducer = persistReducer(persistConfig, ehListReducer)
+const persistedNotesReducer = persistReducer(persistConfig, notesReducer)
 
 export const store = configureStore({
   reducer: {
     theme: persistedThemeReducer,
+    ehList: persistedEhListReducer,
+    notes: persistedNotesReducer,
   },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware({
