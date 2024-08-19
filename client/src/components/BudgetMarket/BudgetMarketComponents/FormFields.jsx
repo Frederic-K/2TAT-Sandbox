@@ -17,8 +17,8 @@ const FormFields = ({ values, setValues }) => {
   }
 
   const renderField = (name, label, placeholder, labelWidth, width) => (
-    <div className="flex-col gap-2">
-      <div className="flex gap-2">
+    <div className="grid gap-2">
+      <div className="grid grid-cols-[auto,1fr] gap-2">
         <div
           className={`${labelWidth} flex h-11 items-center whitespace-nowrap rounded-md border border-zinc-600 bg-zinc-400/20 px-3 py-2 font-semibold text-orange-600 dark:border-zinc-300 dark:bg-zinc-200/10`}
         >
@@ -34,27 +34,27 @@ const FormFields = ({ values, setValues }) => {
       <ErrorMessage
         name={name}
         component="div"
-        className="flex justify-end text-sm text-red-500"
+        className="text-right text-sm text-red-500"
       />
     </div>
   )
 
   return (
     <>
-      <article className="flex justify-between gap-3 rounded-md border border-zinc-400 bg-zinc-400/20 p-4">
-        {renderField("remainder", "Remainder:", "Remainder", null, "w-44")}
-        {renderField("numberOfEHs", "Nb EHs:", null, null, "w-20")}
+      <article className="grid grid-cols-1 gap-3 rounded-md border border-zinc-400 bg-zinc-400/20 p-4 sm:grid-cols-[2fr,1fr]">
+        {renderField("remainder", "Remainder:", "Remainder", null, "w-full")}
+        {renderField("numberOfEHs", "Nb EHs:", null, null, "w-full")}
       </article>
 
-      <article className="space-y-4 rounded-md">
-        <div className="flex flex-col space-y-2 rounded-md border border-zinc-400 bg-zinc-400/20 p-4">
-          <div className="flex w-full justify-between gap-2">
+      <article className="grid gap-4 rounded-md">
+        <div className="grid gap-2 rounded-md border border-zinc-400 bg-zinc-400/20 p-4">
+          <div className="grid grid-cols-[1fr,auto] gap-2">
             {renderField(
               "EH.budget",
               `EH Budget${values.currentEHNumber > 0 ? ` ${values.currentEHNumber}` : ""}:`,
               "Enter budget",
-              "w-44",
-              "w-36",
+              "w-full",
+              "w-full",
             )}
             <Tooltip
               content={formatNumber(
@@ -72,11 +72,11 @@ const FormFields = ({ values, setValues }) => {
               </div>
             </Tooltip>
           </div>
-          <div className="flex gap-2">
+          <div className="grid grid-cols-[auto,1fr] gap-2">
             <div className="h-11 w-44 whitespace-nowrap rounded-md border border-zinc-600 bg-zinc-400/20 px-3 py-2 font-semibold text-orange-600 dark:border-zinc-300 dark:bg-zinc-200/10">
               Market duration:
             </div>
-            <div className="flex gap-2">
+            <div className="grid grid-cols-2 gap-2">
               <CustomDatePicker
                 selected={values.EH.startDate}
                 onChange={handleDateChange("startDate")}
