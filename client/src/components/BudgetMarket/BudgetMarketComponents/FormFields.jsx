@@ -42,8 +42,20 @@ const FormFields = ({ values, setValues }) => {
   return (
     <>
       <article className="grid grid-cols-1 gap-3 rounded-md border border-zinc-400 bg-zinc-400/20 p-4 sm:grid-cols-[2fr,1fr]">
-        {renderField("remainder", "Remainder:", "Remainder", null, "w-full")}
-        {renderField("numberOfEHs", "Nb EHs:", null, null, "w-full")}
+        {renderField(
+          "remainder",
+          "Remainder:",
+          "Remainder",
+          "w-32 sm:w-full",
+          "w-full",
+        )}
+        {renderField(
+          "numberOfEHs",
+          "Nb EHs:",
+          null,
+          "w-32 sm:w-full",
+          "w-full",
+        )}
       </article>
 
       <article className="grid gap-4 rounded-md">
