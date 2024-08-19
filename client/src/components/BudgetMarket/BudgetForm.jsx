@@ -61,11 +61,12 @@ const BudgetForm = () => {
             <div className="flex justify-between gap-14">
               <button
                 type="reset"
+                tabIndex={2}
                 className="flex h-11 w-full items-center justify-center gap-4 rounded-md border border-zinc-900 bg-gradient-to-r from-zinc-700 via-zinc-500 to-zinc-700 px-4 py-2 text-lg font-semibold text-zinc-200 hover:from-zinc-400 hover:via-zinc-700 hover:to-zinc-400"
               >
                 <LuListRestart className="size-6" /> Reset
               </button>
-              <SubmitButton isSubmitting={isSubmitting} />
+              <SubmitButton isSubmitting={isSubmitting} tabIndex={1} />
             </div>
           </Form>
         )}

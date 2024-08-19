@@ -3,6 +3,7 @@ import Decimal from "decimal.js"
 import Tooltip from "../../Tooltip/Tooltip"
 import CustomDatePicker from "../../CustomDatePicker/CustomDatePicker"
 import YearlyBudgetInputs from "../../YearlyBudgetInputs/YearlyBudgetInputs"
+import { formatNumber } from "../../../service/numberFormatService"
 
 const FormFields = ({ values, setValues }) => {
   const handleDateChange = (field) => (date) => {
@@ -56,14 +57,18 @@ const FormFields = ({ values, setValues }) => {
               "w-36",
             )}
             <Tooltip
-              content={new Decimal(
-                values.EH.calculatedBudget || values.EH.budget || 0,
-              ).toString()}
+              content={formatNumber(
+                new Decimal(
+                  values.EH.calculatedBudget || values.EH.budget || 0,
+                ),
+              )}
             >
               <div className="flex h-11 w-36 items-center justify-center rounded-md border bg-white px-3 font-semibold text-teal-600 dark:bg-zinc-500 dark:text-teal-200">
-                {new Decimal(
-                  values.EH.calculatedBudget || values.EH.budget || 0,
-                ).toFixed(2)}
+                {formatNumber(
+                  new Decimal(
+                    values.EH.calculatedBudget || values.EH.budget || 0,
+                  ).toFixed(2),
+                )}
               </div>
             </Tooltip>
           </div>

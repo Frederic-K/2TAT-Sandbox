@@ -1,6 +1,7 @@
 import { Field } from "formik"
 import Decimal from "decimal.js"
 import Tooltip from "../Tooltip/Tooltip"
+import { formatNumber } from "../../service/numberFormatService"
 
 const YearlyBudgetInputs = ({
   startDate,
@@ -24,19 +25,22 @@ const YearlyBudgetInputs = ({
           </div>
           <Field
             name={`EH.budgetPerYear.${yearIndex}`}
-            type="number"
+            type="text"
+            inputMode="decimal"
             placeholder={`Budget for ${year}`}
             value={budgetPerYear[yearIndex] || 0}
             className="h-11 w-36 rounded-md border px-3 py-2 dark:bg-zinc-500 dark:text-zinc-200"
           />
           <Tooltip
-            content={new Decimal(
-              calculatedBudgetPerYear?.[yearIndex] || 0,
-            ).toString()}
+            content={formatNumber(
+              new Decimal(calculatedBudgetPerYear?.[yearIndex] || 0),
+            )}
           >
             <div className="flex h-11 w-36 items-center justify-center rounded-md border bg-white px-3 py-2 font-semibold text-teal-600 dark:bg-zinc-500 dark:text-teal-200">
-              {new Decimal(calculatedBudgetPerYear?.[yearIndex] || 0).toFixed(
-                2,
+              {formatNumber(
+                new Decimal(calculatedBudgetPerYear?.[yearIndex] || 0).toFixed(
+                  2,
+                ),
               )}
             </div>
           </Tooltip>
