@@ -65,8 +65,8 @@ const FormFields = ({ values, setValues }) => {
               "EH.budget",
               `EH Budget${values.currentEHNumber > 0 ? ` ${values.currentEHNumber}` : ""}:`,
               "Enter budget",
-              "w-full",
-              "w-full",
+              "w-44",
+              "w-36",
             )}
             <Tooltip
               content={formatNumber(
@@ -86,7 +86,7 @@ const FormFields = ({ values, setValues }) => {
           </div>
           <div className="grid grid-cols-[auto,1fr] gap-2">
             <div className="h-11 w-44 whitespace-nowrap rounded-md border border-zinc-600 bg-zinc-400/20 px-3 py-2 font-semibold text-orange-600 dark:border-zinc-300 dark:bg-zinc-200/10">
-              Market duration:
+              Duration:
             </div>
             <div className="grid grid-cols-2 gap-2">
               <CustomDatePicker

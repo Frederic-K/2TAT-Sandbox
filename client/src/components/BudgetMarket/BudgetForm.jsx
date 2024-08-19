@@ -58,7 +58,7 @@ const BudgetForm = () => {
         {({ values, isSubmitting, setValues }) => (
           <Form className="mx-auto mt-8 max-w-lg space-y-6">
             <FormFields values={values} setValues={setValues} />
-            <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 sm:gap-14">
+            <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 sm:gap-4">
               <button
                 type="reset"
                 tabIndex={2}
