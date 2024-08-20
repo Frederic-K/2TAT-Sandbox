@@ -5,7 +5,7 @@ const SubmitButton = ({ isSubmitting }) => {
     <button
       type="submit"
       disabled={isSubmitting}
-      className="flex h-11 w-full items-center justify-center gap-4 rounded-md border border-teal-900 bg-gradient-to-r from-teal-700 via-teal-500 to-teal-700 px-4 py-2 text-lg font-semibold text-zinc-200 hover:from-teal-400 hover:via-teal-700 hover:to-teal-400"
+      className="order-1 flex h-11 w-full items-center justify-center gap-4 rounded-md border border-teal-900 bg-gradient-to-r from-teal-700 via-teal-500 to-teal-700 px-4 py-2 text-lg font-semibold text-zinc-200 hover:from-teal-400 hover:via-teal-700 hover:to-teal-400 sm:order-2"
     >
       {isSubmitting ? (
         <span className="flex items-center justify-center">
