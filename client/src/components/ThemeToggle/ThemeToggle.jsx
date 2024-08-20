@@ -15,12 +15,16 @@ const ThemeToggle = () => {
     >
       {theme === "light" ? (
         <div className="flex items-center gap-2">
-          <span className="hover:text-orange-400">Light</span>{" "}
+          <span className="font-semibold text-zinc-400 hover:text-orange-400">
+            Light
+          </span>{" "}
           <FaSun className="text-lg text-orange-500" />
         </div>
       ) : (
         <div className="flex items-center gap-2">
-          <span className="hover:text-orange-400">Dark</span>{" "}
+          <span className="font-semibold text-zinc-400 hover:text-orange-400">
+            Dark
+          </span>{" "}
           <FaMoon className="text-lg text-orange-500" />
         </div>
       )}
