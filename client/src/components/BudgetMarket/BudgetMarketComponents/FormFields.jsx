@@ -96,8 +96,8 @@ const FormFields = ({ values, setValues }) => {
             <div className="flex h-11 items-center whitespace-nowrap rounded-md border border-zinc-600 bg-zinc-400/20 px-3 py-2 font-semibold text-orange-600 dark:border-zinc-300 dark:bg-zinc-200/10">
               Duration:
             </div>
-            <div className="grid gap-2 sm:col-span-2">
-              <div className="grid grid-cols-2 gap-2 sm:gap-3">
+            <div className="sm:col-span-2">
+              <div className="xs:grid-cols-2 grid grid-cols-1 gap-2 sm:gap-3">
                 <CustomDatePicker
                   selected={values.EH.startDate}
                   onChange={handleDateChange("startDate")}

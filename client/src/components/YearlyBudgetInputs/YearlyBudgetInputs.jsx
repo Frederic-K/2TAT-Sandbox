@@ -17,7 +17,7 @@ const YearlyBudgetInputs = ({
   )
 
   return (
-    <div className="space-y-2">
+    <article className="space-y-2">
       {years.map((year, yearIndex) => (
         <div key={yearIndex} className="flex items-center gap-2">
           <div className="w-44 whitespace-nowrap pl-1 font-semibold text-orange-600">
@@ -46,7 +46,7 @@ const YearlyBudgetInputs = ({
           </Tooltip>
         </div>
       ))}
-    </div>
+    </article>
   )
 }
 

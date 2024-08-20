@@ -3,7 +3,7 @@ import { ErrorMessage } from "formik"
 import "react-datepicker/dist/react-datepicker.css"
 
 const CustomDatePicker = ({ selected, onChange, name }) => (
-  <div>
+  <>
     <DatePicker
       todayButton="Today"
       shouldCloseOnSelect={true}
@@ -11,14 +11,15 @@ const CustomDatePicker = ({ selected, onChange, name }) => (
       onChange={(date) => onChange(date, name)}
       dateFormat="MM/yyyy"
       showMonthYearPicker
-      className="h-11 w-full rounded-md border px-4 py-2 dark:bg-zinc-500 dark:text-zinc-200"
+      className="h-11 w-full min-w-0 rounded-md border px-4 py-2 dark:bg-zinc-500 dark:text-zinc-200"
+      wrapperClassName="w-full"
     />
     <ErrorMessage
       name={name}
       component="div"
       className="text-sm text-red-500"
     />
-  </div>
+  </>
 )
 
 export default CustomDatePicker
