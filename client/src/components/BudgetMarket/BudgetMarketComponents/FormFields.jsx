@@ -59,7 +59,7 @@ const FormFields = ({ values, setValues }) => {
 
       <section className="grid gap-4 rounded-md">
         <div className="grid gap-2 rounded-md border border-zinc-400 bg-zinc-400/20 p-4">
-          <article className="grid grid-cols-1 gap-2 sm:grid-cols-3 sm:gap-4">
+          <article className="grid grid-cols-1 gap-2 sm:grid-cols-3 sm:gap-3">
             <div className="flex h-11 items-center whitespace-nowrap rounded-md border border-zinc-600 bg-zinc-400/20 px-3 py-2 font-semibold text-orange-600 dark:border-zinc-300 dark:bg-zinc-200/10">
               {`EH Budget${values.currentEHNumber > 0 ? ` ${values.currentEHNumber}` : ""}:`}
             </div>
@@ -92,23 +92,25 @@ const FormFields = ({ values, setValues }) => {
               </div>
             </Tooltip>
           </article>
-          <arcticle className="grid grid-cols-[auto,1fr] gap-2">
-            <div className="h-11 w-44 whitespace-nowrap rounded-md border border-zinc-600 bg-zinc-400/20 px-3 py-2 font-semibold text-orange-600 dark:border-zinc-300 dark:bg-zinc-200/10">
+          <article className="grid grid-cols-1 gap-2 sm:grid-cols-3 sm:gap-3">
+            <div className="flex h-11 items-center whitespace-nowrap rounded-md border border-zinc-600 bg-zinc-400/20 px-3 py-2 font-semibold text-orange-600 dark:border-zinc-300 dark:bg-zinc-200/10">
               Duration:
             </div>
-            <div className="grid grid-cols-2 gap-2">
-              <CustomDatePicker
-                selected={values.EH.startDate}
-                onChange={handleDateChange("startDate")}
-                name="EH.startDate"
-              />
-              <CustomDatePicker
-                selected={values.EH.endDate}
-                onChange={handleDateChange("endDate")}
-                name="EH.endDate"
-              />
+            <div className="grid gap-2 sm:col-span-2">
+              <div className="grid grid-cols-2 gap-2 sm:gap-3">
+                <CustomDatePicker
+                  selected={values.EH.startDate}
+                  onChange={handleDateChange("startDate")}
+                  name="EH.startDate"
+                />
+                <CustomDatePicker
+                  selected={values.EH.endDate}
+                  onChange={handleDateChange("endDate")}
+                  name="EH.endDate"
+                />
+              </div>
             </div>
-          </arcticle>
+          </article>
           <hr className="border-t border-zinc-400 dark:border-zinc-500" />
           <YearlyBudgetInputs
             startDate={values.EH.startDate}
