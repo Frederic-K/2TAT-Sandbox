@@ -93,23 +93,19 @@ const FormFields = ({ values, setValues }) => {
             </Tooltip>
           </article>
           <article className="grid grid-cols-1 gap-2 sm:grid-cols-3 sm:gap-3">
-            <div className="flex h-11 items-center whitespace-nowrap rounded-md border border-zinc-600 bg-zinc-400/20 px-3 py-2 font-semibold text-orange-600 dark:border-zinc-300 dark:bg-zinc-200/10">
+            <div className="flex h-11 items-center rounded-md border border-zinc-600 bg-zinc-400/20 px-3 py-2 font-semibold text-orange-600 dark:border-zinc-300 dark:bg-zinc-200/10">
               Duration:
             </div>
-            <div className="sm:col-span-2">
-              <div className="xs:grid-cols-2 grid grid-cols-1 gap-2 sm:gap-3">
-                <CustomDatePicker
-                  selected={values.EH.startDate}
-                  onChange={handleDateChange("startDate")}
-                  name="EH.startDate"
-                />
-                <CustomDatePicker
-                  selected={values.EH.endDate}
-                  onChange={handleDateChange("endDate")}
-                  name="EH.endDate"
-                />
-              </div>
-            </div>
+            <CustomDatePicker
+              selected={values.EH.startDate}
+              onChange={handleDateChange("startDate")}
+              name="EH.startDate"
+            />
+            <CustomDatePicker
+              selected={values.EH.endDate}
+              onChange={handleDateChange("endDate")}
+              name="EH.endDate"
+            />
           </article>
           <hr className="border-t border-zinc-400 dark:border-zinc-500" />
           <YearlyBudgetInputs
