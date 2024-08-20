@@ -83,7 +83,7 @@ const FormFields = ({ values, setValues }) => {
                 ),
               )}
             >
-              <div className="flex h-11 items-center justify-center rounded-md border bg-white px-3 font-semibold text-teal-600 dark:bg-zinc-500 dark:text-teal-200">
+              <div className="flex h-11 items-center justify-start rounded-md border bg-white px-3 font-semibold text-teal-600 dark:bg-zinc-500 dark:text-teal-200">
                 {formatNumber(
                   new Decimal(
                     values.EH.calculatedBudget || values.EH.budget || 0,
