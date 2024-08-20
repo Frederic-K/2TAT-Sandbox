@@ -59,19 +59,17 @@ const FormFields = ({ values, setValues }) => {
 
       <section className="grid gap-4 rounded-md">
         <div className="grid gap-2 rounded-md border border-zinc-400 bg-zinc-400/20 p-4">
-          <article className="grid grid-cols-[1fr,auto] gap-2">
+          <article className="grid grid-cols-1 gap-2 sm:grid-cols-3 sm:gap-4">
+            <div className="flex h-11 items-center whitespace-nowrap rounded-md border border-zinc-600 bg-zinc-400/20 px-3 py-2 font-semibold text-orange-600 dark:border-zinc-300 dark:bg-zinc-200/10">
+              {`EH Budget${values.currentEHNumber > 0 ? ` ${values.currentEHNumber}` : ""}:`}
+            </div>
             <div className="grid gap-2">
-              <div className="grid grid-cols-[auto,1fr] gap-2">
-                <div className="flex h-11 w-44 items-center whitespace-nowrap rounded-md border border-zinc-600 bg-zinc-400/20 px-3 py-2 font-semibold text-orange-600 dark:border-zinc-300 dark:bg-zinc-200/10">
-                  {`EH Budget${values.currentEHNumber > 0 ? ` ${values.currentEHNumber}` : ""}:`}
-                </div>
-                <Field
-                  name="EH.budget"
-                  type="number"
-                  placeholder="Enter budget"
-                  className="w-36 rounded-md border px-3 py-2 dark:bg-zinc-500 dark:text-zinc-200"
-                />
-              </div>
+              <Field
+                name="EH.budget"
+                type="number"
+                placeholder="Enter budget"
+                className="h-11 w-full rounded-md border px-3 py-2 dark:bg-zinc-500 dark:text-zinc-200"
+              />
               <ErrorMessage
                 name="EH.budget"
                 component="div"
@@ -85,7 +83,7 @@ const FormFields = ({ values, setValues }) => {
                 ),
               )}
             >
-              <div className="flex h-11 w-36 items-center justify-center rounded-md border bg-white px-3 font-semibold text-teal-600 dark:bg-zinc-500 dark:text-teal-200">
+              <div className="flex h-11 items-center justify-center rounded-md border bg-white px-3 font-semibold text-teal-600 dark:bg-zinc-500 dark:text-teal-200">
                 {formatNumber(
                   new Decimal(
                     values.EH.calculatedBudget || values.EH.budget || 0,
