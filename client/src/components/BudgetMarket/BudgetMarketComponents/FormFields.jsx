@@ -18,7 +18,7 @@ const FormFields = ({ values, setValues }) => {
 
   return (
     <>
-      <article className="grid grid-cols-1 gap-3 rounded-md border border-zinc-400 bg-zinc-400/20 p-4 sm:grid-cols-[2fr,1fr]">
+      <section className="grid grid-cols-1 gap-3 rounded-md border border-zinc-400 bg-zinc-400/20 p-4 sm:grid-cols-[2fr,1fr]">
         <div className="grid gap-2">
           <div className="grid grid-cols-[auto,1fr] gap-2">
             <div className="flex h-11 w-32 items-center whitespace-nowrap rounded-md border border-zinc-600 bg-zinc-400/20 px-3 py-2 font-semibold text-orange-600 sm:w-full dark:border-zinc-300 dark:bg-zinc-200/10">
@@ -55,11 +55,11 @@ const FormFields = ({ values, setValues }) => {
             className="text-right text-sm text-red-500"
           />
         </div>
-      </article>
+      </section>
 
-      <article className="grid gap-4 rounded-md">
+      <section className="grid gap-4 rounded-md">
         <div className="grid gap-2 rounded-md border border-zinc-400 bg-zinc-400/20 p-4">
-          <div className="grid grid-cols-[1fr,auto] gap-2">
+          <article className="grid grid-cols-[1fr,auto] gap-2">
             <div className="grid gap-2">
               <div className="grid grid-cols-[auto,1fr] gap-2">
                 <div className="flex h-11 w-44 items-center whitespace-nowrap rounded-md border border-zinc-600 bg-zinc-400/20 px-3 py-2 font-semibold text-orange-600 dark:border-zinc-300 dark:bg-zinc-200/10">
@@ -93,8 +93,8 @@ const FormFields = ({ values, setValues }) => {
                 )}
               </div>
             </Tooltip>
-          </div>
-          <div className="grid grid-cols-[auto,1fr] gap-2">
+          </article>
+          <arcticle className="grid grid-cols-[auto,1fr] gap-2">
             <div className="h-11 w-44 whitespace-nowrap rounded-md border border-zinc-600 bg-zinc-400/20 px-3 py-2 font-semibold text-orange-600 dark:border-zinc-300 dark:bg-zinc-200/10">
               Duration:
             </div>
@@ -110,7 +110,7 @@ const FormFields = ({ values, setValues }) => {
                 name="EH.endDate"
               />
             </div>
-          </div>
+          </arcticle>
           <hr className="border-t border-zinc-400 dark:border-zinc-500" />
           <YearlyBudgetInputs
             startDate={values.EH.startDate}
@@ -119,7 +119,7 @@ const FormFields = ({ values, setValues }) => {
             calculatedBudgetPerYear={values.EH.calculatedBudgetPerYear}
           />
         </div>
-      </article>
+      </section>
     </>
   )
 }
