@@ -11,18 +11,25 @@ const TextFormatter = () => {
   const formatText = () => {
     const lines = inputText.split("\n")
     const formattedLines = lines.map((line) => {
-      // Split the line by any whitespace
-      const parts = line.split(/\s+/)
-      // Join the parts with tabs
-      return parts.join("\t")
+      return line.replace(/ {2,}/g, (match) => "&nbsp;".repeat(match.length))
     })
-    setFormattedText(formattedLines.join("\n"))
+
+    const formattedHtml = `
+      <table cellspacing="0" cellpadding="0" border="0" style="font-family: Courier New, Courier, monospace; font-size: 10pt;">
+        ${formattedLines.map((line) => `<tr><td style="white-space: pre;">${line}</td></tr>`).join("")}
+      </table>
+    `
+    //<td style="white-space: pre; line-height: 1em;">
+
+    setFormattedText(formattedHtml)
   }
 
   const copyToClipboard = () => {
+    const blob = new Blob([formattedText], { type: "text/html" })
+    const data = [new ClipboardItem({ "text/html": blob })]
     navigator.clipboard
-      .writeText(formattedText)
-      .then(() => alert("Text copied to clipboard!"))
+      .write(data)
+      .then(() => alert("Formatted text copied to clipboard!"))
       .catch((err) => console.error("Failed to copy text: ", err))
   }
 
