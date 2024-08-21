@@ -2,25 +2,20 @@ import { useState } from "react"
 
 const TextFormatter = () => {
   const [inputText, setInputText] = useState("")
-  const [separator, setSeparator] = useState("\t") // Default to tab
   const [formattedText, setFormattedText] = useState("")
 
   const handleInputChange = (e) => {
     setInputText(e.target.value)
   }
 
-  const handleSeparatorChange = (e) => {
-    setSeparator(e.target.value)
-  }
-
   const formatText = () => {
     const lines = inputText.split("\n")
-    const formattedLines = lines.map((line) =>
-      line
-        .split(separator)
-        .map((cell) => cell.trim())
-        .join(" | "),
-    )
+    const formattedLines = lines.map((line) => {
+      // Split the line by any whitespace
+      const parts = line.split(/\s+/)
+      // Join the parts with tabs
+      return parts.join("\t")
+    })
     setFormattedText(formattedLines.join("\n"))
   }
 
@@ -37,23 +32,10 @@ const TextFormatter = () => {
       <div className="mb-4">
         <label className="mb-2 block">Paste your text here:</label>
         <textarea
-          className="h-40 w-full rounded border p-2"
+          className="h-40 w-full rounded border p-2 font-mono"
           value={inputText}
           onChange={handleInputChange}
         />
-      </div>
-      <div className="mb-4">
-        <label className="mb-2 block">Select separator:</label>
-        <select
-          className="rounded border p-2"
-          value={separator}
-          onChange={handleSeparatorChange}
-        >
-          <option value="\t">Tab</option>
-          <option value=",">Comma</option>
-          <option value=";">Semicolon</option>
-          <option value=" ">Space</option>
-        </select>
       </div>
       <button
         className="mr-2 rounded bg-blue-500 px-4 py-2 text-white"
@@ -64,7 +46,7 @@ const TextFormatter = () => {
       <div className="mt-4">
         <label className="mb-2 block">Formatted text:</label>
         <textarea
-          className="h-40 w-full rounded border p-2"
+          className="h-40 w-full rounded border p-2 font-mono"
           value={formattedText}
           readOnly
         />
