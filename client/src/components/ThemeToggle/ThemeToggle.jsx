@@ -9,7 +9,7 @@ const ThemeToggle = () => {
 
   return (
     <button
-      className="flex items-center justify-center px-4 hover:ring-orange-300/50"
+      className="flex items-center justify-center px-2 hover:ring-orange-300/50"
       aria-label="Toggle theme"
       onClick={() => dispatch(toggleTheme())}
     >
