@@ -15,16 +15,19 @@ const TextFormatter = () => {
     })
 
     const formattedHtml = `
-      <table cellspacing="0" cellpadding="0" border="0" style="font-family: Courier New, Courier, monospace; font-size: 10pt;">
-      ${formattedLines.map((line) => `<tr><td style="white-space: pre; line-height: 1em;">${line}</td></tr>`).join("")}
-      </table>
+      <div style="font-family: 'Courier New', Courier, monospace; font-size: 10pt;">
+        ${formattedLines
+          .map(
+            (line) => `
+          <div style="display: flex; margin: 0; padding: 0; line-height: 1.2;">
+            <div style="white-space: pre; margin: 0; padding: 0;">${line}</div>
+            <div style="margin-left: 20px; width: 200px;"></div>
+          </div>
+        `,
+          )
+          .join("")}
+      </div>
     `
-    // Add line-height and white-space: pre to preserve line breaks and spacing
-    // init
-    // ${formattedLines.map((line) => `<tr><td style="white-space: pre;">${line}</td></tr>`).join("")}
-    // enhancements
-    // <td style="white-space: pre; line-height: 1em;">
-    // ${formattedLines.map((line) => `<tr><td style="white-space: pre; line-height: 1em;">${line}</td></tr>`).join("")}
 
     setFormattedText(formattedHtml)
   }
