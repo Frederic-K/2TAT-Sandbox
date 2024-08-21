@@ -49,7 +49,7 @@ const BudgetForm = () => {
 
   return (
     <>
-      <Title content="Market Overrun Calculator" />
+      <Title content="EH Market Calculator" />
       <Formik
         initialValues={INITIAL_VALUES}
         validationSchema={validationSchema}

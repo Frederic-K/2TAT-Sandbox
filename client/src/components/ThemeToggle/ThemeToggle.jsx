@@ -9,18 +9,22 @@ const ThemeToggle = () => {
 
   return (
     <button
-      className="flex items-center justify-center px-4 hover:ring-orange-300/50"
+      className="flex items-center justify-center px-2 hover:ring-orange-300/50"
       aria-label="Toggle theme"
       onClick={() => dispatch(toggleTheme())}
     >
       {theme === "light" ? (
         <div className="flex items-center gap-2">
-          <span className="hover:text-orange-400">Light</span>{" "}
+          <span className="font-semibold text-zinc-400 hover:text-orange-400">
+            Light
+          </span>{" "}
           <FaSun className="text-lg text-orange-500" />
         </div>
       ) : (
         <div className="flex items-center gap-2">
-          <span className="hover:text-orange-400">Dark</span>{" "}
+          <span className="font-semibold text-zinc-400 hover:text-orange-400">
+            Dark
+          </span>{" "}
           <FaMoon className="text-lg text-orange-500" />
         </div>
       )}
