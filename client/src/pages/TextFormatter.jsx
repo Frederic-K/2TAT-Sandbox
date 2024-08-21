@@ -14,7 +14,13 @@ const TextFormatter = () => {
       return line.replace(/ {2,}/g, (match) => "&nbsp;".repeat(match.length))
     })
 
-    const formattedHtml = `<pre style="font-family: monospace; white-space: pre; line-height: 0.8;">${formattedLines.join("\n")}</pre>`
+    const formattedHtml = `
+      <table cellspacing="0" cellpadding="0" border="0" style="font-family: Courier New, Courier, monospace; font-size: 10pt;">
+        ${formattedLines.map((line) => `<tr><td style="white-space: pre;">${line}</td></tr>`).join("")}
+      </table>
+    `
+    //<td style="white-space: pre; line-height: 1em;">
+
     setFormattedText(formattedHtml)
   }
 
