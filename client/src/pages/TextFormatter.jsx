@@ -19,7 +19,7 @@ const TextFormatter = () => {
         ${formattedLines
           .map(
             (line) => `
-          <div style="display: flex; margin: 0; padding: 0; line-height: 1.2;">
+          <div style="display: flex; margin: 0; padding: 0; line-height: 1.2;" contenteditable="false">
             <div style="white-space: pre; margin: 0; padding: 0;">${line}</div>
             <div style="margin-left: 20px; width: 200px;"></div>
           </div>
@@ -47,7 +47,7 @@ const TextFormatter = () => {
       <div className="mb-4">
         <label className="mb-2 block">Paste your text here:</label>
         <textarea
-          className="h-40 w-full rounded border p-2 font-mono dark:text-zinc-700 dark:bg-zinc-300"
+          className="h-40 w-full rounded border p-2 font-mono dark:bg-zinc-300 dark:text-zinc-700"
           value={inputText}
           onChange={handleInputChange}
         />
@@ -61,7 +61,7 @@ const TextFormatter = () => {
       <div className="mt-4">
         <label className="mb-2 block">Formatted text:</label>
         <textarea
-          className="h-40 w-full rounded border p-2 font-mono dark:text-zinc-700 dark:bg-zinc-300"
+          className="h-40 w-full rounded border p-2 font-mono dark:bg-zinc-300 dark:text-zinc-700"
           value={formattedText}
           readOnly
         />
