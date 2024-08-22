@@ -47,7 +47,7 @@ const TextFormatter = () => {
       <div className="mb-4">
         <label className="mb-2 block">Paste your text here:</label>
         <textarea
-          className="h-40 w-full rounded border p-2 font-mono"
+          className="h-40 w-full rounded border p-2 font-mono dark:text-zinc-700 dark:bg-zinc-300"
           value={inputText}
           onChange={handleInputChange}
         />
@@ -61,7 +61,7 @@ const TextFormatter = () => {
       <div className="mt-4">
         <label className="mb-2 block">Formatted text:</label>
         <textarea
-          className="h-40 w-full rounded border p-2 font-mono"
+          className="h-40 w-full rounded border p-2 font-mono dark:text-zinc-700 dark:bg-zinc-300"
           value={formattedText}
           readOnly
         />
