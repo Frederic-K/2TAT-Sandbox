@@ -15,11 +15,11 @@ const TextFormatter = () => {
     })
 
     const formattedHtml = `
-      <div style="font-family: 'Courier New', Courier, monospace; font-size: 10pt;">
+      <div style="font-family: 'Courier New', Courier, monospace; font-size: 9pt;">
         ${formattedLines
           .map(
             (line) => `
-          <div style="display: flex; margin: 0; padding: 0; line-height: 1.2;" contenteditable="false">
+          <div style="display: flex; margin: 0; padding: 0; line-height: 1.0;">
             <div style="white-space: pre; margin: 0; padding: 0;">${line}</div>
             <div style="margin-left: 20px; width: 200px;"></div>
           </div>
