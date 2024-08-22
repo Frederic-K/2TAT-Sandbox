@@ -50,7 +50,7 @@ const TextFormatter = () => {
   }
 
   return (
-    <div className="mx-auto min-h-screen max-w-lg p-4">
+    <div className="mx-auto min-h-screen max-w-lg px-4">
       <Title content="Text Formatter" />
       <div className="mb-1 mt-4">
         <label className="mb-2 block text-xl font-semibold text-orange-700">
