@@ -79,22 +79,19 @@ const TextFormatter = () => {
           onChange={handleInputChange}
         />
       </div>
-      <div className="mb-4 flex items-center justify-between">
-        {autoFormat ? null : (
+      <div className="mb-4 flex h-11 items-center justify-end">
+        {!autoFormat && (
           <button
-            className="flex h-11 items-center justify-center rounded-md border border-orange-900 bg-gradient-to-r from-orange-700 via-orange-500 to-orange-700 px-4 py-2 text-lg font-semibold text-zinc-100 hover:from-orange-400 hover:via-orange-700 hover:to-orange-400"
+            className="mr-auto flex h-11 items-center justify-center rounded-md border border-orange-900 bg-gradient-to-r from-orange-700 via-orange-500 to-orange-700 px-4 py-2 text-lg font-semibold text-zinc-100 hover:from-orange-400 hover:via-orange-700 hover:to-orange-400"
             onClick={formatText}
           >
             Format Text
           </button>
         )}
-        <ToggleSwitch
-          checked={autoFormat}
-          onChange={setAutoFormat}
-          className="mr-4"
-        >
-          Auto Format
-        </ToggleSwitch>
+        <div className="flex items-center">
+          <span className="mr-2">Auto Format: {autoFormat ? "ON" : "OFF"}</span>
+          <ToggleSwitch checked={autoFormat} onChange={setAutoFormat} />
+        </div>
       </div>
       <div className="mb-1 mt-4">
         <label className="mb-2 block text-xl font-semibold text-orange-700">
