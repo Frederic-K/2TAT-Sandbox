@@ -1,8 +1,9 @@
 /** @type {import('tailwindcss').Config} */
+import flowbite from "flowbite-react/tailwind"
 import openVariant from "./plugins/openVariant"
 
 export default {
-  content: ["./index.html", "./src/**/*.{js,ts,jsx,tsx}"],
+  content: ["./index.html", "./src/**/*.{js,ts,jsx,tsx}", flowbite.content()],
   darkMode: "class",
   theme: {
     extend: {
@@ -14,5 +15,5 @@ export default {
       },
     },
   },
-  plugins: [openVariant],
+  plugins: [openVariant, flowbite.plugin()],
 }

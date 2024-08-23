@@ -1,11 +1,28 @@
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import { LuListRestart } from "react-icons/lu"
+import { ToggleSwitch } from "flowbite-react"
 
 import Title from "../components/PageTitle/PageTtile"
 
 const TextFormatter = () => {
   const [inputText, setInputText] = useState("")
   const [formattedText, setFormattedText] = useState("")
+  const [autoFormat, setAutoFormat] = useState(true)
+  const [debouncedText, setDebouncedText] = useState("")
+
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setDebouncedText(inputText)
+    }, 500)
+
+    return () => clearTimeout(timer)
+  }, [inputText])
+
+  useEffect(() => {
+    if (autoFormat) {
+      formatText(debouncedText)
+    }
+  }, [debouncedText, autoFormat])
 
   const handleInputChange = (e) => {
     setInputText(e.target.value)
@@ -16,8 +33,8 @@ const TextFormatter = () => {
     setFormattedText("")
   }
 
-  const formatText = () => {
-    const lines = inputText.split("\n")
+  const formatText = (text) => {
+    const lines = text.split("\n")
     const formattedLines = lines.map((line) => {
       return line.replace(/ {2,}/g, (match) => "&nbsp;".repeat(match.length))
     })
@@ -62,12 +79,23 @@ const TextFormatter = () => {
           onChange={handleInputChange}
         />
       </div>
-      <button
-        className="flex h-11 items-center justify-center rounded-md border border-orange-900 bg-gradient-to-r from-orange-700 via-orange-500 to-orange-700 px-4 py-2 text-lg font-semibold text-zinc-100 hover:from-orange-400 hover:via-orange-700 hover:to-orange-400"
-        onClick={formatText}
-      >
-        Format Text
-      </button>
+      <div className="mb-4 flex items-center justify-between">
+        {autoFormat ? null : (
+          <button
+            className="flex h-11 items-center justify-center rounded-md border border-orange-900 bg-gradient-to-r from-orange-700 via-orange-500 to-orange-700 px-4 py-2 text-lg font-semibold text-zinc-100 hover:from-orange-400 hover:via-orange-700 hover:to-orange-400"
+            onClick={formatText}
+          >
+            Format Text
+          </button>
+        )}
+        <ToggleSwitch
+          checked={autoFormat}
+          onChange={setAutoFormat}
+          className="mr-4"
+        >
+          Auto Format
+        </ToggleSwitch>
+      </div>
       <div className="mb-1 mt-4">
         <label className="mb-2 block text-xl font-semibold text-orange-700">
           Formatted text:
