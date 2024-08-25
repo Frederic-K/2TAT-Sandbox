@@ -35,7 +35,7 @@
         "icons/icon.icns",
         "icons/icon.ico"
       ],
-      "identifier": "com.mydomain.marketoverruncalculator",
+      "identifier": "com.mydomain.chrustgappportal",
       "longDescription": "",
       "macOS": {
         "entitlements": null,
@@ -64,7 +64,7 @@
         "fullscreen": false,
         "height": 600,
         "resizable": true,
-        "title": "MarketOverrunCalculator",
+        "title": "CHRU-Stg-App-Portal",
         "width": 800
       }
     ]
