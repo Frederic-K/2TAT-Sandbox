@@ -14,7 +14,7 @@ const INITIAL_VALUES = {
   EH: {
     budget: "0",
     calculatedBudget: "0",
-    startDate: new Date(),
+    startDate: new Date(new Date().getFullYear(), 0, 1),
     endDate: new Date(),
     budgetPerYear: ["0"],
     calculatedBudgetPerYear: ["0"],
