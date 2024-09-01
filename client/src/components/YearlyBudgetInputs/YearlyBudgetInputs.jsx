@@ -27,7 +27,7 @@ const YearlyBudgetInputs = ({
             Budget {year}
           </div>
           <Field
-            name={`EH.budgetPerYear.${yearIndex}`}
+            name={`HS.budgetPerYear.${yearIndex}`}
             type="text"
             inputMode="decimal"
             placeholder={`Budget for ${year}`}

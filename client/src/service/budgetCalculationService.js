@@ -2,12 +2,12 @@ import Decimal from "decimal.js"
 
 // "penny pinching" algorithm
 export function calculateBudget(values) {
-  if (new Decimal(values.remainder).gt(0) && values.numberOfEHs > 0) {
-    const remainderPerEH = new Decimal(values.remainder).div(values.numberOfEHs)
-    const newEHsBudget = new Decimal(values.EH.budget).plus(remainderPerEH)
+  if (new Decimal(values.remainder).gt(0) && values.numberOfHSs > 0) {
+    const remainderPerHS = new Decimal(values.remainder).div(values.numberOfHSs)
+    const newHSsBudget = new Decimal(values.HS.budget).plus(remainderPerHS)
 
-    const startDate = new Date(values.EH.startDate)
-    const endDate = new Date(values.EH.endDate)
+    const startDate = new Date(values.HS.startDate)
+    const endDate = new Date(values.HS.endDate)
     const totalMonths = new Decimal(
       (endDate.getFullYear() - startDate.getFullYear()) * 12 +
         endDate.getMonth() -
@@ -15,7 +15,7 @@ export function calculateBudget(values) {
         1,
     )
 
-    const remainderPerMonth = remainderPerEH.div(totalMonths)
+    const remainderPerMonth = remainderPerHS.div(totalMonths)
 
     const updatedBudgetPerYear = []
     let currentYear = startDate.getFullYear()
@@ -30,7 +30,7 @@ export function calculateBudget(values) {
       }
 
       const yearIndex = currentYear - startDate.getFullYear()
-      const initialBudget = new Decimal(values.EH.budgetPerYear[yearIndex] || 0)
+      const initialBudget = new Decimal(values.HS.budgetPerYear[yearIndex] || 0)
       const yearBudget = initialBudget.plus(
         remainderPerMonth.times(monthsInCurrentYear),
       )
@@ -48,11 +48,11 @@ export function calculateBudget(values) {
       updatedBudgetPerYear[lastIndex].plus(accumulatedFraction)
 
     return {
-      calculatedBudget: newEHsBudget.toString(),
+      calculatedBudget: newHSsBudget.toString(),
       calculatedBudgetPerYear: updatedBudgetPerYear.map((d) => d.toString()),
-      remainder: new Decimal(values.remainder).minus(remainderPerEH).toString(),
-      numberOfEHs: values.numberOfEHs - 1,
-      currentEHNumber: values.currentEHNumber + 1,
+      remainder: new Decimal(values.remainder).minus(remainderPerHS).toString(),
+      numberOfHSs: values.numberOfHSs - 1,
+      currentHSNumber: values.currentHSNumber + 1,
     }
   }
   return null

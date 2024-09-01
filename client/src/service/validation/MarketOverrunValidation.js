@@ -2,9 +2,9 @@ import * as Yup from "yup"
 
 export const validationSchema = Yup.object().shape({
   remainder: Yup.string().required("Remainder is required"),
-  numberOfEHs: Yup.number().required("Number of EHs is required").min(0),
-  EH: Yup.object().shape({
-    budget: Yup.string().required("EH budget is required"),
+  numberOfHSs: Yup.number().required("Number of HSs is required").min(0),
+  HS: Yup.object().shape({
+    budget: Yup.string().required("HS budget is required"),
     startDate: Yup.date().required("Start date is required"),
     endDate: Yup.date()
       .required("End date is required")

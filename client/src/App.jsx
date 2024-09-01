@@ -4,12 +4,12 @@ import RootLayout from "./components/RootLayout/RootLayout"
 
 import Home from "./pages/Home"
 import TextFormatter from "./pages/TextFormatter"
-import EHCalculator from "./pages/EHCalculator"
+import HSCalculator from "./pages/HSCalculator"
 import NotFound from "./pages/NotFound"
 
 const publicRoutes = [
   { index: true, element: <Home /> },
-  { path: "marketcalculator", element: <EHCalculator /> },
+  { path: "marketcalculator", element: <HSCalculator /> },
   { path: "textformatter", element: <TextFormatter /> },
 ]
 

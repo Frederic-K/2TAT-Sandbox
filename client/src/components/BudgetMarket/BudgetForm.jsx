@@ -15,9 +15,9 @@ const INITIAL_VALUES = {
     calculatedValue: 0,
   },
   remainder: "0",
-  numberOfEHs: 1,
-  currentEHNumber: 0,
-  EH: {
+  numberOfHSs: 1,
+  currentHSNumber: 0,
+  HS: {
     budget: "0",
     calculatedBudget: "0",
     startDate: new Date(new Date().getFullYear(), 0, 1),
@@ -35,19 +35,19 @@ const BudgetForm = () => {
       if (result) {
         setValues({
           ...values,
-          EH: {
-            ...values.EH,
+          HS: {
+            ...values.HS,
             calculatedBudget: result.calculatedBudget,
             calculatedBudgetPerYear: result.calculatedBudgetPerYear,
           },
           remainder: result.remainder,
-          numberOfEHs: result.numberOfEHs,
-          currentEHNumber: result.currentEHNumber,
+          numberOfHSs: result.numberOfHSs,
+          currentHSNumber: result.currentHSNumber,
         })
       }
     } catch (error) {
       console.error("Error in form submission:", error)
-      alert("An error occurred while calculating the EH budget.")
+      alert("An error occurred while calculating the HS budget.")
     } finally {
       setSubmitting(false)
     }

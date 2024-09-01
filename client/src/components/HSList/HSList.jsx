@@ -4,56 +4,56 @@ import { LuListRestart } from "react-icons/lu"
 import { IoIosRemoveCircle, IoMdAddCircle } from "react-icons/io"
 import { MdKeyboardArrowDown } from "react-icons/md"
 import {
-  addEH,
-  removeEH,
-  resetEH,
-  updateEHName,
+  addHS,
+  removeHS,
+  resetHS,
+  updateHSName,
   resetAll,
-  setIsEHListOpen,
-} from "../../service/slices/ehListSlice"
+  setIsHSListOpen,
+} from "../../service/slices/hsListSlice"
 
-const EHList = () => {
+const HSList = () => {
   const dispatch = useDispatch()
-  const { ehs, isEHListOpen } = useSelector((state) => state.ehList)
+  const { HSs, isHSListOpen } = useSelector((state) => state.HSList)
 
   return (
     <div className="mx-auto mt-8 max-w-lg rounded-md border border-zinc-400 bg-zinc-400/20">
       <button
-        onClick={() => dispatch(setIsEHListOpen(!isEHListOpen))}
+        onClick={() => dispatch(setIsHSListOpen(!isHSListOpen))}
         className="flex w-full items-center justify-between p-4"
       >
-        <h2 className="text-lg font-semibold">EH List reminder</h2>
+        <h2 className="text-lg font-semibold">HS List reminder</h2>
         <MdKeyboardArrowDown
           className={`size-6 transform transition-transform duration-300 ${
-            isEHListOpen ? "rotate-180" : ""
+            isHSListOpen ? "rotate-180" : ""
           }`}
         />
       </button>
       <div
         className={`overflow-hidden transition-all duration-300 ${
-          isEHListOpen ? "max-h-screen" : "max-h-0"
+          isHSListOpen ? "max-h-screen" : "max-h-0"
         }`}
       >
         <div className="space-y-4 p-4">
-          {ehs.map((eh, index) => (
+          {HSs.map((HS, index) => (
             <div key={index} className="flex items-center space-x-2">
               <input
                 type="text"
-                value={eh.name}
+                value={HS.name}
                 onChange={(e) =>
-                  dispatch(updateEHName({ index, name: e.target.value }))
+                  dispatch(updateHSName({ index, name: e.target.value }))
                 }
-                placeholder="EH Name"
+                placeholder="HS Name"
                 className="flex-1 rounded-md border px-3 py-2 dark:bg-zinc-500 dark:text-zinc-200"
               />
               <button
-                onClick={() => dispatch(resetEH(index))}
+                onClick={() => dispatch(resetHS(index))}
                 className="flex size-8 items-center justify-center rounded-full bg-yellow-500 text-zinc-200 hover:bg-yellow-700"
               >
                 <VscDebugRestart className="size-4" />
               </button>
               <button
-                onClick={() => dispatch(removeEH(index))}
+                onClick={() => dispatch(removeHS(index))}
                 className="flex size-8 items-center justify-center rounded-full bg-red-500 text-zinc-200 hover:bg-red-700"
               >
                 <IoIosRemoveCircle className="size-4" />
@@ -62,7 +62,7 @@ const EHList = () => {
           ))}
           <div className="flex space-x-2">
             <button
-              onClick={() => dispatch(addEH())}
+              onClick={() => dispatch(addHS())}
               className="flex size-8 items-center justify-center rounded-md bg-teal-500 hover:bg-teal-700"
             >
               <IoMdAddCircle className="size-4" />
@@ -80,4 +80,4 @@ const EHList = () => {
   )
 }
 
-export default EHList
+export default HSList

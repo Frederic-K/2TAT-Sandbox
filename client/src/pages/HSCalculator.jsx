@@ -1,15 +1,15 @@
 import BudgetForm from "../components/BudgetMarket/BudgetForm"
-import EHList from "../components/EHList/EHList"
+import HSList from "../components/HSList/HSList"
 import Notes from "../components/Notes/Notes"
 
-const EHCalculator = () => {
+const HSCalculator = () => {
   return (
     <main className="min-h-screen">
       <BudgetForm />
-      <EHList />
+      <HSList />
       <Notes />
     </main>
   )
 }
 
-export default EHCalculator
+export default HSCalculator
