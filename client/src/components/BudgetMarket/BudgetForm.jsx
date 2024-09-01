@@ -8,6 +8,12 @@ import FormFields from "./BudgetMarketComponents/FormFields"
 import SubmitButton from "./BudgetMarketComponents/SubmitButton"
 
 const INITIAL_VALUES = {
+  consistentValue: {
+    initValue: 0,
+    manualValue: 0,
+    addToValue: 0,
+    calculatedValue: 0,
+  },
   remainder: "0",
   numberOfEHs: 1,
   currentEHNumber: 0,
@@ -49,7 +55,7 @@ const BudgetForm = () => {
 
   return (
     <>
-      <Title content="EH Market Calculator" />
+      <Title content="Market Calculator" />
       <Formik
         initialValues={INITIAL_VALUES}
         validationSchema={validationSchema}

@@ -9,7 +9,7 @@ import NotFound from "./pages/NotFound"
 
 const publicRoutes = [
   { index: true, element: <Home /> },
-  { path: "ehcalculator", element: <EHCalculator /> },
+  { path: "marketcalculator", element: <EHCalculator /> },
   { path: "textformatter", element: <TextFormatter /> },
 ]
 
