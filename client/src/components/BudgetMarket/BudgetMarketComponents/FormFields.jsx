@@ -50,6 +50,7 @@ const FormFields = ({ values, setValues }) => {
         addToValue: 0,
         calculatedValue: 0,
       },
+      remainder: 0,
     }))
   }
 
