@@ -3,7 +3,7 @@ import { NavLink } from "react-router-dom"
 const NavLinks = ({ setIsOpen }) => {
   const links = [
     { name: "Home", path: "/" },
-    { name: "EH Calculator", path: "/ehcalculator" },
+    { name: "Market Calculator", path: "/marketcalculator" },
     { name: "Text Formatter", path: "/textformatter" },
   ]
 

@@ -4,7 +4,7 @@ import Title from "../components/PageTitle/PageTtile"
 const Home = () => {
   const NAVLINKS = [
     { label: "Text Formatter", path: "/textformatter" },
-    { label: "EH Calculator", path: "/ehcalculator" },
+    { label: "Market Calculator", path: "/marketcalculator" },
     // Add more navigation links as needed
   ]
 
