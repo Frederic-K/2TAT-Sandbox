@@ -74,12 +74,27 @@ const FormFields = ({ values, setValues }) => {
                           : "Calculated Value"}
                     :
                   </div>
-                  <Field
-                    name={`coherentValue.${field}`}
-                    type="number"
-                    disabled={field === "calculatedValue"}
-                    className="w-full rounded-md border px-3 py-2 dark:bg-zinc-500 dark:text-zinc-200"
-                  />
+                  {field === "calculatedValue" ? (
+                    <Tooltip
+                      content={formatNumber(
+                        new Decimal(values.coherentValue.calculatedValue || 0),
+                      )}
+                    >
+                      <div className="flex h-11 items-center justify-start rounded-md border bg-white px-3 font-semibold text-teal-600 dark:bg-zinc-500 dark:text-teal-200">
+                        {formatNumber(
+                          new Decimal(
+                            values.coherentValue.calculatedValue || 0,
+                          ).toFixed(2),
+                        )}
+                      </div>
+                    </Tooltip>
+                  ) : (
+                    <Field
+                      name={`coherentValue.${field}`}
+                      type="number"
+                      className="w-full rounded-md border px-3 py-2 dark:bg-zinc-500 dark:text-zinc-200"
+                    />
+                  )}
                 </div>
                 <ErrorMessage
                   name={`coherentValue.${field}`}
