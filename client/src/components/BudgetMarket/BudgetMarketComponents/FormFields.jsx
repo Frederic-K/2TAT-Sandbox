@@ -164,6 +164,9 @@ const FormFields = ({ values, setValues }) => {
 
       <section className="grid gap-4 rounded-md">
         <div className="grid gap-2 rounded-md border border-zinc-400 bg-zinc-400/20 p-4">
+          <h3 className="mb-4 text-lg font-semibold text-orange-600">
+            Coherent Value Calculation
+          </h3>
           <article className="grid grid-cols-1 gap-2 sm:grid-cols-3 sm:gap-3">
             <div className="flex h-11 items-center whitespace-nowrap rounded-md border border-zinc-600 bg-zinc-400/20 px-3 py-2 font-semibold text-orange-600 dark:border-zinc-300 dark:bg-zinc-200/10">
               {`EH Budget${values.currentEHNumber > 0 ? ` ${values.currentEHNumber}` : ""}:`}
