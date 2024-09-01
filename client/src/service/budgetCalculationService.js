@@ -1,6 +1,6 @@
-// "penny pinching" algorithm
 import Decimal from "decimal.js"
 
+// "penny pinching" algorithm
 export function calculateBudget(values) {
   if (new Decimal(values.remainder).gt(0) && values.numberOfEHs > 0) {
     const remainderPerEH = new Decimal(values.remainder).div(values.numberOfEHs)
