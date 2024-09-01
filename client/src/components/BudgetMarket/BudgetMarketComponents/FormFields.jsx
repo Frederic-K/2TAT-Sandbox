@@ -63,8 +63,8 @@ const FormFields = ({ values, setValues }) => {
           {["initValue", "manualValue", "addToValue", "calculatedValue"].map(
             (field) => (
               <div key={field} className="grid gap-2">
-                <div className="grid grid-cols-[1fr,2fr] gap-2">
-                  <div className="flex h-11 items-center whitespace-nowrap rounded-md border border-zinc-600 bg-zinc-400/20 px-3 py-2 font-semibold text-orange-600 dark:border-zinc-300 dark:bg-zinc-200/10">
+                <div className="grid grid-cols-[auto,1fr] gap-2 sm:grid-cols-[1fr,2fr]">
+                  <div className="flex h-11 w-36 items-center whitespace-nowrap rounded-md border border-zinc-600 bg-zinc-400/20 px-3 py-2 font-semibold text-orange-600 sm:w-full dark:border-zinc-300 dark:bg-zinc-200/10">
                     {field === "initValue"
                       ? "Init. Value"
                       : field === "manualValue"
@@ -165,7 +165,7 @@ const FormFields = ({ values, setValues }) => {
       <section className="grid gap-4 rounded-md">
         <div className="grid gap-2 rounded-md border border-zinc-400 bg-zinc-400/20 p-4">
           <h3 className="mb-4 text-lg font-semibold text-orange-600">
-            Coherent Value Calculation
+            Homogeneous Set Calculation
           </h3>
           <article className="grid grid-cols-1 gap-2 sm:grid-cols-3 sm:gap-3">
             <div className="flex h-11 items-center whitespace-nowrap rounded-md border border-zinc-600 bg-zinc-400/20 px-3 py-2 font-semibold text-orange-600 dark:border-zinc-300 dark:bg-zinc-200/10">
