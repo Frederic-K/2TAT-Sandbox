@@ -8,7 +8,7 @@ import FormFields from "./BudgetMarketComponents/FormFields"
 import SubmitButton from "./BudgetMarketComponents/SubmitButton"
 
 const INITIAL_VALUES = {
-  coherentValue: {
+  consistentValue: {
     initValue: 0,
     manualValue: 0,
     addToValue: 0,

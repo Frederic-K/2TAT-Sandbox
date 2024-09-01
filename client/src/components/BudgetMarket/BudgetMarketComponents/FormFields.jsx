@@ -18,8 +18,8 @@ const FormFields = ({ values, setValues }) => {
     }))
   }
 
-  const handleCoherentValueCalculation = () => {
-    const { initValue, manualValue, addToValue } = values.coherentValue
+  const handleConsistentValueCalculation = () => {
+    const { initValue, manualValue, addToValue } = values.consistentValue
     let calculatedValue = 0
     let newRemainder = values.remainder
 
@@ -33,18 +33,18 @@ const FormFields = ({ values, setValues }) => {
 
     setValues((prevValues) => ({
       ...prevValues,
-      coherentValue: {
-        ...prevValues.coherentValue,
+      consistentValue: {
+        ...prevValues.consistentValue,
         calculatedValue,
       },
       remainder: newRemainder,
     }))
   }
 
-  const resetCoherentValue = () => {
+  const resetConsistentValue = () => {
     setValues((prevValues) => ({
       ...prevValues,
-      coherentValue: {
+      consistentValue: {
         initValue: 0,
         manualValue: 0,
         addToValue: 0,
@@ -57,7 +57,7 @@ const FormFields = ({ values, setValues }) => {
     <>
       <section className="mt-6 grid gap-4 rounded-md border border-zinc-400 bg-zinc-400/20 p-4">
         <h3 className="text-lg font-semibold text-orange-600">
-          Coherent Value Calculation
+          Consistent Value Calculation
         </h3>
         <div className="grid grid-cols-1 gap-3">
           {["initValue", "manualValue", "addToValue", "calculatedValue"].map(
@@ -77,27 +77,29 @@ const FormFields = ({ values, setValues }) => {
                   {field === "calculatedValue" ? (
                     <Tooltip
                       content={formatNumber(
-                        new Decimal(values.coherentValue.calculatedValue || 0),
+                        new Decimal(
+                          values.consistentValue.calculatedValue || 0,
+                        ),
                       )}
                     >
                       <div className="flex h-11 items-center justify-start rounded-md border bg-white px-3 font-semibold text-teal-600 dark:bg-zinc-500 dark:text-teal-200">
                         {formatNumber(
                           new Decimal(
-                            values.coherentValue.calculatedValue || 0,
+                            values.consistentValue.calculatedValue || 0,
                           ).toFixed(2),
                         )}
                       </div>
                     </Tooltip>
                   ) : (
                     <Field
-                      name={`coherentValue.${field}`}
+                      name={`consistentValue.${field}`}
                       type="number"
                       className="w-full rounded-md border px-3 py-2 dark:bg-zinc-500 dark:text-zinc-200"
                     />
                   )}
                 </div>
                 <ErrorMessage
-                  name={`coherentValue.${field}`}
+                  name={`consistentValue.${field}`}
                   component="div"
                   className="text-right text-sm text-red-500"
                 />
@@ -108,14 +110,14 @@ const FormFields = ({ values, setValues }) => {
         <div className="flex justify-end gap-4">
           <button
             type="button"
-            onClick={resetCoherentValue}
+            onClick={resetConsistentValue}
             className="flex items-center justify-center gap-2 rounded-md border border-zinc-600 bg-zinc-500 px-4 py-2 text-white hover:bg-zinc-600"
           >
             <LuListRestart className="h-5 w-5" />
           </button>
           <button
             type="button"
-            onClick={handleCoherentValueCalculation}
+            onClick={handleConsistentValueCalculation}
             className="flex items-center justify-center gap-2 rounded-md border border-teal-600 bg-teal-500 px-4 py-2 text-white hover:bg-teal-600"
           >
             <MdCalculate className="h-5 w-5" />
