@@ -20,7 +20,7 @@ const FormFields = ({ values, setValues }) => {
 
   return (
     <>
-      <section className="grid grid-cols-1 gap-3 rounded-md border border-zinc-400 bg-zinc-400/20 p-4 sm:grid-cols-[2fr,1fr]">
+      <section className="mb-4 grid grid-cols-1 gap-3 rounded-md border border-zinc-400 bg-zinc-400/20 p-4 sm:grid-cols-[2fr,1fr]">
         <div className="grid gap-2">
           <div className="grid grid-cols-[auto,1fr] gap-2">
             <div className="flex h-11 w-32 items-center whitespace-nowrap rounded-md border border-zinc-600 bg-zinc-400/20 px-3 py-2 font-semibold text-orange-600 sm:w-full dark:border-zinc-300 dark:bg-zinc-200/10">

@@ -36,7 +36,7 @@ const ConsistentValue = () => {
   }
 
   return (
-    <section className="mx-auto mt-6 grid max-w-lg gap-4 rounded-md border border-zinc-400 bg-zinc-400/20 p-4">
+    <section className="mx-auto mb-4 mt-6 grid max-w-lg gap-4 rounded-md border border-zinc-400 bg-zinc-400/20 p-4">
       <h3 className="text-lg font-semibold text-orange-600">
         Consistent Value Calculation
       </h3>

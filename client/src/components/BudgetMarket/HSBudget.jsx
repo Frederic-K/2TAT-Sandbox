@@ -1,12 +1,11 @@
-import { Form, useFormikContext } from "formik"
+import { useFormikContext } from "formik"
 import { LuListRestart } from "react-icons/lu"
 
-import { calculateBudget } from "../../service/budgetCalculationService"
 import FormFields from "./BudgetMarketComponents/FormFields"
 import SubmitButton from "./BudgetMarketComponents/SubmitButton"
 
 const HSBudget = () => {
-  const { values, setValues, isSubmitting, setSubmitting } = useFormikContext()
+  const { values, setValues, isSubmitting } = useFormikContext()
 
   // const handleSubmit = async (event) => {
   //   event.preventDefault()
@@ -37,7 +36,7 @@ const HSBudget = () => {
   return (
     <section className="mx-auto max-w-lg">
       <FormFields values={values} setValues={setValues} />
-      <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 sm:gap-4">
+      <div className="my-4 grid grid-cols-1 gap-4 sm:grid-cols-2 sm:gap-4">
         <button
           type="reset"
           tabIndex={2}
