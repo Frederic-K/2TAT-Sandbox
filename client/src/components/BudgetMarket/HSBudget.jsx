@@ -3,7 +3,6 @@ import { LuListRestart } from "react-icons/lu"
 
 import { validationSchema } from "../../service/validation/MarketOverrunValidation"
 import { calculateBudget } from "../../service/budgetCalculationService"
-import Title from "../PageTitle/PageTtile"
 import FormFields from "./BudgetMarketComponents/FormFields"
 import SubmitButton from "./BudgetMarketComponents/SubmitButton"
 
@@ -28,7 +27,7 @@ const INITIAL_VALUES = {
   },
 }
 
-const BudgetForm = () => {
+const HSBudget = () => {
   const handleSubmit = async (values, { setSubmitting, setValues }) => {
     setSubmitting(true)
     try {
@@ -56,7 +55,6 @@ const BudgetForm = () => {
 
   return (
     <>
-      <Title content="Market Calculator" />
       <Formik
         initialValues={INITIAL_VALUES}
         validationSchema={validationSchema}
@@ -82,4 +80,4 @@ const BudgetForm = () => {
   )
 }
 
-export default BudgetForm
+export default HSBudget
