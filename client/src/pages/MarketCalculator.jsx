@@ -59,10 +59,10 @@ const MarketCalculator = () => {
         <Form>
           <ConsistentValue />
           <HSBudget />
-          <HSList />
-          <Notes />
         </Form>
       </Formik>
+      <HSList />
+      <Notes />
     </main>
   )
 }
