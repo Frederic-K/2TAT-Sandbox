@@ -7,32 +7,6 @@ import SubmitButton from "./BudgetMarketComponents/SubmitButton"
 const HSBudget = () => {
   const { values, setValues, isSubmitting } = useFormikContext()
 
-  // const handleSubmit = async (event) => {
-  //   event.preventDefault()
-  //   setSubmitting(true)
-  //   try {
-  //     const result = await calculateBudget(values)
-  //     if (result) {
-  //       setValues({
-  //         ...values,
-  //         HS: {
-  //           ...values.HS,
-  //           calculatedBudget: result.calculatedBudget,
-  //           calculatedBudgetPerYear: result.calculatedBudgetPerYear,
-  //         },
-  //         remainder: result.remainder,
-  //         numberOfHSs: result.numberOfHSs,
-  //         currentHSNumber: result.currentHSNumber,
-  //       })
-  //     }
-  //   } catch (error) {
-  //     console.error("Error in form submission:", error)
-  //     alert("An error occurred while calculating the HS budget.")
-  //   } finally {
-  //     setSubmitting(false)
-  //   }
-  // }
-
   return (
     <section className="mx-auto max-w-lg">
       <FormFields values={values} setValues={setValues} />
