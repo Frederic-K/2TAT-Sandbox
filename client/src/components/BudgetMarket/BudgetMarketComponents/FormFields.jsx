@@ -1,6 +1,4 @@
 import { Field, ErrorMessage } from "formik"
-import { LuListRestart } from "react-icons/lu"
-import { MdCalculate } from "react-icons/md"
 import Decimal from "decimal.js"
 import Tooltip from "../../Tooltip/Tooltip"
 import CustomDatePicker from "../../CustomDatePicker/CustomDatePicker"

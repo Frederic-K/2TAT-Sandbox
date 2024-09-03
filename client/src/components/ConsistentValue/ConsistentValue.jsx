@@ -3,26 +3,16 @@ import { LuListRestart } from "react-icons/lu"
 import { MdCalculate } from "react-icons/md"
 import Decimal from "decimal.js"
 import Tooltip from "../Tooltip/Tooltip"
+import { calculateConsistentValue } from "../../service/consistentValueService"
 import { formatNumber } from "../../service/numberFormatService"
 
 const ConsistentValue = () => {
   const { values, setFieldValue } = useFormikContext()
 
   const handleConsistentValueCalculation = () => {
-    const { initValue, manualValue, addToValue } = values.consistentValue
-    let calculatedValue = 0
-    let newRemainder = values.remainder
-
-    if (initValue > 0 && addToValue > 0 && manualValue === 0) {
-      calculatedValue = initValue + addToValue
-      newRemainder = calculatedValue
-    } else if (initValue > 0 && manualValue > 0) {
-      calculatedValue = manualValue
-      newRemainder = manualValue - initValue
-    }
-
-    setFieldValue("consistentValue.calculatedValue", calculatedValue)
-    setFieldValue("remainder", newRemainder)
+    const result = calculateConsistentValue(values)
+    setFieldValue("consistentValue.calculatedValue", result.calculatedValue)
+    setFieldValue("remainder", result.remainder)
   }
 
   const resetConsistentValue = () => {
