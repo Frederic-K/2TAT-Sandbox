@@ -5,7 +5,7 @@ import { AiOutlineHome } from "react-icons/ai"
 
 const NotFound = () => {
   return (
-    <div className="bg- flex min-h-screen flex-col items-center justify-center text-center text-zinc-600 dark:text-zinc-300">
+    <main className="bg- flex min-h-screen flex-col items-center justify-center text-center text-zinc-600 dark:text-zinc-300">
       <h1 className="mb-4 text-9xl font-bold">404</h1>
       <p className="mb-8 text-2xl">
         {"Oops! The page you're looking for doesn't exist."}
@@ -17,7 +17,7 @@ const NotFound = () => {
         <AiOutlineHome className="mr-3" size={28} />
         Go Back Home
       </Link>
-    </div>
+    </main>
   )
 }
 

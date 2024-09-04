@@ -1,5 +1,7 @@
 import { Formik, Form } from "formik"
 import { calculateBudget } from "../service/budgetCalculationService"
+import { Toaster } from "react-hot-toast"
+import toast from "react-hot-toast"
 import PageTitle from "../components/PageTitle/PageTtile"
 import ConsistentValue from "../components/ConsistentValue/ConsistentValue"
 import HSBudget from "../components/BudgetMarket/HSBudget"
@@ -29,6 +31,7 @@ const MarketCalculator = () => {
 
   return (
     <main className="min-h-screen">
+      <Toaster position="bottom-left" reverseOrder={false} />
       <PageTitle content="Market Calculator" />
       <Formik
         initialValues={INITIAL_VALUES}
@@ -48,9 +51,10 @@ const MarketCalculator = () => {
                 currentHSNumber: result.currentHSNumber,
               })
             }
+            toast.success("HS budget calculated successfully!")
           } catch (error) {
             console.error("Error in form submission:", error)
-            alert("An error occurred while calculating the HS budget.")
+            toast.error("An error occurred while calculating the HS budget!")
           } finally {
             actions.setSubmitting(false)
           }

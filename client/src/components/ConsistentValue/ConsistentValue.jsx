@@ -5,6 +5,8 @@ import Decimal from "decimal.js"
 import Tooltip from "../Tooltip/Tooltip"
 import { calculateConsistentValue } from "../../service/consistentValueService"
 import { formatNumber } from "../../service/numberFormatService"
+import { Toaster } from "react-hot-toast"
+import toast from "react-hot-toast"
 
 const ConsistentValue = () => {
   const { values, setFieldValue } = useFormikContext()
@@ -13,6 +15,7 @@ const ConsistentValue = () => {
     const result = calculateConsistentValue(values)
     setFieldValue("consistentValue.calculatedValue", result.calculatedValue)
     setFieldValue("remainder", result.remainder)
+    toast.success("Consistent value calculated successfully!")
   }
 
   const resetConsistentValue = () => {
@@ -23,10 +26,12 @@ const ConsistentValue = () => {
       calculatedValue: 0,
     })
     setFieldValue("remainder", 0)
+    toast.success("Reset to default values successfully!")
   }
 
   return (
     <section className="mx-auto mb-4 mt-6 grid max-w-lg gap-4 rounded-md border border-zinc-400 bg-zinc-400/20 p-4">
+      <Toaster position="bottom-left" reverseOrder={false} />
       <h3 className="text-lg font-semibold text-orange-600">
         Consistent Value Calculation
       </h3>
