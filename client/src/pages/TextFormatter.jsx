@@ -33,6 +33,7 @@ const TextFormatter = () => {
   const resetForm = () => {
     setInputText("")
     setFormattedText("")
+    toast.success("Form reset successfully!")
   }
 
   const formatText = (text) => {
