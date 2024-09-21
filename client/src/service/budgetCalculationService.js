@@ -15,6 +15,10 @@ export function calculateBudget(values) {
         1,
     )
 
+    console.log(`Start date: ${startDate.toISOString().split("T")[0]}`)
+    console.log(`End date: ${endDate.toISOString().split("T")[0]}`)
+    console.log(`Total months: ${totalMonths.toString()}`)
+
     const remainderPerMonth = remainderPerHS.div(totalMonths)
 
     const updatedBudgetPerYear = []
