@@ -8,10 +8,11 @@ export function calculateBudget(values) {
 
     const startDate = new Date(values.HS.startDate)
     const endDate = new Date(values.HS.endDate)
+    endDate.setMonth(endDate.getMonth() + 1, 0) // Set to last day of the selected month
+
     const totalMonths = new Decimal(
       (endDate.getFullYear() - startDate.getFullYear()) * 12 +
-        endDate.getMonth() -
-        startDate.getMonth() +
+        (endDate.getMonth() - startDate.getMonth()) +
         1,
     )
 
@@ -26,6 +27,7 @@ export function calculateBudget(values) {
     let accumulatedFraction = new Decimal(0)
     let totalDistributed = new Decimal(0)
 
+    // Calculate updated budget per year
     while (currentYear <= endDate.getFullYear()) {
       const yearStartMonth =
         currentYear === startDate.getFullYear() ? startDate.getMonth() : 0
