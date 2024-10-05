@@ -33,7 +33,7 @@ const ConsistentValue = () => {
   }
 
   return (
-    <section className="mx-auto mb-4 mt-6 max-w-lg rounded-md border border-zinc-400 bg-zinc-400/20">
+    <section className="mx-auto mb-4 mt-4 max-w-lg rounded-md border border-zinc-400 bg-zinc-400/20">
       <Toaster position="bottom-left" reverseOrder={false} />
       <button
         onClick={() => setIsOpen(!isOpen)}
