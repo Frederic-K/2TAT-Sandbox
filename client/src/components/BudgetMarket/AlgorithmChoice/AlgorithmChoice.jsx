@@ -1,34 +1,3 @@
-// import { Field } from "formik"
-
-// const AlgorithmChoice = () => {
-//   return (
-//     <div className="mb-4">
-//       <label className="mb-2 block font-bold">Choose Algorithm:</label>
-//       <div>
-//         <label className="mr-4 inline-flex items-center">
-//           <Field
-//             type="radio"
-//             name="algorithmChoice"
-//             value="simple"
-//             className="mr-2"
-//           />
-//           Simple (Add all to last year)
-//         </label>
-//         <label className="inline-flex items-center">
-//           <Field
-//             type="radio"
-//             name="algorithmChoice"
-//             value="complex"
-//             className="mr-2"
-//           />
-//           Complex (Distribute and add remaining to last year)
-//         </label>
-//       </div>
-//     </div>
-//   )
-// }
-
-// export default AlgorithmChoice
 import { Field } from "formik"
 import Tooltip from "../../Tooltip/Tooltip"
 import { useState } from "react"
@@ -58,7 +27,7 @@ const AlgorithmChoice = () => {
         }`}
       >
         <div className="grid grid-cols-1 gap-3 p-4">
-          {["simple", "complex"].map((algorithm) => (
+          {["simple", "complex"].map((algorithm, index) => (
             <div key={algorithm} className="flex items-center">
               <Field
                 type="radio"
@@ -76,6 +45,8 @@ const AlgorithmChoice = () => {
                     : "Distribute and add remaining to last year"
                 }
                 width="w-64"
+                // position={index === 0 ? "bottom" : "left"}
+                position="left"
               >
                 <span className="ml-2 cursor-help text-sm text-zinc-500 dark:text-zinc-400">
                   ⓘ
