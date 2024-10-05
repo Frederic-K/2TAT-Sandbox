@@ -37,7 +37,7 @@ const MarketCalculator = () => {
         initialValues={INITIAL_VALUES}
         onSubmit={async (values, actions) => {
           try {
-            const result = await calculateBudget(values)
+            const result = calculateBudget(values)
             if (result) {
               actions.setValues({
                 ...values,
