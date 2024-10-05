@@ -4,6 +4,7 @@ import { Toaster } from "react-hot-toast"
 import toast from "react-hot-toast"
 import PageTitle from "../components/PageTitle/PageTtile"
 import ConsistentValue from "../components/ConsistentValue/ConsistentValue"
+import AlgorithmChoice from "../components/BudgetMarket/AlgorithmChoice/AlgorithmChoice"
 import HSBudget from "../components/BudgetMarket/HSBudget"
 import HSList from "../components/HSList/HSList"
 import Notes from "../components/Notes/Notes"
@@ -27,6 +28,7 @@ const MarketCalculator = () => {
       addToValue: 0,
       calculatedValue: 0,
     },
+    algorithmChoice: "simple", // 'simple' for adding all to last year, 'complex' for distribution
   }
 
   return (
@@ -37,7 +39,8 @@ const MarketCalculator = () => {
         initialValues={INITIAL_VALUES}
         onSubmit={async (values, actions) => {
           try {
-            const result = calculateBudget(values)
+            // const result = calculateBudget(values)
+            const result = calculateBudget(values, values.algorithmChoice)
             if (result) {
               actions.setValues({
                 ...values,
@@ -61,6 +64,7 @@ const MarketCalculator = () => {
         }}
       >
         <Form>
+          <AlgorithmChoice />
           <ConsistentValue />
           <HSBudget />
         </Form>
