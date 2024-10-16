@@ -7,8 +7,8 @@
     "distDir": "../client/dist"
   },
   "package": {
-    "productName": "chrustgappportal",
-    "version": "4.2.5"
+    "productName": "technicaltaskassistancetool",
+    "version": "4.2.6"
   },
   "tauri": {
     "allowlist": {
@@ -22,7 +22,7 @@
     },
     "bundle": {
       "active": true,
-      "category": "DeveloperTool",
+      "category": "Business",
       "copyright": "",
       "deb": {
         "depends": []
@@ -35,7 +35,7 @@
         "icons/icon.icns",
         "icons/icon.ico"
       ],
-      "identifier": "com.mydomain.chrustgappportal",
+      "identifier": "com.mydomain.technicaltaskassistancetool",
       "longDescription": "",
       "macOS": {
         "entitlements": null,
@@ -64,7 +64,7 @@
         "fullscreen": false,
         "height": 600,
         "resizable": true,
-        "title": "CHRU-Stg-App-Portal",
+        "title": "Technical-Task-Assistance-Tool",
         "width": 800
       }
     ]

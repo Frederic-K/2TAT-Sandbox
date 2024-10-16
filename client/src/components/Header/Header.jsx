@@ -37,6 +37,12 @@ const Header = () => {
           </span>
         </Link>
       </section>
+      <h1 className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 transform text-xl font-bold text-orange-500 md:hidden">
+        2TAT
+      </h1>
+      <h1 className="absolute left-1/2 top-1/2 hidden -translate-x-1/2 -translate-y-1/2 transform text-xl font-bold text-orange-500 md:block">
+        Technical Task Assistance Tool
+      </h1>
       <section className="flex">
         <ThemeToggle />
         <div
