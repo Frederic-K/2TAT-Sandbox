@@ -1,27 +1,31 @@
-import { useRef, useState, useEffect, useCallback } from "react"
+import { useState, useRef } from "react"
 import { Link } from "react-router-dom"
+import { motion } from "framer-motion"
+import { useOnClickOutside } from "usehooks-ts"
 import ThemeToggle from "../ThemeToggle/ThemeToggle"
 import BurgerMenu from "./HeaderComponents/BurgerMenu"
 import NavLinks from "./HeaderComponents/NavLinks"
 
 const Header = () => {
   const [isOpen, setIsOpen] = useState(false)
-  const menuRef = useRef()
+  const menuRef = useRef(null)
 
-  const handleClickOutside = useCallback((event) => {
-    if (menuRef.current && !menuRef.current.contains(event.target)) {
-      setIsOpen(false)
-    }
-  }, [])
+  useOnClickOutside(menuRef, () => setIsOpen(false))
 
-  useEffect(() => {
-    if (isOpen) {
-      document.addEventListener("mousedown", handleClickOutside)
-    }
-    return () => {
-      document.removeEventListener("mousedown", handleClickOutside)
-    }
-  }, [isOpen, handleClickOutside])
+  // const handleClickOutside = useCallback((event) => {
+  //   if (menuRef.current && !menuRef.current.contains(event.target)) {
+  //     setIsOpen(false)
+  //   }
+  // }, [])
+
+  // useEffect(() => {
+  //   if (isOpen) {
+  //     document.addEventListener("mousedown", handleClickOutside)
+  //   }
+  //   return () => {
+  //     document.removeEventListener("mousedown", handleClickOutside)
+  //   }
+  // }, [isOpen, handleClickOutside])
 
   return (
     <div className="relative mx-auto mb-6 flex h-12 items-center justify-between border-b-2 border-zinc-600/30 bg-[url('/images/background/waveBanner-1.webp')] bg-cover bg-center bg-no-repeat dark:bg-zinc-800">
@@ -43,20 +47,21 @@ const Header = () => {
       <h1 className="absolute left-1/2 top-1/2 hidden -translate-x-1/2 -translate-y-1/2 transform text-xl font-bold text-orange-500 md:block">
         Technical Task Assistance Tool
       </h1>
-      <section className="flex">
+      <section className="flex items-center">
         <ThemeToggle />
-        <div
-          ref={menuRef}
-          className="flex cursor-pointer flex-col justify-center px-4"
-        >
+        <div ref={menuRef} className="relative p-4">
           <BurgerMenu props={{ setIsOpen, isOpen }} />
-          <div className="absolute left-0 top-12 flex w-full origin-top-right scale-y-0 flex-col items-center justify-center bg-zinc-800 py-2 transition-transform peer-open:z-30 peer-open:scale-y-100">
+          <motion.div
+            initial={{ opacity: 0, y: -20 }}
+            animate={{ opacity: isOpen ? 1 : 0, y: isOpen ? 0 : -20 }}
+            transition={{ duration: 0.3 }}
+            className="absolute right-0 top-12 w-48 bg-zinc-800 py-2 shadow-lg"
+          >
             <NavLinks setIsOpen={setIsOpen} />
-          </div>
+          </motion.div>
         </div>
       </section>
     </div>
   )
 }
-
 export default Header
