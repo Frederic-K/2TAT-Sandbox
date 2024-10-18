@@ -134,7 +134,7 @@ import Decimal from "decimal.js"
 import Tooltip from "../Tooltip/Tooltip"
 import { calculateConsistentValue } from "../../service/consistentValueService"
 import { formatNumber } from "../../service/numberFormatService"
-import { Toaster } from "react-hot-toast"
+import { motion } from "framer-motion"
 import toast from "react-hot-toast"
 import { MdKeyboardArrowDown } from "react-icons/md"
 
@@ -235,20 +235,26 @@ const ConsistentValue = () => {
             )}
           </div>
           <div className="flex justify-end gap-4">
-            <button
+            <motion.button
               type="button"
               onClick={resetConsistentValue}
-              className="flex items-center justify-center gap-2 rounded-md border border-zinc-600 bg-zinc-500 px-4 py-2 text-white hover:bg-zinc-600"
+              className="flex items-center justify-center gap-2 rounded-md border border-zinc-600 bg-zinc-500 px-4 py-2 text-white"
+              whileHover={{ backgroundColor: "#52525b", scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
+              transition={{ duration: 0.2 }}
             >
               <LuListRestart className="h-5 w-5" />
-            </button>
-            <button
+            </motion.button>
+            <motion.button
               type="button"
               onClick={handleConsistentValueCalculation}
-              className="flex items-center justify-center gap-2 rounded-md border border-teal-600 bg-teal-500 px-4 py-2 text-white hover:bg-teal-600"
+              className="flex items-center justify-center gap-2 rounded-md border border-teal-600 bg-teal-500 px-4 py-2 text-white"
+              whileHover={{ backgroundColor: "#0d9488", scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
+              transition={{ duration: 0.2 }}
             >
               <MdCalculate className="h-5 w-5" />
-            </button>
+            </motion.button>
           </div>
         </div>
       </div>
