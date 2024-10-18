@@ -144,6 +144,7 @@ const ConsistentValue = () => {
 
   const handleConsistentValueCalculation = (e) => {
     e.preventDefault() // Prevent form submission
+    e.stopPropagation()
     const result = calculateConsistentValue(values)
     setFieldValue("consistentValue.calculatedValue", result.calculatedValue)
     setFieldValue("remainder", result.remainder)
@@ -152,6 +153,7 @@ const ConsistentValue = () => {
 
   const resetConsistentValue = (e) => {
     e.preventDefault() // Prevent form submission
+    e.stopPropagation()
     setFieldValue("consistentValue", {
       initValue: 0,
       manualValue: 0,
@@ -164,7 +166,6 @@ const ConsistentValue = () => {
 
   return (
     <section className="mx-auto mb-4 mt-4 max-w-lg rounded-md border border-zinc-400 bg-zinc-400/20">
-      <Toaster position="bottom-left" reverseOrder={false} />
       <button
         type="button"
         onClick={() => setIsOpen(!isOpen)}
