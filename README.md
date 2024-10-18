@@ -13,7 +13,7 @@ This application is designed to facilitate and secure financial management in th
 - Modern web interface built with React
 - Fast development with Vite and Hot Module Replacement (HMR)
 - Precise decimal arithmetic with Decimal.js
-- Optimized financial calculations and distribution
+- Optimized financial calculations and distribution ("penny pinching" algorithm)
 - User-friendly and intuitive interface
 
 ## 🛠️ Prerequisites
