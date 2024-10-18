@@ -1,5 +1,5 @@
 import { useState, useRef } from "react"
-import { Link } from "react-router-dom"
+import { Link, useLocation } from "react-router-dom"
 import { motion } from "framer-motion"
 import { useOnClickOutside } from "usehooks-ts"
 import ThemeToggle from "../ThemeToggle/ThemeToggle"
@@ -9,23 +9,11 @@ import NavLinks from "./HeaderComponents/NavLinks"
 const Header = () => {
   const [isOpen, setIsOpen] = useState(false)
   const menuRef = useRef(null)
+  const location = useLocation()
 
   useOnClickOutside(menuRef, () => setIsOpen(false))
 
-  // const handleClickOutside = useCallback((event) => {
-  //   if (menuRef.current && !menuRef.current.contains(event.target)) {
-  //     setIsOpen(false)
-  //   }
-  // }, [])
-
-  // useEffect(() => {
-  //   if (isOpen) {
-  //     document.addEventListener("mousedown", handleClickOutside)
-  //   }
-  //   return () => {
-  //     document.removeEventListener("mousedown", handleClickOutside)
-  //   }
-  // }, [isOpen, handleClickOutside])
+  const isHomePage = location.pathname === "/"
 
   return (
     <div className="relative mx-auto mb-6 flex h-12 items-center justify-between border-b-2 border-zinc-600/30 bg-[url('/images/background/waveBanner-1.webp')] bg-cover bg-center bg-no-repeat dark:bg-zinc-800">
@@ -41,12 +29,16 @@ const Header = () => {
           </span>
         </Link>
       </section>
-      <h1 className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 transform text-xl font-bold text-orange-500 md:hidden">
-        2TAT
-      </h1>
-      <h1 className="absolute left-1/2 top-1/2 hidden -translate-x-1/2 -translate-y-1/2 transform text-xl font-bold text-orange-500 md:block">
-        Technical Task Assistance Tool
-      </h1>
+      {!isHomePage && (
+        <>
+          <h1 className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 transform text-xl font-bold text-orange-500 md:hidden">
+            2TAT
+          </h1>
+          <h1 className="absolute left-1/2 top-1/2 hidden -translate-x-1/2 -translate-y-1/2 transform text-xl font-bold text-orange-500 md:block">
+            Technical Task Assistance Tool
+          </h1>
+        </>
+      )}
       <section className="flex items-center px-2">
         <ThemeToggle />
         <div ref={menuRef} className="relative flex">

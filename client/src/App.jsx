@@ -33,7 +33,6 @@
 // export default App
 
 import { createBrowserRouter, RouterProvider } from "react-router-dom"
-import { AnimatePresence } from "framer-motion"
 
 import RootLayout from "./components/RootLayout/RootLayout"
 
@@ -54,15 +53,26 @@ function App() {
       path: "/",
       element: <RootLayout />,
       errorElement: <NotFound />,
-      children: [...publicRoutes],
+      children: [
+        ...publicRoutes,
+        // {
+        //   element: <PrivateRouteAuth />,
+        //   children: privateRoutes,
+        // },
+        // {
+        //   element: <PrivateRouteAdmin />,
+        //   children: adminRoutes,
+        // },
+        // {
+        //   element: <PrivateRouteNoAuth />,
+        //   children: noAuthRoutes,
+        // },
+        { path: "*", element: <NotFound /> }, // set 404 here to be wrapped with RootLayout where animate presence wrapper is set for outlet
+      ],
     },
   ])
 
-  return (
-    <AnimatePresence mode="wait">
-      <RouterProvider router={router} />
-    </AnimatePresence>
-  )
+  return <RouterProvider router={router} />
 }
 
 export default App
