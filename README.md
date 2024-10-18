@@ -1,14 +1,19 @@
-# Tauri + React + Redux Application
+# 2TAT - Technical Task Assistance Tool
 
-This project is a cross-platform desktop application built with Tauri, React, and Redux. It combines the power of web technologies with the performance of native applications.
+## 📖 About
+
+This application is designed to facilitate and secure financial management in the context of market operations. Initially, our starting point was a simple Excel spreadsheet used to manage and distribute budgets. However, significant areas for improvement were identified: the precision of calculations and financial distribution, as well as optimized ergonomics for a more user-friendly, simple, and intuitive experience.
+
+2TAT is a specialized and specific business application; it is a tool for the purchasing department, seeking to optimize its financial distribution with precision and efficiency. But it is also, and most importantly, the starting point for a reflection on tools that can be developed and progressively integrated to secure and facilitate routine and technical activities.
 
 ## 🚀 Features
 
 - Cross-platform desktop application (Windows, macOS, Linux)
 - Modern web interface built with React
-- State management with Redux
 - Fast development with Vite and Hot Module Replacement (HMR)
-- Routing with react-router-dom
+- Precise decimal arithmetic with Decimal.js
+- Optimized financial calculations and distribution
+- User-friendly and intuitive interface
 
 ## 🛠️ Prerequisites
 
@@ -98,9 +103,8 @@ yarn lint
 
 - [Tauri](https://tauri.app/) - Framework for building tiny, blazing fast binaries for all major desktop platforms
 - [React](https://reactjs.org/) - A JavaScript library for building user interfaces
-- [Redux](https://redux.js.org/) - A Predictable State Container for JS Apps
 - [Vite](https://vitejs.dev/) - Next Generation Frontend Tooling
-- [React Router](https://reactrouter.com/) - Declarative routing for React
+- [Decimal.js](https://mikemcl.github.io/decimal.js/) - An arbitrary-precision Decimal type for JavaScript
 
 ## 👤 Author
 
