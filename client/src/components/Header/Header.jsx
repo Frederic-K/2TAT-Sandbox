@@ -47,12 +47,13 @@ const Header = () => {
             initial={{ opacity: 0, y: -20 }}
             animate={{ opacity: isOpen ? 1 : 0, y: isOpen ? 0 : -20 }}
             transition={{ duration: 0.3 }}
-            className="absolute right-0 top-10 w-48 bg-zinc-800 py-2 shadow-lg"
+            className="absolute right-0 top-10 z-50 w-48 overflow-hidden rounded-md bg-zinc-800 py-2 shadow-lg"
           >
             <NavLinks setIsOpen={setIsOpen} />
           </motion.div>
         </div>
       </section>
+      {isOpen && <div className="fixed inset-0 z-40 bg-black bg-opacity-50" />}
     </div>
   )
 }

@@ -40,6 +40,8 @@ const NavLinks = ({ setIsOpen }) => {
           initial={{ opacity: 0, x: -20 }}
           animate={{ opacity: 1, x: 0 }}
           transition={{ duration: 0.3, delay: idx * 0.1 }}
+          whileTap={{ scale: 0.95 }}
+          whileHover={{ scale: 1.05 }}
         >
           <NavLink
             to={link.path}

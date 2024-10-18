@@ -15,7 +15,7 @@ const Home = () => {
     },
   }
 
-  const link = {
+  const linkAnimation = {
     hidden: { opacity: 0, y: 20 },
     show: { opacity: 1, y: 0 },
   }
@@ -47,7 +47,7 @@ const Home = () => {
         {NAV_LINKS.slice(1).map(({ name, path }) => (
           <motion.div
             key={name}
-            variants={link}
+            variants={linkAnimation}
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
             transition={{ type: "spring", stiffness: 400, damping: 17 }}
