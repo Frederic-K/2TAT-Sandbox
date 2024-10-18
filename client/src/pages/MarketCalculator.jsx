@@ -1,6 +1,7 @@
 import { Formik, Form } from "formik"
 import { calculateBudget } from "../service/budgetCalculationService"
 import { Toaster } from "react-hot-toast"
+import { motion } from "framer-motion"
 import toast from "react-hot-toast"
 import PageTitle from "../components/PageTitle/PageTtile"
 import ConsistentValue from "../components/ConsistentValue/ConsistentValue"
@@ -31,10 +32,38 @@ const MarketCalculator = () => {
     algorithmChoice: "simple", // 'simple' for adding all to last year, 'complex' for distribution
   }
 
+  const itemVariants = {
+    hidden: { opacity: 0, y: 20 },
+    visible: {
+      opacity: 1,
+      y: 0,
+      transition: {
+        type: "spring",
+        stiffness: 100,
+      },
+    },
+  }
+
   return (
-    <main className="min-h-screen">
+    <motion.main
+      className="min-h-screen"
+      initial="hidden"
+      animate="visible"
+      variants={{
+        hidden: { opacity: 0 },
+        visible: {
+          opacity: 1,
+          transition: {
+            staggerChildren: 0.1,
+            delayChildren: 0.3,
+          },
+        },
+      }}
+    >
       <Toaster position="bottom-left" reverseOrder={false} />
-      <PageTitle content="Market Calculator" />
+      <motion.div variants={itemVariants}>
+        <PageTitle content="Market Calculator" />
+      </motion.div>
       <Formik
         initialValues={INITIAL_VALUES}
         onSubmit={async (values, actions) => {
@@ -64,14 +93,24 @@ const MarketCalculator = () => {
         }}
       >
         <Form>
-          <AlgorithmChoice />
-          <ConsistentValue />
-          <HSBudget />
+          <motion.div variants={itemVariants}>
+            <AlgorithmChoice />
+          </motion.div>
+          <motion.div variants={itemVariants}>
+            <ConsistentValue />
+          </motion.div>
+          <motion.div variants={itemVariants}>
+            <HSBudget />
+          </motion.div>
         </Form>
       </Formik>
-      <HSList />
-      <Notes />
-    </main>
+      <motion.div variants={itemVariants}>
+        <HSList />
+      </motion.div>
+      <motion.div variants={itemVariants}>
+        <Notes />
+      </motion.div>
+    </motion.main>
   )
 }
 
