@@ -22,6 +22,7 @@ const HSBudget = () => {
           className="order-2 flex h-11 w-full items-center justify-center gap-4 rounded-md border border-zinc-900 bg-gradient-to-r from-zinc-700 via-zinc-500 to-zinc-700 px-4 py-2 text-lg font-semibold text-zinc-200 sm:order-1"
           whileHover={{
             background: "linear-gradient(to right, #a1a1aa, #3f3f46, #a1a1aa)",
+            scale: 1.05,
           }}
           whileTap={{ scale: 0.95 }}
           transition={{ duration: 0.2 }}
