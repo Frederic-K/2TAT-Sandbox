@@ -8,11 +8,12 @@ This application is designed to facilitate and secure financial management in th
 
 ## 🚀 Features
 
-- Cross-platform desktop application (Windows, macOS, Linux)
+- Cross-platform desktop application using Tauri (Windows, macOS, Linux)
+- Tauri's lightweight and secure native runtime
 - Modern web interface built with React
 - Fast development with Vite and Hot Module Replacement (HMR)
 - Precise decimal arithmetic with Decimal.js
-- Optimized financial calculations and distribution
+- Optimized financial calculations and distribution ("penny pinching" algorithm)
 - User-friendly and intuitive interface
 
 ## 🛠️ Prerequisites
@@ -26,11 +27,13 @@ Before you begin, ensure you have met the following requirements:
 ## 🏗️ Installation
 
 1. Clone the repository:
+
    ```bash
    git clone https://github.com/your-username/your-repo-name.git
    ```
 
 2. Navigate to the project directory:
+
    ```bash
    cd your-repo-name
    ```
@@ -109,6 +112,10 @@ yarn lint
 ## 👤 Author
 
 Frédéric KREUDER
+
 - GitHub: [@Frederic-K](https://github.com/Frederic-K)
 - LinkedIn: [Frédéric Kreuder](www.linkedin.com/in/frédéric-kreuder)
+
+```
+
 ```
