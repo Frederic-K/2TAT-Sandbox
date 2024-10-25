@@ -7,7 +7,8 @@ export function calculateConsistentValue(values) {
 
   if (initValue > 0 && addToValue > 0 && manualValue === 0) {
     calculatedValue = new Decimal(initValue).plus(addToValue)
-    newRemainder = calculatedValue
+    // newRemainder = calculatedValue
+    newRemainder = addToValue
   } else if (initValue > 0 && manualValue > 0) {
     calculatedValue = new Decimal(manualValue)
     newRemainder = new Decimal(manualValue).minus(initValue)
