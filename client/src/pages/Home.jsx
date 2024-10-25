@@ -21,7 +21,7 @@ const Home = () => {
   }
 
   return (
-    <main className="mt-12 min-h-screen">
+    <main className="mt-12 min-h-screen overflow-x-hidden">
       <motion.div
         initial={{ opacity: 0, y: -50 }}
         animate={{ opacity: 1, y: 0 }}
