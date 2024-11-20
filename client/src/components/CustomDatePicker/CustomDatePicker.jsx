@@ -12,7 +12,6 @@ const CustomDatePicker = ({ selected, onChange, name }) => (
       dateFormat="MM/yyyy"
       showMonthYearPicker
       className="h-11 w-full min-w-0 rounded-md border px-4 py-2 dark:bg-zinc-500 dark:text-zinc-200"
-      // wrapperClassName="w-full"
     />
     <ErrorMessage
       name={name}

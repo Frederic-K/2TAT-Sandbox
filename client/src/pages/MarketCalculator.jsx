@@ -68,7 +68,6 @@ const MarketCalculator = () => {
         initialValues={INITIAL_VALUES}
         onSubmit={async (values, actions) => {
           try {
-            // const result = calculateBudget(values)
             const result = calculateBudget(values, values.algorithmChoice)
             if (result) {
               actions.setValues({

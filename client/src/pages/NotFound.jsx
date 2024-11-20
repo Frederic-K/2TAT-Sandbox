@@ -1,6 +1,4 @@
-// Router
 import { Link } from "react-router-dom"
-// Icons
 import { AiOutlineHome } from "react-icons/ai"
 
 const NotFound = () => {
